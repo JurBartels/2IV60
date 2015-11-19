@@ -219,7 +219,7 @@ public class RobotRace extends Base {
         robots[0].direction = raceTracks[gs.trackNr].getLaneTangent(0, 0);
         
         // Draw the first robot.
-        robots[0].draw(gl, glu, glut, false, gs.tAnim);
+        robots[0].draw(gl, glu, glut, gs.showStick, gs.tAnim);
         
         // Draw the race track.
         raceTracks[gs.trackNr].draw(gl, glu, glut);
@@ -227,6 +227,7 @@ public class RobotRace extends Base {
         // Draw the terrain.
         terrain.draw(gl, glu, glut);
         
+        /*
         // Unit box around origin.
         glut.glutWireCube(1f);
 
@@ -241,6 +242,7 @@ public class RobotRace extends Base {
 
         // Translated, rotated, scaled box.
         glut.glutWireCube(1f);
+        */
     }
     
     /**
@@ -250,7 +252,7 @@ public class RobotRace extends Base {
     public void drawAxisFrame() {
         // code goes here ...
         gl.glColor3f(1.0f, 1.0f, 0.0f);     //set color to yellow
-        glut.glutWireSphere(0.1,50,50);    //create sphere in origin, radius 0.1 and 50 slices and stacks
+        glut.glutSolidSphere(0.1,50,50);    //create sphere in origin, radius 0.1 and 50 slices and stacks
         
         //z direction cube
         gl.glColor3f(0.0f, 0.0f, 1.0f);     //set color to blue (for z axis)
