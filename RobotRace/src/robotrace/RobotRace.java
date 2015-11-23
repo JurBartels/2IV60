@@ -80,19 +80,19 @@ public class RobotRace extends Base {
         robots = new Robot[4];
         
         // Initialize robot 0
-        robots[0] = new Robot(Material.GOLD
+        robots[0] = new Robot(Material.GOLD,new Vector(0,0,0)
             /* add other parameters that characterize this robot */);
         
         // Initialize robot 1
-        robots[1] = new Robot(Material.SILVER
+        robots[1] = new Robot(Material.SILVER,new Vector(0,0,0)
             /* add other parameters that characterize this robot */);
         
         // Initialize robot 2
-        robots[2] = new Robot(Material.WOOD
+        robots[2] = new Robot(Material.WOOD,new Vector(0,0,0)
             /* add other parameters that characterize this robot */);
 
         // Initialize robot 3
-        robots[3] = new Robot(Material.ORANGE
+        robots[3] = new Robot(Material.ORANGE,new Vector(0,0,0)
             /* add other parameters that characterize this robot */);
         
         // Initialize the camera
@@ -219,6 +219,7 @@ public class RobotRace extends Base {
         robots[0].direction = raceTracks[gs.trackNr].getLaneTangent(0, 0);
         
         // Draw the first robot.
+        Vector pos = new Vector(0,0,0);
         robots[0].draw(gl, glu, glut, gs.showStick, gs.tAnim);
         
         // Draw the race track.
