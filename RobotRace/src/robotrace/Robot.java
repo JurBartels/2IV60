@@ -39,6 +39,26 @@ class Robot {
 
     /**
      * Draws this robot (as a {@code stickfigure} if specified).
+     * The draw functions are divided into sub functions for different body parts,
+     * i.e an arm has subroutines for drawing the upper and lower arm plus a hand.
+     * There are also different draw functions for drawing the stick figure parts
+     * and the full robot parts. 
+     * 
+     * The general hierarchy is defined according to this pattern:
+     * drawBodyPart() -> (drawUpperBodyPart() && drawLowerBodyPart()) || 
+     * (drawUpperStickFigureBodyPart() && drawLowerStickFigureBodyPart())
+     * 
+     * The stick figure draw functions are called whenever gs.stickFigure is 
+     * True. If false, the full robot will be drawn.
+     * 
+     * To draw the arm and legs, we define an offset (armOffset and legOffset) 
+     * which is used to place the leg elements along the x-axis, and to define 
+     * the right and left leg by having the middle of the body be 0 on the x-axis
+     * and using + or - offset to place the element right or left of the body.
+     * This scales with bodyScale to preserve the form of the robot when scaling.
+     * 
+     * 
+     * 
      */
     public void draw(GL2 gl, GLU glu, GLUT glut, boolean stickFigure, float tAnim) {
         gl.glPushMatrix();
@@ -52,16 +72,15 @@ class Robot {
         drawHead(gl, glu, glut, stickFigure, tAnim, this.pos, bodyScale);
         gl.glPopMatrix();
         
-    }
-    
+    } 
     
     /**
      * Call the functions to draw the full robot head or the
      * stick figure head depending on the boolean input stickFigure. 
-     * @param gl
+     * @param gl       
      * @param glu
      * @param glut
-     * @param stickFigure
+     * @param stickFigure    
      * @param tAnim
      * @param pos
      * @param bodyScale 
@@ -405,6 +424,7 @@ class Robot {
      * @param legOffset 
      */
     public void drawUpperleg(GL2 gl, GLU glu, GLUT glut, float tAnim, Vector pos, double bodyScale, double legOffset){
+           
             //hip joints
             gl.glPushMatrix();
             gl.glColor3f(0.0f, 0.0f, 0.0f);
@@ -649,7 +669,8 @@ class Robot {
         gl.glPopMatrix();
    };
    
-   
+   //Set the material properties from the material enum and apply them to the 
+   //current robot.
    public void setMaterial(GL2 gl){
         gl.glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, material.diffuse, 0);
         gl.glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, material.specular, 0);
