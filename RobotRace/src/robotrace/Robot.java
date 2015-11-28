@@ -3,6 +3,7 @@ package robotrace;
 import com.jogamp.opengl.util.gl2.GLUT;
 import javax.media.opengl.GL2;
 import javax.media.opengl.glu.GLU;
+import static javax.media.opengl.GL2.*;
 
 /**
 * Represents a Robot, to be implemented according to the Assignments.
@@ -42,6 +43,7 @@ class Robot {
     public void draw(GL2 gl, GLU glu, GLUT glut, boolean stickFigure, float tAnim) {
         gl.glPushMatrix();
         gl.glRotatef(90+15*tAnim, 0, 0, 1f);
+        setMaterial(gl);
         drawTorso(gl, glu, glut, stickFigure, tAnim, this.pos, bodyScale);
         drawArm(gl, glu, glut, stickFigure, tAnim, this.pos, bodyScale, true);
         drawArm(gl, glu, glut, stickFigure, tAnim, this.pos, bodyScale, false);
@@ -646,6 +648,12 @@ class Robot {
         glut.glutSolidCube(1f*s);
         gl.glPopMatrix();
    };
+   
+   public void setMaterial(GL2 gl){
+        gl.glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, material.diffuse, 0);
+        gl.glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, material.specular, 0);
+        gl.glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, material.shininess);
+   }
   
    
 }

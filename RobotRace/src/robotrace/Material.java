@@ -1,5 +1,9 @@
 package robotrace;
 
+import com.jogamp.opengl.util.gl2.GLUT;
+import javax.media.opengl.GL2;
+import javax.media.opengl.glu.GLU;
+
 /**
 * Materials that can be used for the robots.
 */
@@ -10,9 +14,9 @@ public enum Material {
      * Modify the default values to make it look like gold.
      */
     GOLD (
-        new float[] {0.8f, 0.8f, 0.8f, 1.0f},
-        new float[] {0.0f, 0.0f, 0.0f, 1.0f},
-        0f),
+        new float[] {0.1f, 0.1f, 0.1f, 1.0f},
+        new float[] {0.1f, 0.1f, 0.1f, 1.0f},
+        80f),
 
     /**
      * Silver material properties.
@@ -58,4 +62,5 @@ public enum Material {
         this.specular = specular;
         this.shininess = shininess;
     }
+  
 }

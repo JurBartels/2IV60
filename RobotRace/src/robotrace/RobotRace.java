@@ -85,7 +85,7 @@ public class RobotRace extends Base {
             /* add other parameters that characterize this robot */);
         
         // Initialize robot 1
-        robots[1] = new Robot(Material.SILVER,new Vector(2,0,0),2
+        robots[1] = new Robot(Material.SILVER,new Vector(2,0,0),1
             /* add other parameters that characterize this robot */);
         
         // Initialize robot 2
@@ -161,6 +161,7 @@ public class RobotRace extends Base {
         head = loadTexture("head.jpg");
         torso = loadTexture("torso.jpg");
         
+        
         //lighting
         //enable shading
         gl.glShadeModel(GL_SMOOTH);
@@ -171,8 +172,8 @@ public class RobotRace extends Base {
         FloatBuffer ambient = FloatBuffer.wrap(new float[] {0.3f, 0.3f, 0.3f, 1});
         
         //float ambient[] = {0.2f, 0.2f, 0.2f, 1.0f};
-        gl.glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambient);
-        gl.glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE); 
+        //gl.glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambient);
+        //gl.glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE); 
         
         //float intensity[] = {0.5f, 0.5f, 0.5f, 1};
         //FloatBuffer intensity = FloatBuffer.wrap(new float[] {0.5f, 0.5f, 0.5f, 1});
@@ -180,8 +181,9 @@ public class RobotRace extends Base {
         gl.glLightfv(GL_LIGHT0, GL_AMBIENT,lightPosition, 0);
         
         //float position[] = {1f, 0, 1f, 1f};           //h at zero to emulate infinite distance
-        FloatBuffer position = FloatBuffer.wrap(new float[] {1f, 0, 1f, 1f});
+        FloatBuffer position = FloatBuffer.wrap(new float[] {2f, 0, 3f, 0f});
         gl.glLightfv(GL_LIGHT0, GL_POSITION, position);
+        
     }
     
     /**
@@ -243,7 +245,7 @@ public class RobotRace extends Base {
         
         // Draw the first robot.
         robots[0].draw(gl, glu, glut, gs.showStick, gs.tAnim);
-        //robots[1].draw(gl, glu, glut, gs.showStick, gs.tAnim);
+        robots[1].draw(gl, glu, glut, gs.showStick, gs.tAnim);
         //robots[2].draw(gl, glu, glut, gs.showStick, gs.tAnim);
         //robots[3].draw(gl, glu, glut, gs.showStick, gs.tAnim);
         // Draw the race track.
