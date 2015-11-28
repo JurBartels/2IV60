@@ -42,7 +42,7 @@ class Robot {
      */
     public void draw(GL2 gl, GLU glu, GLUT glut, boolean stickFigure, float tAnim) {
         gl.glPushMatrix();
-        gl.glRotatef(90+15*tAnim, 0, 0, 1f);
+        //gl.glRotatef(90+15*tAnim, 0, 0, 1f);
         setMaterial(gl);
         drawTorso(gl, glu, glut, stickFigure, tAnim, this.pos, bodyScale);
         drawArm(gl, glu, glut, stickFigure, tAnim, this.pos, bodyScale, true);
@@ -484,7 +484,7 @@ class Robot {
       
        //head
        gl.glPushMatrix();
-       gl.glColor3f(0.2f, 0.2f, 0.2f);
+       gl.glColor3f(0.2f, 0f, 0.2f);
        gl.glTranslated(pos.x, pos.y, (2.2*bodyScale)+pos.z);
        glut.glutSolidSphere(0.2f*bodyScale, 50, 50);
        gl.glPopMatrix();
@@ -534,13 +534,13 @@ class Robot {
    public void drawEars(GL2 gl, GLU glu, GLUT glut, float tAnim, Vector pos, double bodyScale){
        
         gl.glPushMatrix();
-        gl.glColor3f(0.2f, 0.2f, 0.2f);
+        gl.glColor3f(0.2f, 0f, 0.2f);
         gl.glTranslated(pos.x+0.25*bodyScale, pos.y, (2.4*bodyScale)+pos.z);
         glut.glutSolidSphere(0.2f*bodyScale, 50, 50);
         gl.glPopMatrix();
       
         gl.glPushMatrix();
-        gl.glColor3f(0.2f, 0.2f, 0.2f);
+        gl.glColor3f(0.2f, 0f, 0.2f);
         gl.glTranslated(pos.x-0.25*bodyScale, pos.y, (2.4*bodyScale)+pos.z);
         glut.glutSolidSphere(0.2f*bodyScale, 50, 50);
         gl.glPopMatrix();
@@ -648,6 +648,7 @@ class Robot {
         glut.glutSolidCube(1f*s);
         gl.glPopMatrix();
    };
+   
    
    public void setMaterial(GL2 gl){
         gl.glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, material.diffuse, 0);

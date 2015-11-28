@@ -89,11 +89,11 @@ public class RobotRace extends Base {
             /* add other parameters that characterize this robot */);
         
         // Initialize robot 2
-        robots[2] = new Robot(Material.WOOD,new Vector(4,0,0),3
+        robots[2] = new Robot(Material.WOOD,new Vector(4,0,0),1
             /* add other parameters that characterize this robot */);
 
         // Initialize robot 3
-        robots[3] = new Robot(Material.ORANGE,new Vector(6,0,0),4
+        robots[3] = new Robot(Material.ORANGE,new Vector(6,0,0),1
             /* add other parameters that characterize this robot */);
         
         // Initialize the camera
@@ -246,8 +246,8 @@ public class RobotRace extends Base {
         // Draw the first robot.
         robots[0].draw(gl, glu, glut, gs.showStick, gs.tAnim);
         robots[1].draw(gl, glu, glut, gs.showStick, gs.tAnim);
-        //robots[2].draw(gl, glu, glut, gs.showStick, gs.tAnim);
-        //robots[3].draw(gl, glu, glut, gs.showStick, gs.tAnim);
+        robots[2].draw(gl, glu, glut, gs.showStick, gs.tAnim);
+        robots[3].draw(gl, glu, glut, gs.showStick, gs.tAnim);
         // Draw the race track.
         raceTracks[gs.trackNr].draw(gl, glu, glut);
         
