@@ -17,9 +17,13 @@ class Robot {
 
     /** The material from which this robot is built. */
     private final Material material;
+    
+    /** The factor that the robot's size will scale with while drawing  */
     private double bodyScale; 
+    
+    /** The current position on the x, y and z axis of the robot in a vector */
     private Vector pos; 
-    private double facing;
+    
     /**
      * Constructs the robot with initial parameters.
      */
@@ -27,7 +31,6 @@ class Robot {
         /* add other parameters that characterize this robot */) {
         this.material = material;
         this.pos = pos;
-        this.facing = 0;
         this.bodyScale = bodyScale;
             // code goes here ...
     }
@@ -38,7 +41,7 @@ class Robot {
      */
     public void draw(GL2 gl, GLU glu, GLUT glut, boolean stickFigure, float tAnim) {
         gl.glPushMatrix();
-        gl.glRotatef(90, 0, 0, 1f);
+        gl.glRotatef(90+15*tAnim, 0, 0, 1f);
         drawTorso(gl, glu, glut, stickFigure, tAnim, this.pos, bodyScale);
         drawArm(gl, glu, glut, stickFigure, tAnim, this.pos, bodyScale, true);
         drawArm(gl, glu, glut, stickFigure, tAnim, this.pos, bodyScale, false);
@@ -49,17 +52,41 @@ class Robot {
         
     }
     
+    
+    /**
+     * Call the functions to draw the full robot head or the
+     * stick figure head depending on the boolean input stickFigure. 
+     * @param gl
+     * @param glu
+     * @param glut
+     * @param stickFigure
+     * @param tAnim
+     * @param pos
+     * @param bodyScale 
+     */
     public void drawHead(GL2 gl, GLU glu, GLUT glut, boolean stickFigure, float tAnim, Vector pos, double bodyScale){
         if(!stickFigure){
             
             drawRealHead(gl,  glu,  glut, tAnim,  pos,  bodyScale);
         }
         else{
-            //head
+      
             drawStickFigureHead(gl,  glu,  glut, tAnim,  pos,  bodyScale);
         };
     };
     
+    
+    /**
+     * Call the functions to draw the full robot torso or the
+     * stick figure torso depending on the boolean input stickFigure.  
+     * @param gl
+     * @param glu
+     * @param glut
+     * @param stickFigure
+     * @param tAnim
+     * @param pos
+     * @param bodyScale 
+     */
     public void drawTorso(GL2 gl, GLU glu, GLUT glut, boolean stickFigure, float tAnim, Vector pos, double bodyScale){
         if(!stickFigure){
             
@@ -72,7 +99,21 @@ class Robot {
            drawStickFigureTorso(gl,  glu, glut, tAnim,  pos, bodyScale); 
         }
     }
-    //Draws the right or left arm depending on leftArm
+    
+    
+    /**
+     * If stickFigure is false, decide which arm (left or right) 
+     * depending on the boolean leftArm and call the functions to draw
+     * the different parts. 
+     * @param gl
+     * @param glu
+     * @param glut
+     * @param stickFigure
+     * @param tAnim
+     * @param pos
+     * @param bodyScale
+     * @param leftArm 
+     */
     public void drawArm(GL2 gl, GLU glu, GLUT glut, boolean stickFigure, float tAnim, Vector pos, double bodyScale, boolean leftArm){
         double armOffset;
         if(leftArm){
@@ -94,7 +135,21 @@ class Robot {
     
     }
     
-       public void drawLeg(GL2 gl, GLU glu, GLUT glut, boolean stickFigure, float tAnim, Vector pos, double bodyScale, boolean leftLeg){
+    /**
+     * If stickFigure is false, decide which leg (left or right) 
+     * depending on the boolean leftLeg and call the functions to draw
+     * the different parts. 
+     * @param gl
+     * @param glu
+     * @param glut
+     * @param stickFigure
+     * @param tAnim
+     * @param pos
+     * @param bodyScale
+     * @param leftLeg 
+     */
+    public void drawLeg(GL2 gl, GLU glu, GLUT glut, boolean stickFigure, float tAnim, Vector pos, double bodyScale, boolean leftLeg){
+        
         double legOffset;
         if(leftLeg){
             legOffset = -0.4*bodyScale;
@@ -117,6 +172,18 @@ class Robot {
         }
     
     }
+    
+    /**
+     * Draw the shoulder joint and upper arm for the stick figure
+     * @param gl
+     * @param glu
+     * @param glut
+     * @param tAnim
+     * @param pos
+     * @param bodyScale
+     * @param leftArm
+     * @param armOffset 
+     */
     public void drawUpperStickFigureArm(GL2 gl, GLU glu, GLUT glut, float tAnim, Vector pos, double bodyScale, boolean leftArm, double armOffset){
             //shoulder joint
             gl.glPushMatrix();
@@ -133,7 +200,18 @@ class Robot {
             gl.glPopMatrix();
     }
     
-     public void drawLowerStickFigureArm(GL2 gl, GLU glu, GLUT glut, float tAnim, Vector pos, double bodyScale, boolean leftArm, double armOffset){
+    /**
+     * Draw the elbow joint and lower arm for the stick figure
+     * @param gl
+     * @param glu
+     * @param glut
+     * @param tAnim
+     * @param pos
+     * @param bodyScale
+     * @param leftArm
+     * @param armOffset 
+     */
+    public void drawLowerStickFigureArm(GL2 gl, GLU glu, GLUT glut, float tAnim, Vector pos, double bodyScale, boolean leftArm, double armOffset){
             //elbow joint
             gl.glPushMatrix();
             gl.glColor3f(0.0f, 0.0f, 0.0f);
@@ -148,6 +226,18 @@ class Robot {
             glut.glutSolidCube(0.4f*s);
             gl.glPopMatrix();
     }
+    
+    /**
+     * Draw the shoulder joint and upper arm for the stick figure
+     * @param gl
+     * @param glu
+     * @param glut
+     * @param tAnim
+     * @param pos
+     * @param bodyScale
+     * @param leftArm
+     * @param legOffset 
+     */
     public void drawUpperStickFigureLeg(GL2 gl, GLU glu, GLUT glut, float tAnim, Vector pos, double bodyScale, boolean leftArm, double legOffset){
             //hip joint
             gl.glPushMatrix();
@@ -163,6 +253,18 @@ class Robot {
             glut.glutSolidCube(0.5f*s);
             gl.glPopMatrix();
     } 
+    
+    /**
+     * Draw the knee joint and lower leg for the stick figure
+     * @param gl
+     * @param glu
+     * @param glut
+     * @param tAnim
+     * @param pos
+     * @param bodyScale
+     * @param leftArm
+     * @param legOffset 
+     */
     public void drawLowerStickFigureLeg(GL2 gl, GLU glu, GLUT glut, float tAnim, Vector pos, double bodyScale, boolean leftArm, double legOffset){
             //knee joint
             gl.glPushMatrix();
@@ -178,6 +280,18 @@ class Robot {
             glut.glutSolidCube(0.5f*s);
             gl.glPopMatrix();
     } 
+    
+    /**
+     * draw the foot for the stick figure
+     * @param gl
+     * @param glu
+     * @param glut
+     * @param tAnim
+     * @param pos
+     * @param bodyScale
+     * @param leftArm
+     * @param legOffset 
+     */
    public void drawLowerStickFigureFoot(GL2 gl, GLU glu, GLUT glut, float tAnim, Vector pos, double bodyScale, boolean leftArm, double legOffset){
             //foot
             gl.glPushMatrix();
@@ -187,6 +301,17 @@ class Robot {
             glut.glutSolidCube(0.5f*s);
             gl.glPopMatrix();
     } 
+   
+   
+   /**
+    * Draw the head for the stick figure
+    * @param gl
+    * @param glu
+    * @param glut
+    * @param tAnim
+    * @param pos
+    * @param bodyScale 
+    */
     public void drawStickFigureHead(GL2 gl, GLU glu, GLUT glut, float tAnim, Vector pos, double bodyScale){
             //head
             gl.glPushMatrix();
@@ -196,6 +321,16 @@ class Robot {
             gl.glPopMatrix();
     }
     
+    /**
+     * Draw the shoulder joints and upper arm for the full robot
+     * @param gl
+     * @param glu
+     * @param glut
+     * @param tAnim
+     * @param pos
+     * @param bodyScale
+     * @param armOffset 
+     */
     public void drawUpperArm(GL2 gl, GLU glu, GLUT glut, float tAnim, Vector pos, double bodyScale, double armOffset){
             //shoulder joints
             gl.glPushMatrix();
@@ -212,6 +347,16 @@ class Robot {
             gl.glPopMatrix();
     };
     
+    /**
+     * draw the elbow joint and lower arm for the full robot
+     * @param gl
+     * @param glu
+     * @param glut
+     * @param tAnim
+     * @param pos
+     * @param bodyScale
+     * @param armOffset 
+     */
     public void drawLowerArm(GL2 gl, GLU glu, GLUT glut, float tAnim, Vector pos, double bodyScale, double armOffset){
             //elbow joints
             gl.glPushMatrix();
@@ -228,6 +373,16 @@ class Robot {
             gl.glPopMatrix();
     };
     
+    /**
+     * Draw a hand of the full robot 
+     * @param gl
+     * @param glu
+     * @param glut
+     * @param tAnim
+     * @param pos
+     * @param bodyScale
+     * @param armOffset 
+     */
     public void drawHand(GL2 gl, GLU glu, GLUT glut, float tAnim, Vector pos, double bodyScale, double armOffset){
             //hands
             gl.glPushMatrix();
@@ -237,6 +392,16 @@ class Robot {
             gl.glPopMatrix();
     };
     
+    /**
+     * Draw the hip joint and the upper leg for the full robot
+     * @param gl
+     * @param glu
+     * @param glut
+     * @param tAnim
+     * @param pos
+     * @param bodyScale
+     * @param legOffset 
+     */
     public void drawUpperleg(GL2 gl, GLU glu, GLUT glut, float tAnim, Vector pos, double bodyScale, double legOffset){
             //hip joints
             gl.glPushMatrix();
@@ -253,14 +418,26 @@ class Robot {
             gl.glPopMatrix();
     };
     
+    /**
+     * Draw the knee joint and lower leg for the full robot
+     * @param gl
+     * @param glu
+     * @param glut
+     * @param tAnim
+     * @param pos
+     * @param bodyScale
+     * @param legOffset 
+     */  
     public void drawLowerleg(GL2 gl, GLU glu, GLUT glut, float tAnim, Vector pos, double bodyScale, double legOffset){
-            //hip joints
+            
+            //knee joints
             gl.glPushMatrix();
             gl.glColor3f(0.0f, 0.0f, 0.0f);
             gl.glTranslated(pos.x+legOffset, pos.y, (0.5*bodyScale)+pos.z);
             glut.glutSolidSphere(0.1f*bodyScale, 50, 50);
             gl.glPopMatrix();
-            //draw upper leg
+            
+            //draw lower leg
             gl.glPushMatrix();
             gl.glColor3f(0.5f, 0.0f, 1.0f);
             gl.glTranslated(pos.x+legOffset, pos.y, (0.25*bodyScale)+pos.z); 
@@ -269,6 +446,17 @@ class Robot {
             gl.glPopMatrix();
     };
     
+   
+    /**
+     * Draw a foot as cube in the full robot, either left or right depending on legOffset.
+     * @param gl
+     * @param glu
+     * @param glut
+     * @param tAnim
+     * @param pos
+     * @param bodyScale
+     * @param legOffset 
+     */
     public void drawFoot(GL2 gl, GLU glu, GLUT glut, float tAnim, Vector pos, double bodyScale, double legOffset){
             //foot
             gl.glPushMatrix();
@@ -280,6 +468,16 @@ class Robot {
             gl.glPopMatrix(); 
     };
     
+    //Draw the head as a sphere, call the functions to draw the eyes and ears
+    /**
+     * Draw the head as a sphere, call the functions to draw the eyes and ears
+     * @param gl
+     * @param glu
+     * @param glut
+     * @param tAnim
+     * @param pos
+     * @param bodyScale 
+     */
    public void drawRealHead(GL2 gl, GLU glu, GLUT glut, float tAnim, Vector pos, double bodyScale){
       
        //head
@@ -295,6 +493,16 @@ class Robot {
        
    };
    
+
+   /**
+    * Draw the two coloured eyes on the head.
+    * @param gl
+    * @param glu
+    * @param glut
+    * @param tAnim
+    * @param pos
+    * @param bodyScale 
+    */
    public void drawEyes(GL2 gl, GLU glu, GLUT glut, float tAnim, Vector pos, double bodyScale){
        
         //right eye
@@ -312,6 +520,15 @@ class Robot {
         gl.glPopMatrix();
    };
    
+   /**
+    * Draw the two ears, which are spheres above the head.
+    * @param gl
+    * @param glu
+    * @param glut
+    * @param tAnim
+    * @param pos
+    * @param bodyScale 
+    */
    public void drawEars(GL2 gl, GLU glu, GLUT glut, float tAnim, Vector pos, double bodyScale){
        
         gl.glPushMatrix();
@@ -327,6 +544,16 @@ class Robot {
         gl.glPopMatrix();
    };
    
+  
+   /**
+    * Draw the upper part of the body, consisting of a sphere and cube.
+    * @param gl
+    * @param glu
+    * @param glut
+    * @param tAnim
+    * @param pos
+    * @param bodyScale 
+    */
    public void drawUpperBody(GL2 gl, GLU glu, GLUT glut, float tAnim, Vector pos, double bodyScale){
       
        //upper body
@@ -348,8 +575,19 @@ class Robot {
    
    };
    
+   
+   /**
+    * Draw the lower part of the body, consisting of a sphere, cone and cube.
+    * @param gl
+    * @param glu
+    * @param glut
+    * @param tAnim
+    * @param pos
+    * @param bodyScale 
+    */
    public void drawLowerBody(GL2 gl, GLU glu, GLUT glut, float tAnim, Vector pos, double bodyScale){
-        //Lower body
+       
+       //Lower body
         gl.glPushMatrix();
         gl.glColor3f(0.0f, 0.0f, 0.0f);
         gl.glTranslated(pos.x,pos.y,pos.z+bodyScale);                    //middle of bottom circle equals 1
@@ -374,6 +612,16 @@ class Robot {
    
    };
    
+   
+   /**
+    * Draw the torso, consisting of the backbone, shoulders and hips in the stickfigure mode.
+    * @param gl
+    * @param glu
+    * @param glut
+    * @param tAnim
+    * @param pos
+    * @param bodyScale 
+    */
    public void drawStickFigureTorso(GL2 gl, GLU glu, GLUT glut, float tAnim, Vector pos, double bodyScale){
        
        //backbone
