@@ -56,67 +56,20 @@ class Robot {
         }
         else{
             //head
-            drawStickFigureHead(gl,  glu,  glut, stickFigure,  tAnim,  pos,  bodyScale);
+            drawStickFigureHead(gl,  glu,  glut, tAnim,  pos,  bodyScale);
         };
     };
     
     public void drawTorso(GL2 gl, GLU glu, GLUT glut, boolean stickFigure, float tAnim, Vector pos, double bodyScale){
         if(!stickFigure){
-            gl.glPushMatrix();
-            gl.glTranslated(pos.x,pos.y,pos.z+bodyScale);                    //middle of bottom circle equals 1
-            glut.glutSolidSphere(0.3f*bodyScale, 50, 50);
-            gl.glPopMatrix();
-
-            gl.glPushMatrix();
-            gl.glRotatef(180, 1f, 0, 0);
-            gl.glTranslated(pos.x, -pos.y, (-1.45*bodyScale)-pos.z);
-            gl.glColor3f(0.5f, 0, 1f);
-            glut.glutSolidCone(0.3f*bodyScale, 0.45f*bodyScale, 50, 50);    //height of cone equals 0.45
-            gl.glPopMatrix();
-
-            gl.glPushMatrix();
-            gl.glColor3f(0.0f, 0.0f, 0.0f);
-            gl.glTranslated(pos.x, pos.y, (1.7*bodyScale)+pos.z);                //middle of top circle equals 1.7, so top equals 2.1
-            glut.glutSolidSphere(0.4f*bodyScale, 50, 50);
-            gl.glPopMatrix();
             
-            //Draw shoulders
-            gl.glPushMatrix();
-            float s = (float)bodyScale;
-            gl.glColor3f(0.5f, 0, 1f);
-            gl.glTranslated(pos.x, pos.y, (1.8*bodyScale)+pos.z);
-            gl.glScalef(1f, 0.1f, 0.1f);
-            glut.glutSolidCube(1f*s);
-            gl.glPopMatrix();
+            drawUpperBody(gl,  glu, glut, tAnim,  pos, bodyScale);
+            drawLowerBody(gl,  glu, glut, tAnim,  pos, bodyScale);
             
-            //Draw hips
-            gl.glPushMatrix();
-            gl.glTranslated(pos.x, pos.y, (1*bodyScale)+pos.z);
-            gl.glScalef(0.75f, 0.1f, 0.1f);
-            glut.glutSolidCube(1f*s);
-            gl.glPopMatrix();
         }
         else{
-            //backbone
-            gl.glPushMatrix();
-            gl.glTranslated(pos.x, pos.y, (1.4*bodyScale)+pos.z);
-            gl.glScalef(0.05f, 0.05f, 1f);
-            float s = (float)bodyScale;
-            glut.glutSolidCube(1.4f*s);
-            gl.glPopMatrix();
-            //shoulders
-            gl.glPushMatrix();
-            gl.glTranslated(pos.x, pos.y, (1.8*bodyScale)+pos.z);
-            gl.glScalef(1f, 0.05f, 0.05f);
-            glut.glutSolidCube(1f*s);
-            gl.glPopMatrix();
-            //hips
-            gl.glPushMatrix();
-            gl.glTranslated(pos.x, pos.y, (1*bodyScale)+pos.z);
-            gl.glScalef(0.75f, 0.05f, 0.05f);
-            glut.glutSolidCube(1f*s);
-            gl.glPopMatrix();
-            
+           
+           drawStickFigureTorso(gl,  glu, glut, tAnim,  pos, bodyScale); 
         }
     }
     //Draws the right or left arm depending on leftArm
@@ -134,8 +87,8 @@ class Robot {
             drawHand(gl,  glu, glut, tAnim,  pos,  bodyScale,  armOffset); 
         }
         else{
-            drawUpperStickFigureArm( gl,  glu,  glut, stickFigure,  tAnim,  pos,  bodyScale,  leftArm,  armOffset);
-            drawLowerStickFigureArm( gl,  glu,  glut, stickFigure,  tAnim,  pos,  bodyScale,  leftArm,  armOffset);
+            drawUpperStickFigureArm( gl,  glu,  glut, tAnim,  pos,  bodyScale,  leftArm,  armOffset);
+            drawLowerStickFigureArm( gl,  glu,  glut, tAnim,  pos,  bodyScale,  leftArm,  armOffset);
            
         }
     
@@ -158,13 +111,13 @@ class Robot {
             
         }
         else{
-            drawUpperStickFigureLeg( gl,  glu,  glut, stickFigure,  tAnim,  pos,  bodyScale,  leftLeg,  legOffset);
-            drawLowerStickFigureLeg( gl,  glu,  glut, stickFigure,  tAnim,  pos,  bodyScale,  leftLeg,  legOffset);
-            drawLowerStickFigureFoot( gl,  glu,  glut, stickFigure,  tAnim,  pos,  bodyScale,  leftLeg,  legOffset);
+            drawUpperStickFigureLeg( gl,  glu,  glut,   tAnim,  pos,  bodyScale,  leftLeg,  legOffset);
+            drawLowerStickFigureLeg( gl,  glu,  glut,   tAnim,  pos,  bodyScale,  leftLeg,  legOffset);
+            drawLowerStickFigureFoot( gl,  glu,  glut,   tAnim,  pos,  bodyScale,  leftLeg,  legOffset);
         }
     
     }
-    public void drawUpperStickFigureArm(GL2 gl, GLU glu, GLUT glut, boolean stickFigure, float tAnim, Vector pos, double bodyScale, boolean leftArm, double armOffset){
+    public void drawUpperStickFigureArm(GL2 gl, GLU glu, GLUT glut, float tAnim, Vector pos, double bodyScale, boolean leftArm, double armOffset){
             //shoulder joint
             gl.glPushMatrix();
             gl.glColor3f(0.0f, 0.0f, 0.0f);
@@ -180,7 +133,7 @@ class Robot {
             gl.glPopMatrix();
     }
     
-     public void drawLowerStickFigureArm(GL2 gl, GLU glu, GLUT glut, boolean stickFigure, float tAnim, Vector pos, double bodyScale, boolean leftArm, double armOffset){
+     public void drawLowerStickFigureArm(GL2 gl, GLU glu, GLUT glut, float tAnim, Vector pos, double bodyScale, boolean leftArm, double armOffset){
             //elbow joint
             gl.glPushMatrix();
             gl.glColor3f(0.0f, 0.0f, 0.0f);
@@ -195,7 +148,7 @@ class Robot {
             glut.glutSolidCube(0.4f*s);
             gl.glPopMatrix();
     }
-    public void drawUpperStickFigureLeg(GL2 gl, GLU glu, GLUT glut, boolean stickFigure, float tAnim, Vector pos, double bodyScale, boolean leftArm, double legOffset){
+    public void drawUpperStickFigureLeg(GL2 gl, GLU glu, GLUT glut, float tAnim, Vector pos, double bodyScale, boolean leftArm, double legOffset){
             //hip joint
             gl.glPushMatrix();
             gl.glColor3f(0.0f, 0.0f, 0.0f);
@@ -210,7 +163,7 @@ class Robot {
             glut.glutSolidCube(0.5f*s);
             gl.glPopMatrix();
     } 
-    public void drawLowerStickFigureLeg(GL2 gl, GLU glu, GLUT glut, boolean stickFigure, float tAnim, Vector pos, double bodyScale, boolean leftArm, double legOffset){
+    public void drawLowerStickFigureLeg(GL2 gl, GLU glu, GLUT glut, float tAnim, Vector pos, double bodyScale, boolean leftArm, double legOffset){
             //knee joint
             gl.glPushMatrix();
             gl.glColor3f(0.0f, 0.0f, 0.0f);
@@ -225,7 +178,7 @@ class Robot {
             glut.glutSolidCube(0.5f*s);
             gl.glPopMatrix();
     } 
-   public void drawLowerStickFigureFoot(GL2 gl, GLU glu, GLUT glut, boolean stickFigure, float tAnim, Vector pos, double bodyScale, boolean leftArm, double legOffset){
+   public void drawLowerStickFigureFoot(GL2 gl, GLU glu, GLUT glut, float tAnim, Vector pos, double bodyScale, boolean leftArm, double legOffset){
             //foot
             gl.glPushMatrix();
             gl.glTranslated(pos.x+legOffset, pos.y+0.1*bodyScale, (0.01*bodyScale)+pos.z);
@@ -234,7 +187,7 @@ class Robot {
             glut.glutSolidCube(0.5f*s);
             gl.glPopMatrix();
     } 
-    public void drawStickFigureHead(GL2 gl, GLU glu, GLUT glut, boolean stickFigure, float tAnim, Vector pos, double bodyScale){
+    public void drawStickFigureHead(GL2 gl, GLU glu, GLUT glut, float tAnim, Vector pos, double bodyScale){
             //head
             gl.glPushMatrix();
             gl.glColor3f(0.0f, 0.0f, 0.0f);
@@ -328,6 +281,7 @@ class Robot {
     };
     
    public void drawRealHead(GL2 gl, GLU glu, GLUT glut, float tAnim, Vector pos, double bodyScale){
+      
        //head
        gl.glPushMatrix();
        gl.glColor3f(0.2f, 0.2f, 0.2f);
@@ -335,29 +289,115 @@ class Robot {
        glut.glutSolidSphere(0.2f*bodyScale, 50, 50);
        gl.glPopMatrix();
        
-       gl.glPushMatrix();
-       gl.glColor3f(0.2f, 0.2f, 0.2f);
-       gl.glTranslated(pos.x+0.25*bodyScale, pos.y, (2.4*bodyScale)+pos.z);
-       glut.glutSolidSphere(0.2f*bodyScale, 50, 50);
-       gl.glPopMatrix();
-       //right eye
-       gl.glPushMatrix();
-       gl.glColor3f(1f, 0f, 0f);
-       gl.glTranslated(pos.x+0.1*bodyScale, pos.y+0.2*bodyScale, (2.2*bodyScale)+pos.z);
-       glut.glutSolidSphere(0.05f*bodyScale, 50, 50);
-       gl.glPopMatrix();
+       drawEyes(gl,glu,glut,tAnim,pos,bodyScale);
+       drawEars(gl,glu,glut,tAnim,pos,bodyScale);
        
-       gl.glPushMatrix();
-       gl.glColor3f(0.2f, 0.2f, 0.2f);
-       gl.glTranslated(pos.x-0.25*bodyScale, pos.y, (2.4*bodyScale)+pos.z);
-       glut.glutSolidSphere(0.2f*bodyScale, 50, 50);
-       gl.glPopMatrix();
        
-       //left eye
-       gl.glPushMatrix();
-       gl.glColor3f(1f, 0f, 0f);
-       gl.glTranslated(pos.x-0.1*bodyScale, pos.y+0.2*bodyScale, (2.2*bodyScale)+pos.z);
-       glut.glutSolidSphere(0.05f*bodyScale, 50, 50);
-       gl.glPopMatrix();
    };
+   
+   public void drawEyes(GL2 gl, GLU glu, GLUT glut, float tAnim, Vector pos, double bodyScale){
+       
+        //right eye
+        gl.glPushMatrix();
+        gl.glColor3f(1f, 0f, 0f);
+        gl.glTranslated(pos.x+0.1*bodyScale, pos.y+0.2*bodyScale, (2.2*bodyScale)+pos.z);
+        glut.glutSolidSphere(0.05f*bodyScale, 50, 50);
+        gl.glPopMatrix();
+       
+        //left eye
+        gl.glPushMatrix();
+        gl.glColor3f(1f, 0f, 0f);
+        gl.glTranslated(pos.x-0.1*bodyScale, pos.y+0.2*bodyScale, (2.2*bodyScale)+pos.z);
+        glut.glutSolidSphere(0.05f*bodyScale, 50, 50);
+        gl.glPopMatrix();
+   };
+   
+   public void drawEars(GL2 gl, GLU glu, GLUT glut, float tAnim, Vector pos, double bodyScale){
+       
+        gl.glPushMatrix();
+        gl.glColor3f(0.2f, 0.2f, 0.2f);
+        gl.glTranslated(pos.x+0.25*bodyScale, pos.y, (2.4*bodyScale)+pos.z);
+        glut.glutSolidSphere(0.2f*bodyScale, 50, 50);
+        gl.glPopMatrix();
+      
+        gl.glPushMatrix();
+        gl.glColor3f(0.2f, 0.2f, 0.2f);
+        gl.glTranslated(pos.x-0.25*bodyScale, pos.y, (2.4*bodyScale)+pos.z);
+        glut.glutSolidSphere(0.2f*bodyScale, 50, 50);
+        gl.glPopMatrix();
+   };
+   
+   public void drawUpperBody(GL2 gl, GLU glu, GLUT glut, float tAnim, Vector pos, double bodyScale){
+      
+       //upper body
+       gl.glPushMatrix();
+       gl.glColor3f(0.0f, 0.0f, 0.0f);
+       gl.glTranslated(pos.x, pos.y, (1.7*bodyScale)+pos.z);                
+       glut.glutSolidSphere(0.4f*bodyScale, 50, 50);
+       gl.glPopMatrix();
+       
+       //Draw shoulders
+       gl.glPushMatrix();
+       float s = (float)bodyScale;
+       gl.glColor3f(0.5f, 0, 1f);
+       gl.glTranslated(pos.x, pos.y, (1.8*bodyScale)+pos.z);
+       gl.glScalef(1f, 0.1f, 0.1f);
+       glut.glutSolidCube(1f*s);
+       gl.glPopMatrix();
+   
+   
+   };
+   
+   public void drawLowerBody(GL2 gl, GLU glu, GLUT glut, float tAnim, Vector pos, double bodyScale){
+        //Lower body
+        gl.glPushMatrix();
+        gl.glColor3f(0.0f, 0.0f, 0.0f);
+        gl.glTranslated(pos.x,pos.y,pos.z+bodyScale);                    //middle of bottom circle equals 1
+        glut.glutSolidSphere(0.3f*bodyScale, 50, 50);
+        gl.glPopMatrix();
+
+        //middle cone
+        gl.glPushMatrix();
+        gl.glRotatef(180, 1f, 0, 0);
+        gl.glTranslated(pos.x, -pos.y, (-1.45*bodyScale)-pos.z);
+        gl.glColor3f(0.5f, 0, 1f);
+        glut.glutSolidCone(0.3f*bodyScale, 0.45f*bodyScale, 50, 50);    //height of cone equals 0.45
+        gl.glPopMatrix();
+       
+        //Draw hips
+        gl.glPushMatrix();
+        gl.glTranslated(pos.x, pos.y, (1*bodyScale)+pos.z);
+        gl.glScalef(0.75f, 0.1f, 0.1f);
+        float s = (float)bodyScale;
+        glut.glutSolidCube(1f*s);
+        gl.glPopMatrix();
+   
+   };
+   
+   public void drawStickFigureTorso(GL2 gl, GLU glu, GLUT glut, float tAnim, Vector pos, double bodyScale){
+       
+       //backbone
+        gl.glPushMatrix();
+        gl.glTranslated(pos.x, pos.y, (1.4*bodyScale)+pos.z);
+        gl.glScalef(0.05f, 0.05f, 1f);
+        float s = (float)bodyScale;
+        glut.glutSolidCube(1.4f*s);
+        gl.glPopMatrix();
+            
+        //shoulders
+        gl.glPushMatrix();
+        gl.glTranslated(pos.x, pos.y, (1.8*bodyScale)+pos.z);
+        gl.glScalef(1f, 0.05f, 0.05f);
+        glut.glutSolidCube(1f*s);
+        gl.glPopMatrix();
+        
+        //hips
+        gl.glPushMatrix();
+        gl.glTranslated(pos.x, pos.y, (1*bodyScale)+pos.z);
+        gl.glScalef(0.75f, 0.05f, 0.05f);
+        glut.glutSolidCube(1f*s);
+        gl.glPopMatrix();
+   };
+  
+   
 }
