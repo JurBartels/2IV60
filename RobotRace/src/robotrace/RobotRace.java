@@ -171,21 +171,10 @@ public class RobotRace extends Base {
         //gl.glEnable(GL_COLOR_MATERIAL);
         gl.glEnable(GL_LIGHT0);
         
-        //FloatBuffer ambient = FloatBuffer.wrap(new float[] {0.3f, 0.3f, 0.3f, 1});
-        
-        //float ambient[] = {0.2f, 0.2f, 0.2f, 1.0f};
-        //gl.glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambient);
-        //gl.glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE); 
-        
-        //float intensity[] = {0.5f, 0.5f, 0.5f, 1};
-        //FloatBuffer intensity = FloatBuffer.wrap(new float[] {0.5f, 0.5f, 0.5f, 1});
+   
         float[] lightAmbient = { 0.5f, 0.5f, 0.5f, 1f};
         gl.glLightfv(GL_LIGHT0, GL_AMBIENT,lightAmbient, 0);
-        
-        //float position[] = {1f, 0, 1f, 1f};           //h at zero to emulate infinite distance
-       // FloatBuffer position = FloatBuffer.wrap(new float[] {2f, 0, 3f, 0f});
-        //gl.glLightfv(GL_LIGHT0, GL_POSITION, position);
-        
+         
         float lightpos[] = {(float)(-1*(Math.tan(Math.PI/18))), (float)(1*(Math.tan(Math.PI/18))),1f,0f};
         gl.glLightfv(GL_LIGHT0,GL_POSITION,lightpos,0);
         
@@ -326,4 +315,5 @@ public class RobotRace extends Base {
         RobotRace robotRace = new RobotRace();
         robotRace.run();
     } 
+    //test
 }
