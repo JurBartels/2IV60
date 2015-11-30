@@ -179,8 +179,8 @@ public class RobotRace extends Base {
         
         //float intensity[] = {0.5f, 0.5f, 0.5f, 1};
         //FloatBuffer intensity = FloatBuffer.wrap(new float[] {0.5f, 0.5f, 0.5f, 1});
-        //float[] lightPosition = { 0f, 10f, 1f, 0f};
-        //gl.glLightfv(GL_LIGHT0, GL_AMBIENT,lightPosition, 0);
+        float[] lightAmbient = { 0.5f, 0.5f, 0.5f, 1f};
+        gl.glLightfv(GL_LIGHT0, GL_AMBIENT,lightAmbient, 0);
         
         //float position[] = {1f, 0, 1f, 1f};           //h at zero to emulate infinite distance
        // FloatBuffer position = FloatBuffer.wrap(new float[] {2f, 0, 3f, 0f});
@@ -188,6 +188,10 @@ public class RobotRace extends Base {
         
         float lightpos[] = {(float)(-1*(Math.tan(Math.PI/18))), (float)(1*(Math.tan(Math.PI/18))),1f,0f};
         gl.glLightfv(GL_LIGHT0,GL_POSITION,lightpos,0);
+        
+        float lightdiff[] = {1f,1f,1f,1};
+        gl.glLightfv(GL_LIGHT0,GL_DIFFUSE,lightdiff,0);
+        
     }
     
     /**

@@ -672,6 +672,7 @@ class Robot {
    //Set the material properties from the material enum and apply them to the 
    //current robot.
    public void setMaterial(GL2 gl){
+        gl.glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, material.ambience, 0);
         gl.glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, material.diffuse, 0);
         gl.glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, material.specular, 0);
         gl.glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, material.shininess);
