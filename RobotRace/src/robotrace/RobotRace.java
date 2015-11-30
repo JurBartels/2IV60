@@ -89,11 +89,11 @@ public class RobotRace extends Base {
             /* add other parameters that characterize this robot */);
         
         // Initialize robot 2
-        robots[2] = new Robot(Material.WOOD,new Vector(4,0,0),1
+        robots[2] = new Robot(Material.WOOD,new Vector(0,0,0),1
             /* add other parameters that characterize this robot */);
 
         // Initialize robot 3
-        robots[3] = new Robot(Material.ORANGE,new Vector(6,0,0),1
+        robots[3] = new Robot(Material.ORANGE,new Vector(2,0,0),1
             /* add other parameters that characterize this robot */);
         
         // Initialize the camera
@@ -166,10 +166,10 @@ public class RobotRace extends Base {
         //enable shading
         gl.glShadeModel(GL_SMOOTH);
         gl.glEnable(GL_LIGHTING);
-        gl.glEnable(GL_COLOR_MATERIAL);
+        //gl.glEnable(GL_COLOR_MATERIAL);
         gl.glEnable(GL_LIGHT0);
         
-        FloatBuffer ambient = FloatBuffer.wrap(new float[] {0.3f, 0.3f, 0.3f, 1});
+        //FloatBuffer ambient = FloatBuffer.wrap(new float[] {0.3f, 0.3f, 0.3f, 1});
         
         //float ambient[] = {0.2f, 0.2f, 0.2f, 1.0f};
         //gl.glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambient);
@@ -177,13 +177,15 @@ public class RobotRace extends Base {
         
         //float intensity[] = {0.5f, 0.5f, 0.5f, 1};
         //FloatBuffer intensity = FloatBuffer.wrap(new float[] {0.5f, 0.5f, 0.5f, 1});
-        float[] lightPosition = { 0f, 10f, 1f, 0f};
-        gl.glLightfv(GL_LIGHT0, GL_AMBIENT,lightPosition, 0);
+        //float[] lightPosition = { 0f, 10f, 1f, 0f};
+        //gl.glLightfv(GL_LIGHT0, GL_AMBIENT,lightPosition, 0);
         
         //float position[] = {1f, 0, 1f, 1f};           //h at zero to emulate infinite distance
-        FloatBuffer position = FloatBuffer.wrap(new float[] {2f, 0, 3f, 0f});
-        gl.glLightfv(GL_LIGHT0, GL_POSITION, position);
+       // FloatBuffer position = FloatBuffer.wrap(new float[] {2f, 0, 3f, 0f});
+        //gl.glLightfv(GL_LIGHT0, GL_POSITION, position);
         
+        float lightpos[] = {(float)(-1*(Math.tan(Math.PI/18))), (float)(1*(Math.tan(Math.PI/18))),1f,0f};
+        gl.glLightfv(GL_LIGHT0,GL_POSITION,lightpos,0);
     }
     
     /**
@@ -236,7 +238,9 @@ public class RobotRace extends Base {
         
         // Draw the axis frame.
         if (gs.showAxes) {
+            gl.glEnable(GL_COLOR_MATERIAL);
             drawAxisFrame();
+            gl.glDisable(GL_COLOR_MATERIAL);
         }
         
         // Get the position and direction of the first robot.
@@ -244,8 +248,8 @@ public class RobotRace extends Base {
         robots[0].direction = raceTracks[gs.trackNr].getLaneTangent(0, 0);
         
         // Draw the first robot.
-        robots[0].draw(gl, glu, glut, gs.showStick, gs.tAnim);
-        robots[1].draw(gl, glu, glut, gs.showStick, gs.tAnim);
+        //robots[0].draw(gl, glu, glut, gs.showStick, gs.tAnim);
+        //robots[1].draw(gl, glu, glut, gs.showStick, gs.tAnim);
         robots[2].draw(gl, glu, glut, gs.showStick, gs.tAnim);
         robots[3].draw(gl, glu, glut, gs.showStick, gs.tAnim);
         // Draw the race track.
