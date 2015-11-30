@@ -71,6 +71,8 @@ public class RobotRace extends Base {
     /** Instance of the terrain. */
     private final Terrain terrain;
     
+    public static int slices = 25;
+    
     /**
      * Constructs this robot race by initializing robots,
      * camera, track, and terrain.
@@ -93,7 +95,7 @@ public class RobotRace extends Base {
             /* add other parameters that characterize this robot */);
 
         // Initialize robot 3
-        robots[3] = new Robot(Material.ORANGE,new Vector(2,0,0),1
+        robots[3] = new Robot(Material.ORANGE,new Vector(6,0,0),1
             /* add other parameters that characterize this robot */);
         
         // Initialize the camera
@@ -249,7 +251,7 @@ public class RobotRace extends Base {
         
         // Draw the first robot.
         robots[0].draw(gl, glu, glut, gs.showStick, gs.tAnim);
-        //robots[1].draw(gl, glu, glut, gs.showStick, gs.tAnim);
+        robots[1].draw(gl, glu, glut, gs.showStick, gs.tAnim);
         robots[2].draw(gl, glu, glut, gs.showStick, gs.tAnim);
         robots[3].draw(gl, glu, glut, gs.showStick, gs.tAnim);
         // Draw the race track.
@@ -257,23 +259,6 @@ public class RobotRace extends Base {
         
         // Draw the terrain.
         terrain.draw(gl, glu, glut);
-        
-        /*
-        // Unit box around origin.
-        glut.glutWireCube(1f);
-
-        // Move in x-direction.
-        gl.glTranslatef(2f, 0f, 0f);
-        
-        // Rotate 30 degrees, around z-axis.
-        gl.glRotatef(30f, 0f, 0f, 1f);
-        
-        // Scale in z-direction.
-        gl.glScalef(1f, 1f, 2f);
-
-        // Translated, rotated, scaled box.
-        glut.glutWireCube(1f);
-        */
     }
     
     /**
@@ -283,47 +268,47 @@ public class RobotRace extends Base {
     public void drawAxisFrame() {
         // code goes here ...
         gl.glColor3f(1.0f, 1.0f, 0.0f);     //set color to yellow
-        glut.glutSolidSphere(0.1,50,50);    //create sphere in origin, radius 0.1 and 50 slices and stacks
+        glut.glutSolidSphere(0.1,slices,slices);    //create sphere in origin, radius 0.1 and slices slices and stacks
         
         //z direction cube
         gl.glColor3f(0.0f, 0.0f, 1.0f);     //set color to blue (for z axis)
         gl.glPushMatrix();
         gl.glTranslatef(0, 0, 0.5f);        //move cube in z direction, since total length is 1 the middle of the cube should be at 0.5
-        gl.glScalef(0.02f, 0.02f, 1.0f);    //scale x and y such that the cube is smaller
+        gl.glScalef(0.02f, 0.02f, 0.9f);    //scale x and y such that the cube is smaller
         glut.glutSolidCube(1.0f);           //scaled, translated cube
         gl.glPopMatrix();
         //z direction cone
         gl.glPushMatrix();
         gl.glTranslatef(0, 0, 0.8f);        //move the cone 0.8 in z, since the length of cone is 0.2 this results in lenght 1
-        glut.glutSolidCone(0.05f, 0.2f, 50, 50);
+        glut.glutSolidCone(0.05f, 0.2f, slices, slices);
         gl.glPopMatrix();
         
         //x direction cube
         gl.glColor3f(1.0f, 0.0f, 0.0f);     //set color to red (for x axis)
         gl.glPushMatrix();
         gl.glTranslatef(0.5f, 0, 0);        //move in x direction, since total length is 1 the middle of the cube should be at 0.5
-        gl.glScalef(1.0f, 0.02f, 0.02f);    //scale y and z such that the cube is smaller
+        gl.glScalef(0.9f, 0.02f, 0.02f);    //scale y and z such that the cube is smaller
         glut.glutSolidCube(1.0f);           //scaled, translated, rotated cube
         gl.glPopMatrix();
         //x direction cone
         gl.glPushMatrix();
         gl.glTranslatef(0.8f, 0, 0);        //move the cone 0.8 in x, since the length of cone is 0.2 this results in lenght 1
         gl.glRotatef(90, 0, 1.0f, 0);       //rotate the cone 90 degrees in y direction
-        glut.glutSolidCone(0.05f, 0.2f, 50, 50);
+        glut.glutSolidCone(0.05f, 0.2f, slices, slices);
         gl.glPopMatrix();
         
         //y direction cube
         gl.glColor3f(0.0f, 1.0f, 0.0f);     //set color to green (for y axis)
         gl.glPushMatrix();
         gl.glTranslatef(0, 0.5f, 0);        //move in y direction, since total length is 1 the middle of the cube should be at 0.5
-        gl.glScalef(0.02f, 1.0f, 0.02f);    //scale x and z such that the cube is smaller
+        gl.glScalef(0.02f, 0.9f, 0.02f);    //scale x and z such that the cube is smaller
         glut.glutSolidCube(1.0f);           //scaled, translated,rotated cube
         gl.glPopMatrix();
         //y direction cone
         gl.glPushMatrix();
         gl.glTranslatef(0, 0.8f, 0);        //move the cone 0.8 in y, since the length of cone is 0.2 this results in lenght 1
         gl.glRotatef(270, 1.0f, 0, 0);       //rotate the cone 90 degrees in x direction
-        glut.glutSolidCone(0.05f, 0.2f, 50, 50);
+        glut.glutSolidCone(0.05f, 0.2f, slices, slices);
         gl.glPopMatrix();
         
         gl.glColor3f(0.0f, 0.0f, 0.0f);     //set color to black as it was before
