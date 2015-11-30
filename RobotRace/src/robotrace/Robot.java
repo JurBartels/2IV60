@@ -110,13 +110,13 @@ class Robot {
      */
     public void drawTorso(GL2 gl, GLU glu, GLUT glut, boolean stickFigure, float tAnim, Vector pos, double bodyScale){
         if(!stickFigure){
-            
+            //call upper and lower body
             drawUpperBody(gl,  glu, glut, tAnim,  pos, bodyScale);
             drawLowerBody(gl,  glu, glut, tAnim,  pos, bodyScale);
             
         }
         else{
-           
+           //call torso stick figure
            drawStickFigureTorso(gl,  glu, glut, tAnim,  pos, bodyScale); 
         }
     }
@@ -138,17 +138,21 @@ class Robot {
     public void drawArm(GL2 gl, GLU glu, GLUT glut, boolean stickFigure, float tAnim, Vector pos, double bodyScale, boolean leftArm){
         double armOffset;
         if(leftArm){
+            //set offset for the arms
             armOffset = -0.5*bodyScale;
         }
         else{
+            //set offset for the arms
             armOffset = 0.5*bodyScale;
         }
         if(!stickFigure){
+            //call upper, lower and hand draws
             drawUpperArm(gl,  glu, glut, tAnim,  pos,  bodyScale,  armOffset);
             drawLowerArm(gl,  glu, glut, tAnim,  pos,  bodyScale,  armOffset); 
             drawHand(gl,  glu, glut, tAnim,  pos,  bodyScale,  armOffset); 
         }
         else{
+            //call upper and lower arms for stick figure
             drawUpperStickFigureArm( gl,  glu,  glut, tAnim,  pos,  bodyScale,  leftArm,  armOffset);
             drawLowerStickFigureArm( gl,  glu,  glut, tAnim,  pos,  bodyScale,  leftArm,  armOffset);
            
@@ -173,12 +177,15 @@ class Robot {
         
         double legOffset;
         if(leftLeg){
+            //set leg offset
             legOffset = -0.4*bodyScale;
         }
         else{
+            //set leg offset
             legOffset = 0.4*bodyScale;
         }
         if(!stickFigure){
+            //call upper and lower leg and foot draw functions
             drawUpperleg(gl,  glu, glut, tAnim,  pos,  bodyScale,  legOffset);
             drawLowerleg(gl,  glu, glut, tAnim,  pos,  bodyScale,  legOffset); 
             drawFoot(gl,  glu, glut, tAnim,  pos,  bodyScale,  legOffset); 
@@ -187,6 +194,7 @@ class Robot {
             
         }
         else{
+            //call upper and lower leg and foot draw functions for stick figure
             drawUpperStickFigureLeg( gl,  glu,  glut,   tAnim,  pos,  bodyScale,  leftLeg,  legOffset);
             drawLowerStickFigureLeg( gl,  glu,  glut,   tAnim,  pos,  bodyScale,  leftLeg,  legOffset);
             drawLowerStickFigureFoot( gl,  glu,  glut,   tAnim,  pos,  bodyScale,  leftLeg,  legOffset);
@@ -209,12 +217,12 @@ class Robot {
             //shoulder joint
             gl.glPushMatrix();
             gl.glColor3f(0.0f, 0.0f, 0.0f);
-            gl.glTranslated(pos.x+armOffset, pos.y, (1.8*bodyScale)+pos.z);               
-            glut.glutSolidSphere(0.1f*bodyScale, RobotRace.slices, RobotRace.slices);
+            gl.glTranslated(pos.x+armOffset, pos.y, (1.8*bodyScale)+pos.z);                 //move to position, based on arm offset and bodyheight            
+            glut.glutSolidSphere(0.1f*bodyScale, RobotRace.slices, RobotRace.slices);   
             gl.glPopMatrix();
             //upper arm
             gl.glPushMatrix();
-            gl.glTranslated(pos.x+armOffset, pos.y, (1.8*bodyScale)+pos.z-(0.2*bodyScale));
+            gl.glTranslated(pos.x+armOffset, pos.y, (1.8*bodyScale)+pos.z-(0.2*bodyScale)); //move to position, based on arm offset and bodyheight
             gl.glScalef(0.15f, 0.15f, 1f);
             float s = (float)bodyScale;
             glut.glutSolidCube(0.4f*s);
@@ -236,12 +244,12 @@ class Robot {
             //elbow joint
             gl.glPushMatrix();
             gl.glColor3f(0.0f, 0.0f, 0.0f);
-            gl.glTranslated(pos.x+armOffset, pos.y, (1.4*bodyScale)+pos.z);               
+            gl.glTranslated(pos.x+armOffset, pos.y, (1.4*bodyScale)+pos.z);                 //move to position, based on arm offset and bodyheight
             glut.glutSolidSphere(0.1f*bodyScale, RobotRace.slices, RobotRace.slices);
             gl.glPopMatrix();
             //lower arm
             gl.glPushMatrix();
-            gl.glTranslated(pos.x+armOffset, pos.y+0.2*bodyScale, (1.4*bodyScale)+pos.z);
+            gl.glTranslated(pos.x+armOffset, pos.y+0.2*bodyScale, (1.4*bodyScale)+pos.z);   //move to position, based on arm offset and bodyheight
             gl.glScalef(0.15f, 1f, 0.15f);
             float s = (float)bodyScale;
             glut.glutSolidCube(0.4f*s);
@@ -263,12 +271,12 @@ class Robot {
             //hip joint
             gl.glPushMatrix();
             gl.glColor3f(0.0f, 0.0f, 0.0f);
-            gl.glTranslated(pos.x+legOffset, pos.y, (1*bodyScale)+pos.z);               
+            gl.glTranslated(pos.x+legOffset, pos.y, (1*bodyScale)+pos.z);                       //move to position, based on leg offset     
             glut.glutSolidSphere(0.1f*bodyScale, RobotRace.slices, RobotRace.slices);
             gl.glPopMatrix();
             //upper leg
             gl.glPushMatrix();
-            gl.glTranslated(pos.x+legOffset, pos.y, (1*bodyScale)+pos.z-(0.25*bodyScale));
+            gl.glTranslated(pos.x+legOffset, pos.y, (1*bodyScale)+pos.z-(0.25*bodyScale));      //move to position, based on leg offset
             gl.glScalef(0.15f, 0.15f, 1f);
             float s = (float)bodyScale;
             glut.glutSolidCube(0.5f*s);
@@ -290,12 +298,12 @@ class Robot {
             //knee joint
             gl.glPushMatrix();
             gl.glColor3f(0.0f, 0.0f, 0.0f);
-            gl.glTranslated(pos.x+legOffset, pos.y, (0.5*bodyScale)+pos.z);               
+            gl.glTranslated(pos.x+legOffset, pos.y, (0.5*bodyScale)+pos.z);                     //move to position, based on leg offset
             glut.glutSolidSphere(0.1f*bodyScale, RobotRace.slices, RobotRace.slices);
             gl.glPopMatrix();
             //lower leg
             gl.glPushMatrix();
-            gl.glTranslated(pos.x+legOffset, pos.y, (0.5*bodyScale)+pos.z-(0.25*bodyScale));
+            gl.glTranslated(pos.x+legOffset, pos.y, (0.5*bodyScale)+pos.z-(0.25*bodyScale));    //move to position, based on leg offset
             gl.glScalef(0.15f, 0.15f, 1f);
             float s = (float)bodyScale;
             glut.glutSolidCube(0.5f*s);
@@ -316,7 +324,7 @@ class Robot {
    public void drawLowerStickFigureFoot(GL2 gl, GLU glu, GLUT glut, float tAnim, Vector pos, double bodyScale, boolean leftArm, double legOffset){
             //foot
             gl.glPushMatrix();
-            gl.glTranslated(pos.x+legOffset, pos.y+0.1*bodyScale, (0.01*bodyScale)+pos.z);
+            gl.glTranslated(pos.x+legOffset, pos.y+0.1*bodyScale, (0.01*bodyScale)+pos.z);      //move to position, based on leg offset
             gl.glScalef(0.15f, 1f, 0.15f);
             float s = (float)bodyScale;
             glut.glutSolidCube(0.5f*s);
@@ -337,7 +345,7 @@ class Robot {
             //head
             gl.glPushMatrix();
             gl.glColor3f(0.0f, 0.0f, 0.0f);
-            gl.glTranslated(pos.x, pos.y, (2.2*bodyScale)+pos.z);               
+            gl.glTranslated(pos.x, pos.y, (2.2*bodyScale)+pos.z);                               //move to position based on bodyheight and radius of sphere
             glut.glutSolidSphere(0.2f*bodyScale, RobotRace.slices, RobotRace.slices);
             gl.glPopMatrix();
     }
@@ -356,13 +364,13 @@ class Robot {
             //shoulder joints
             gl.glPushMatrix();
             gl.glColor3f(0.0f, 0.0f, 0.0f);
-            gl.glTranslated(pos.x+armOffset, pos.y, (1.8*bodyScale)+pos.z);
+            gl.glTranslated(pos.x+armOffset, pos.y, (1.8*bodyScale)+pos.z);                     //move to position based on arm offset and bodyheight
             glut.glutSolidSphere(0.1f*bodyScale, RobotRace.slices, RobotRace.slices);
             gl.glPopMatrix();
             //draw upper arm
             gl.glPushMatrix();
             gl.glColor3f(0.5f, 0.0f, 1.0f);
-            gl.glTranslated(pos.x+armOffset, pos.y, (1.6*bodyScale)+pos.z); 
+            gl.glTranslated(pos.x+armOffset, pos.y, (1.6*bodyScale)+pos.z);                     //move to position based on arm offset and bodyheight
             gl.glScalef(1f, 1f, 2f);
             glut.glutSolidSphere(0.1f*bodyScale, RobotRace.slices, RobotRace.slices);
             gl.glPopMatrix();
@@ -382,13 +390,13 @@ class Robot {
             //elbow joints
             gl.glPushMatrix();
             gl.glColor3f(0.0f, 0.0f, 0.0f);
-            gl.glTranslated(pos.x+armOffset, pos.y, (1.4*bodyScale)+pos.z);
+            gl.glTranslated(pos.x+armOffset, pos.y, (1.4*bodyScale)+pos.z);                     //move to position based on arm offset and bodyheight
             glut.glutSolidSphere(0.1f*bodyScale, RobotRace.slices, RobotRace.slices);
             gl.glPopMatrix();
             //draw lower arm
             gl.glPushMatrix();
             gl.glColor3f(0.5f, 0.0f, 1.0f);
-            gl.glTranslated(pos.x+armOffset, pos.y+0.2*bodyScale, (1.4*bodyScale)+pos.z); 
+            gl.glTranslated(pos.x+armOffset, pos.y+0.2*bodyScale, (1.4*bodyScale)+pos.z);       //move to position based on arm offset and bodyheight
             gl.glScalef(1f, 2f, 1f);
             glut.glutSolidSphere(0.1f*bodyScale, RobotRace.slices, RobotRace.slices);
             gl.glPopMatrix();
@@ -408,7 +416,7 @@ class Robot {
             //hands
             gl.glPushMatrix();
             gl.glColor3f(0.0f, 0.0f, 0.0f);
-            gl.glTranslated(pos.x+armOffset, pos.y+0.4*bodyScale, (1.4*bodyScale)+pos.z);
+            gl.glTranslated(pos.x+armOffset, pos.y+0.4*bodyScale, (1.4*bodyScale)+pos.z);       //move to position based on arm offset and bodyheight
             glut.glutSolidSphere(0.1f*bodyScale, RobotRace.slices, RobotRace.slices);
             gl.glPopMatrix();
     };
@@ -428,13 +436,13 @@ class Robot {
             //hip joints
             gl.glPushMatrix();
             gl.glColor3f(0.0f, 0.0f, 0.0f);
-            gl.glTranslated(pos.x+legOffset, pos.y, (1*bodyScale)+pos.z);
+            gl.glTranslated(pos.x+legOffset, pos.y, (1*bodyScale)+pos.z);                       //move to position based on leg offset
             glut.glutSolidSphere(0.1f*bodyScale, RobotRace.slices, RobotRace.slices);
             gl.glPopMatrix();
             //draw upper leg
             gl.glPushMatrix();
             gl.glColor3f(0.5f, 0.0f, 1.0f);
-            gl.glTranslated(pos.x+legOffset, pos.y, (0.7*bodyScale)+pos.z); 
+            gl.glTranslated(pos.x+legOffset, pos.y, (0.7*bodyScale)+pos.z);                     //move to position based on leg offset
             gl.glScalef(1f, 1f, 2.5f);
             glut.glutSolidSphere(0.1f*bodyScale, RobotRace.slices, RobotRace.slices);
             gl.glPopMatrix();
@@ -455,14 +463,14 @@ class Robot {
             //knee joints
             gl.glPushMatrix();
             gl.glColor3f(0.0f, 0.0f, 0.0f);
-            gl.glTranslated(pos.x+legOffset, pos.y, (0.5*bodyScale)+pos.z);
+            gl.glTranslated(pos.x+legOffset, pos.y, (0.5*bodyScale)+pos.z);                     //move to position based on leg offset
             glut.glutSolidSphere(0.1f*bodyScale, RobotRace.slices, RobotRace.slices);
             gl.glPopMatrix();
             
             //draw lower leg
             gl.glPushMatrix();
             gl.glColor3f(0.5f, 0.0f, 1.0f);
-            gl.glTranslated(pos.x+legOffset, pos.y, (0.25*bodyScale)+pos.z); 
+            gl.glTranslated(pos.x+legOffset, pos.y, (0.25*bodyScale)+pos.z);                    //move to position based on leg offset
             gl.glScalef(1f, 1f, 2.5f);
             glut.glutSolidSphere(0.1f*bodyScale, RobotRace.slices, RobotRace.slices);
             gl.glPopMatrix();
@@ -483,7 +491,7 @@ class Robot {
             //foot
             gl.glPushMatrix();
             gl.glColor3f(0.0f, 0.0f, 0.0f);
-            gl.glTranslated(pos.x+legOffset, pos.y+0.1*bodyScale, (0.1*bodyScale)+pos.z);
+            gl.glTranslated(pos.x+legOffset, pos.y+0.1*bodyScale, (0.1*bodyScale)+pos.z);       //move to position based on leg offset
             gl.glScalef(0.4f, 1f, 0.4f);
             float s = (float)bodyScale;
             glut.glutSolidCube(0.5f*s);
@@ -505,10 +513,11 @@ class Robot {
        //head
        gl.glPushMatrix();
        gl.glColor3f(0.2f, 0f, 0.2f);
-       gl.glTranslated(pos.x, pos.y, (2.2*bodyScale)+pos.z);
+       gl.glTranslated(pos.x, pos.y, (2.2*bodyScale)+pos.z);                                    //move to position based on bodyheight and radius sphere
        glut.glutSolidSphere(0.2f*bodyScale, RobotRace.slices, RobotRace.slices);
        gl.glPopMatrix();
        
+       //call the draw funcions for the eyes and ears
        drawEyes(gl,glu,glut,tAnim,pos,bodyScale);
        drawEars(gl,glu,glut,tAnim,pos,bodyScale);
        
@@ -527,17 +536,17 @@ class Robot {
     */
    public void drawEyes(GL2 gl, GLU glu, GLUT glut, float tAnim, Vector pos, double bodyScale){
        
-        //right eye
-        gl.glPushMatrix();
-        gl.glColor3f(1f, 0f, 0f);
-        gl.glTranslated(pos.x+0.1*bodyScale, pos.y+0.2*bodyScale, (2.2*bodyScale)+pos.z);
-        glut.glutSolidSphere(0.05f*bodyScale, RobotRace.slices, RobotRace.slices);
-        gl.glPopMatrix();
-       
         //left eye
         gl.glPushMatrix();
         gl.glColor3f(1f, 0f, 0f);
-        gl.glTranslated(pos.x-0.1*bodyScale, pos.y+0.2*bodyScale, (2.2*bodyScale)+pos.z);
+        gl.glTranslated(pos.x+0.1*bodyScale, pos.y+0.2*bodyScale, (2.2*bodyScale)+pos.z);       //translate to left eye position
+        glut.glutSolidSphere(0.05f*bodyScale, RobotRace.slices, RobotRace.slices);
+        gl.glPopMatrix();
+       
+        //right eye
+        gl.glPushMatrix();
+        gl.glColor3f(1f, 0f, 0f);
+        gl.glTranslated(pos.x-0.1*bodyScale, pos.y+0.2*bodyScale, (2.2*bodyScale)+pos.z);       //translate to right eye position
         glut.glutSolidSphere(0.05f*bodyScale, RobotRace.slices, RobotRace.slices);
         gl.glPopMatrix();
    };
@@ -553,15 +562,17 @@ class Robot {
     */
    public void drawEars(GL2 gl, GLU glu, GLUT glut, float tAnim, Vector pos, double bodyScale){
        
+        //left ear
         gl.glPushMatrix();
         gl.glColor3f(0.2f, 0f, 0.2f);
-        gl.glTranslated(pos.x+0.25*bodyScale, pos.y, (2.4*bodyScale)+pos.z);
+        gl.glTranslated(pos.x+0.25*bodyScale, pos.y, (2.4*bodyScale)+pos.z);                    //translate to left ear position
         glut.glutSolidSphere(0.2f*bodyScale, RobotRace.slices, RobotRace.slices);
         gl.glPopMatrix();
       
+        //right ear
         gl.glPushMatrix();
         gl.glColor3f(0.2f, 0f, 0.2f);
-        gl.glTranslated(pos.x-0.25*bodyScale, pos.y, (2.4*bodyScale)+pos.z);
+        gl.glTranslated(pos.x-0.25*bodyScale, pos.y, (2.4*bodyScale)+pos.z);                    //translate to right ear position
         glut.glutSolidSphere(0.2f*bodyScale, RobotRace.slices, RobotRace.slices);
         gl.glPopMatrix();
    };
@@ -581,7 +592,7 @@ class Robot {
        //upper body
        gl.glPushMatrix();
        gl.glColor3f(0.0f, 0.0f, 0.0f);
-       gl.glTranslated(pos.x, pos.y, (1.7*bodyScale)+pos.z);                
+       gl.glTranslated(pos.x, pos.y, (1.7*bodyScale)+pos.z);                                    //move to position based on bodyheight
        glut.glutSolidSphere(0.4f*bodyScale, RobotRace.slices, RobotRace.slices);
        gl.glPopMatrix();
        
@@ -589,7 +600,7 @@ class Robot {
        gl.glPushMatrix();
        float s = (float)bodyScale;
        gl.glColor3f(0.5f, 0, 1f);
-       gl.glTranslated(pos.x, pos.y, (1.8*bodyScale)+pos.z);
+       gl.glTranslated(pos.x, pos.y, (1.8*bodyScale)+pos.z);                                    //move to position based on bodyheight
        gl.glScalef(1f, 0.1f, 0.1f);
        glut.glutSolidCube(1f*s);
        gl.glPopMatrix();
@@ -612,7 +623,7 @@ class Robot {
        //Lower body
         gl.glPushMatrix();
         gl.glColor3f(0.0f, 0.0f, 0.0f);
-        gl.glTranslated(pos.x,pos.y,pos.z+bodyScale);                    //middle of bottom circle equals 1
+        gl.glTranslated(pos.x,pos.y,pos.z+bodyScale);                                               //middle of bottom circle equals 1
         glut.glutSolidSphere(0.3f*bodyScale, RobotRace.slices, RobotRace.slices);
         gl.glPopMatrix();
 
@@ -626,7 +637,7 @@ class Robot {
        
         //Draw hips
         gl.glPushMatrix();
-        gl.glTranslated(pos.x, pos.y, (1*bodyScale)+pos.z);
+        gl.glTranslated(pos.x, pos.y, (1*bodyScale)+pos.z);                                         //move to middle of robot
         gl.glScalef(0.75f, 0.1f, 0.1f);
         float s = (float)bodyScale;
         glut.glutSolidCube(1f*s);
@@ -648,7 +659,7 @@ class Robot {
        
        //backbone
         gl.glPushMatrix();
-        gl.glTranslated(pos.x, pos.y, (1.4*bodyScale)+pos.z);
+        gl.glTranslated(pos.x, pos.y, (1.4*bodyScale)+pos.z);                                       //move to middle of torso based on bodyheight
         gl.glScalef(0.05f, 0.05f, 1f);
         float s = (float)bodyScale;
         glut.glutSolidCube(1.4f*s);
@@ -656,7 +667,7 @@ class Robot {
             
         //shoulders
         gl.glPushMatrix();
-        gl.glTranslated(pos.x, pos.y, (1.8*bodyScale)+pos.z);
+        gl.glTranslated(pos.x, pos.y, (1.8*bodyScale)+pos.z);                                       //move to 
         gl.glScalef(1f, 0.05f, 0.05f);
         glut.glutSolidCube(1f*s);
         gl.glPopMatrix();
