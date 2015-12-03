@@ -33,7 +33,11 @@ class RaceTrack {
      */
     public void draw(GL2 gl, GLU glu, GLUT glut) {
         if (null == controlPoints) {
-            // draw the test track
+            gl.glBegin(gl.GL_LINE_LOOP);
+            for(double i=0; i<1; i = i+0.02){
+                gl.glVertex3d(getPoint(i).x,getPoint(i).y,getPoint(i).z);
+            }
+            gl.glEnd();
         } else {
             // draw the spline track
         }
@@ -67,7 +71,8 @@ class RaceTrack {
      * Returns a point on the test track at 0 <= t < 1.
      */
     private Vector getPoint(double t) {
-        return Vector.O; // <- code goes here
+        //return Vector.O; // <- code goes here
+        return new Vector((10*Math.cos(2*Math.PI*t)),(14*Math.sin(2*Math.PI*t)),1);
     }
 
     /**
@@ -75,6 +80,8 @@ class RaceTrack {
      */
     private Vector getTangent(double t) {
         return Vector.O; // <- code goes here
+        //differentiate getPoint(t)
+        //to get unit length do: getTangent(t) = (getPoint'(t)/|getPoint'(t)|)
     }
     
     /**
