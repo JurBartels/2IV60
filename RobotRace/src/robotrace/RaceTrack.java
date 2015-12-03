@@ -33,11 +33,19 @@ class RaceTrack {
      */
     public void draw(GL2 gl, GLU glu, GLUT glut) {
         if (null == controlPoints) {
-            gl.glBegin(gl.GL_LINE_LOOP);
-            for(double i=0; i<1; i = i+0.02){
-                gl.glVertex3d(getPoint(i).x,getPoint(i).y,getPoint(i).z);
+            for(double j= -2; j<3; j++){
+                gl.glBegin(gl.GL_LINE_LOOP);
+                for(double i=0; i<1; i = i+0.02){
+                    Vector a = new Vector(0,0,0);
+                    a = getTangent(i).cross(new Vector(0,0,1));
+                    a.normalized();
+                    a.x = a.x*1.22;
+                    a.y = a.y*1.22;
+                    gl.glColor3f(0.5f, 0.0f, 1.0f);
+                    gl.glVertex3d(getPoint(i).x+2*j*a.x,getPoint(i).y+2*j*a.y,getPoint(i).z);
+                }
+                gl.glEnd();
             }
-            gl.glEnd();
         } else {
             // draw the spline track
         }
@@ -79,9 +87,21 @@ class RaceTrack {
      * Returns a tangent on the test track at 0 <= t < 1.
      */
     private Vector getTangent(double t) {
-        return Vector.O; // <- code goes here
+        //return Vector.O; // <- code goes here
         //differentiate getPoint(t)
+        double x = -20*Math.PI*Math.sin(2*Math.PI*t);
+        double y = 28*Math.PI*Math.cos(2*Math.PI*t);
+        double z = 0;
+        
+        //calculate length to normalize
+        double length = Math.sqrt(x*x+y*y);
+        x = x / length;
+        y = y / length;
+        
+        return new Vector(x,y,z);
+        
         //to get unit length do: getTangent(t) = (getPoint'(t)/|getPoint'(t)|)
+        
     }
     
     /**
