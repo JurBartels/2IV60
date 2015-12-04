@@ -70,6 +70,10 @@ class Robot {
         drawLeg(gl, glu, glut, stickFigure, tAnim, this.pos, bodyScale, true);
         drawLeg(gl, glu, glut, stickFigure, tAnim, this.pos, bodyScale, false);
         drawHead(gl, glu, glut, stickFigure, tAnim, this.pos, bodyScale);
+        if(tAnim==1){
+            tAnim = 0;
+        }
+        pos = new Vector(RaceTrack.getPoint(tAnim).x,RaceTrack.getPoint(tAnim).y,0);
         gl.glPopMatrix();
         
     } 

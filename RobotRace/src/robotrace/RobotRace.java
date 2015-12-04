@@ -244,14 +244,16 @@ public class RobotRace extends Base {
         
         // Draw the first robot.
         robots[0].draw(gl, glu, glut, gs.showStick, gs.tAnim);
-        robots[1].draw(gl, glu, glut, gs.showStick, gs.tAnim);
-        robots[2].draw(gl, glu, glut, gs.showStick, gs.tAnim);
-        robots[3].draw(gl, glu, glut, gs.showStick, gs.tAnim);
+        //robots[1].draw(gl, glu, glut, gs.showStick, gs.tAnim);
+        //robots[2].draw(gl, glu, glut, gs.showStick, gs.tAnim);
+        //robots[3].draw(gl, glu, glut, gs.showStick, gs.tAnim);
         // Draw the race track.
         raceTracks[gs.trackNr].draw(gl, glu, glut);
         
         // Draw the terrain.
         terrain.draw(gl, glu, glut);
+        
+        
     }
     
     /**
