@@ -73,7 +73,7 @@ class Robot {
         if(tAnim==1){
             tAnim = 0;
         }
-        pos = new Vector(RaceTrack.getPoint(tAnim).x,RaceTrack.getPoint(tAnim).y,0);
+        //pos = new Vector(RaceTrack.getLanePoint(1,tAnim).x,RaceTrack.getLanePoint(1,tAnim).y,0);
         gl.glPopMatrix();
         
     } 

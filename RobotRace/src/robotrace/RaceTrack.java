@@ -33,6 +33,9 @@ class RaceTrack {
      */
     public void draw(GL2 gl, GLU glu, GLUT glut) {
         if (null == controlPoints) {
+            
+            //NOT using control points
+            gl.glEnable(gl.GL_COLOR_MATERIAL);
             for(double j= -2; j<3; j++){
                 gl.glBegin(gl.GL_LINE_LOOP);
                 for(double i=0; i<1; i = i+0.02){
@@ -41,11 +44,57 @@ class RaceTrack {
                     a.normalized();
                     a.x = a.x*1.22;
                     a.y = a.y*1.22;
-                    gl.glColor3f(0.5f, 0.0f, 1.0f);
+                    gl.glColor3f(1f, 0.0f, 0.0f);
                     gl.glVertex3d(getPoint(i).x+2*j*a.x,getPoint(i).y+2*j*a.y,getPoint(i).z);
                 }
                 gl.glEnd();
             }
+               for(double j= -2; j<3; j++){
+                gl.glBegin(gl.GL_TRIANGLE_STRIP);
+                double pOffset = 0.0005;
+                for(double i=0; i<1; i = i+pOffset){
+                    
+                    Vector a = new Vector(0,0,0);
+                    a = getTangent(i).cross(new Vector(0,0,1));
+                    a.normalized();
+                    a.x = a.x*1.22;
+                    a.y = a.y*1.22;
+                    gl.glColor3f(0.5f, 0.0f, 1.0f);
+                    gl.glVertex3d(getPoint(i).x+2*j*a.x,getPoint(i).y+2*j*a.y,getPoint(i).z);
+                    gl.glVertex3d(getPoint(i+pOffset).x+2*(j+1)*a.x,getPoint(i+pOffset).y+2*(j+1)*a.y,getPoint(i+pOffset).z);
+                }
+                gl.glEnd();
+            }
+               gl.glBegin(gl.GL_TRIANGLE_STRIP);
+                double pOffset = 0.0005;
+                for(double i=0; i<1; i = i+pOffset){
+                    
+                    Vector a = new Vector(0,0,0);
+                    a = getTangent(i).cross(new Vector(0,0,1));
+                    a.normalized();
+                    a.x = a.x*1.22;
+                    a.y = a.y*1.22;
+                    gl.glColor3f(0.5f, 0.0f, 1.0f);
+                    gl.glVertex3d(getPoint(i).x+2*3*a.x,getPoint(i).y+2*3*a.y,getPoint(i).z);
+                    gl.glVertex3d(getPoint(i+pOffset).x+2*(3)*a.x,getPoint(i+pOffset).y+2*(3)*a.y,getPoint(i+pOffset).z-1);
+                }
+                gl.glEnd();
+               gl.glDisable(gl.GL_COLOR_MATERIAL);
+               
+               gl.glBegin(gl.GL_TRIANGLE_STRIP);
+                for(double i=0; i<1; i = i+pOffset){
+                    
+                    Vector a = new Vector(0,0,0);
+                    a = getTangent(i).cross(new Vector(0,0,1));
+                    a.normalized();
+                    a.x = a.x*1.22;
+                    a.y = a.y*1.22;
+                    gl.glColor3f(0.5f, 0.0f, 1.0f);
+                    gl.glVertex3d(getPoint(i).x+2*3*a.x,getPoint(i).y+2*3*a.y,getPoint(i).z);
+                    gl.glVertex3d(getPoint(i+pOffset).x+2*(-2)*a.x,getPoint(i+pOffset).y+2*(-2)*a.y,getPoint(i+pOffset).z-1);
+                }
+                gl.glEnd();
+               gl.glDisable(gl.GL_COLOR_MATERIAL);
         } else {
             // draw the spline track
         }
@@ -55,13 +104,16 @@ class RaceTrack {
      * Returns the center of a lane at 0 <= t < 1.
      * Use this method to find the position of a robot on the track.
      */
-    public Vector getLanePoint(int lane, double t) {
+    public  Vector getLanePoint(int lane, double t) {
         if (null == controlPoints) {
-            return Vector.O; // <- code goes here
+            //return Vector.O; // <- code goes here
+            return new Vector((10*Math.cos(2*Math.PI*t)),(14*Math.sin(2*Math.PI*t)),1);
         } else {
-            return Vector.O; // <- code goes here
+            //return Vector.O; // <- code goes here
+            return new Vector((10*Math.cos(2*Math.PI*t)),(14*Math.sin(2*Math.PI*t)),1);
         }
     }
+    
     
     /**
      * Returns the tangent of a lane at 0 <= t < 1.
@@ -78,7 +130,7 @@ class RaceTrack {
     /**
      * Returns a point on the test track at 0 <= t < 1.
      */
-    public static Vector getPoint(double t) {
+    private Vector getPoint(double t) {
         //return Vector.O; // <- code goes here
         return new Vector((10*Math.cos(2*Math.PI*t)),(14*Math.sin(2*Math.PI*t)),1);
     }
