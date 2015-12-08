@@ -11,7 +11,7 @@ import static javax.media.opengl.GL2.*;
 class Robot {
     
     /** The position of the robot. */
-    public Vector position = new Vector(0, 0, 0);
+    public Vector pos = new Vector(0, 0, 0);
     
     /** The direction in which the robot is running. */
     public Vector direction = new Vector(1, 0, 0);
@@ -23,15 +23,15 @@ class Robot {
     private double bodyScale; 
     
     /** The current position on the x, y and z axis of the robot in a vector */
-    private Vector pos; 
+     
     
     /**
      * Constructs the robot with initial parameters.
      */
-    public Robot(Material material,Vector pos, double bodyScale
+    public Robot(Material material, double bodyScale
         /* add other parameters that characterize this robot */) {
         this.material = material;
-        this.pos = pos;
+        
         this.bodyScale = bodyScale;
             // code goes here ...
     }

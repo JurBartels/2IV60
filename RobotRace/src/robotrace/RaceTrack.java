@@ -65,6 +65,7 @@ class RaceTrack {
                 }
                 gl.glEnd();
             }
+               //outer circle strip to z -1
                gl.glBegin(gl.GL_TRIANGLE_STRIP);
                 double pOffset = 0.0005;
                 for(double i=0; i<1; i = i+pOffset){
@@ -79,8 +80,8 @@ class RaceTrack {
                     gl.glVertex3d(getPoint(i+pOffset).x+2*(3)*a.x,getPoint(i+pOffset).y+2*(3)*a.y,getPoint(i+pOffset).z-1);
                 }
                 gl.glEnd();
-               gl.glDisable(gl.GL_COLOR_MATERIAL);
                
+                //innner circle strip to z -1 
                gl.glBegin(gl.GL_TRIANGLE_STRIP);
                 for(double i=0; i<1; i = i+pOffset){
                     

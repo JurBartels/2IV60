@@ -83,19 +83,19 @@ public class RobotRace extends Base {
         robots = new Robot[4];
         
         // Initialize robot 0
-        robots[0] = new Robot(Material.GOLD,new Vector(0,0,0),1
+        robots[0] = new Robot(Material.GOLD,1
             /* add other parameters that characterize this robot */);
         
         // Initialize robot 1
-        robots[1] = new Robot(Material.SILVER,new Vector(2,0,0),1
+        robots[1] = new Robot(Material.SILVER,1
             /* add other parameters that characterize this robot */);
         
         // Initialize robot 2
-        robots[2] = new Robot(Material.WOOD,new Vector(4,0,0),1
+        robots[2] = new Robot(Material.WOOD,1
             /* add other parameters that characterize this robot */);
 
         // Initialize robot 3
-        robots[3] = new Robot(Material.ORANGE,new Vector(6,0,0),1
+        robots[3] = new Robot(Material.ORANGE,1
             /* add other parameters that characterize this robot */);
         
         // Initialize the camera
@@ -239,12 +239,15 @@ public class RobotRace extends Base {
         }
         
         // Get the position and direction of the first robot.
-        robots[0].position = raceTracks[gs.trackNr].getLanePoint(0, 0);
+        robots[0].pos = raceTracks[gs.trackNr].getLanePoint(0, 0);
         robots[0].direction = raceTracks[gs.trackNr].getLaneTangent(0, 0);
+        
+        robots[1].pos = new Vector(1,0,0);
+        robots[1].direction = raceTracks[gs.trackNr].getLaneTangent(1, 0);
         
         // Draw the first robot.
         robots[0].draw(gl, glu, glut, gs.showStick, gs.tAnim);
-        //robots[1].draw(gl, glu, glut, gs.showStick, gs.tAnim);
+        robots[1].draw(gl, glu, glut, gs.showStick, gs.tAnim);
         //robots[2].draw(gl, glu, glut, gs.showStick, gs.tAnim);
         //robots[3].draw(gl, glu, glut, gs.showStick, gs.tAnim);
         // Draw the race track.
