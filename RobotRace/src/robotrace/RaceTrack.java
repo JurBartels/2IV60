@@ -177,4 +177,8 @@ class RaceTrack {
                                                    Vector P2, Vector P3) {
         return Vector.O; // <- code goes here
     }
+    
+    public void drawTestTrack(){
+    
+    };
 }
