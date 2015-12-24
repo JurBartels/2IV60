@@ -49,7 +49,7 @@ class RaceTrack {
                 }
                 gl.glEnd();
             }
-               for(double j= -2; j<3; j++){
+               for(double j= -2; j<2; j++){
                 gl.glBegin(gl.GL_TRIANGLE_STRIP);
                 double pOffset = 0.0005;
                 for(double i=0; i<1; i = i+pOffset){
@@ -65,6 +65,7 @@ class RaceTrack {
                 }
                 gl.glEnd();
             }
+               
                //outer circle strip to z -1
                gl.glBegin(gl.GL_TRIANGLE_STRIP);
                 double pOffset = 0.0005;
