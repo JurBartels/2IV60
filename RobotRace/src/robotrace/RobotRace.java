@@ -239,17 +239,23 @@ public class RobotRace extends Base {
         }
         
         // Get the position and direction of the first robot.
-        robots[0].pos = raceTracks[gs.trackNr].getLanePoint(0, 0);
+        robots[0].pos = raceTracks[gs.trackNr].getLanePoint(1, gs.tAnim/5);
         robots[0].direction = raceTracks[gs.trackNr].getLaneTangent(0, 0);
         
-        robots[1].pos = new Vector(1,0,0);
+        robots[1].pos = raceTracks[gs.trackNr].getLanePoint(2, gs.tAnim/6);
         robots[1].direction = raceTracks[gs.trackNr].getLaneTangent(1, 0);
+        
+        robots[2].pos = raceTracks[gs.trackNr].getLanePoint(-1, gs.tAnim/8);
+        robots[2].direction = raceTracks[gs.trackNr].getLaneTangent(0, 0);
+        
+        robots[3].pos = raceTracks[gs.trackNr].getLanePoint(-2, gs.tAnim/10);
+        robots[3].direction = raceTracks[gs.trackNr].getLaneTangent(1, 0);
         
         // Draw the first robot.
         robots[0].draw(gl, glu, glut, gs.showStick, gs.tAnim);
         robots[1].draw(gl, glu, glut, gs.showStick, gs.tAnim);
-        //robots[2].draw(gl, glu, glut, gs.showStick, gs.tAnim);
-        //robots[3].draw(gl, glu, glut, gs.showStick, gs.tAnim);
+        robots[2].draw(gl, glu, glut, gs.showStick, gs.tAnim);
+        robots[3].draw(gl, glu, glut, gs.showStick, gs.tAnim);
         // Draw the race track.
         raceTracks[gs.trackNr].draw(gl, glu, glut);
         

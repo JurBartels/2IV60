@@ -108,7 +108,10 @@ class RaceTrack {
     public  Vector getLanePoint(int lane, double t) {
         if (null == controlPoints) {
             //return Vector.O; // <- code goes here
-            return new Vector((10*Math.cos(2*Math.PI*t)),(14*Math.sin(2*Math.PI*t)),1);
+            Vector point = getPoint(t);
+            Vector tangent = getTangent(t);
+            Vector normal = tangent.cross(Vector.Z).normalized();
+            return point.add(normal.scale(lane*1.22)); 
         } else {
             //return Vector.O; // <- code goes here
             return new Vector((10*Math.cos(2*Math.PI*t)),(14*Math.sin(2*Math.PI*t)),1);
