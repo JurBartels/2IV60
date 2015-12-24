@@ -83,7 +83,13 @@ class Camera {
      * The camera should focus on the robot.
      */
     private void setMotorCycleMode(GlobalState gs, Robot focus) {
-        // code goes here ...
+        center = focus.pos;
+        up = Vector.Z;
+
+        // calculate the eye position
+        eye = focus.direction.cross(Vector.Z).normalized().scale(20);
+        eye = center.add(eye);
+        eye = eye.add(new Vector(0, 0, 1));
     }
 
     /**

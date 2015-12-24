@@ -67,11 +67,6 @@ class Robot {
         //gl.glRotated(Math.acos(((direction.dot(y))/direction.length())), 0, 0, 1f);
         rotatez = Math.toDegrees(Math.atan2(-direction.x(), direction.y()));
         gl.glPushMatrix();
-<<<<<<< HEAD
-        Vector y = new Vector(0,1,0);
-        //gl.glRotated(50, 0, 0, 1f);
-=======
->>>>>>> 56eaec0954cc949f91fcdf6778c3b2e3510137db
         setMaterial(gl);
         gl.glTranslated(pos.x, pos.y, pos.z);    
         gl.glRotated(rotatez, 0, 0, 1f);
@@ -81,9 +76,6 @@ class Robot {
         drawLeg(gl, glu, glut, stickFigure, tAnim, this.pos, bodyScale, true);
         drawLeg(gl, glu, glut, stickFigure, tAnim, this.pos, bodyScale, false);
         drawHead(gl, glu, glut, stickFigure, tAnim, this.pos, bodyScale);
-        if(tAnim==1){
-            tAnim = 0;
-        }
         //pos = new Vector(RaceTrack.getLanePoint(1,tAnim).x,RaceTrack.getLanePoint(1,tAnim).y,0);
         gl.glPopMatrix();
         
