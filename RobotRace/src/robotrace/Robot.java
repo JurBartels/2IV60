@@ -61,9 +61,10 @@ class Robot {
      * 
      */
     public void draw(GL2 gl, GLU glu, GLUT glut, boolean stickFigure, float tAnim) {
-        gl.glPushMatrix();
         Vector y = new Vector(0,1,0);
-        gl.glRotated(Math.acos(((direction.dot(y))/direction.length())), 0, 0, 1f);
+        //gl.glRotated(Math.acos(((direction.dot(y))/direction.length())), 0, 0, 1f);
+        gl.glPushMatrix();
+        gl.glRotated(50, 0, 0, 1f);
         setMaterial(gl);
         drawTorso(gl, glu, glut, stickFigure, tAnim, this.pos, bodyScale);
         drawArm(gl, glu, glut, stickFigure, tAnim, this.pos, bodyScale, true);
