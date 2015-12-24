@@ -1,5 +1,6 @@
 package robotrace;
 
+import java.util.Random;
 /**
  * Implementation of a camera with a position and orientation. 
  */
@@ -13,13 +14,16 @@ class Camera {
 
     /** The up vector. */
     public Vector up = Vector.Z;
+    
+    private int switchTime;
+    
+    private Random rand = new Random();
 
     /**
      * Updates the camera viewpoint and direction based on the
      * selected camera mode. test test 
      */
     public void update(GlobalState gs, Robot focus) {
-
         switch (gs.camMode) {
             
             // Helicopter mode
@@ -67,7 +71,11 @@ class Camera {
      * The camera should focus on the robot.
      */
     private void setHelicopterMode(GlobalState gs, Robot focus) {
-        // code goes here ...
+            center = focus.pos;
+            up = focus.direction;
+
+            eye = center;
+            eye = eye.add(new Vector(0, 0, 50));
     }
 
     /**
@@ -93,5 +101,5 @@ class Camera {
     private void setAutoMode(GlobalState gs, Robot focus) {
         // code goes here ...
     }
-
+    
 }
