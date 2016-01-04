@@ -83,19 +83,19 @@ public class RobotRace extends Base {
         robots = new Robot[4];
         
         // Initialize robot 0
-        robots[0] = new Robot(Material.GOLD,1
+        robots[0] = new Robot(Material.GOLD,0.5
             /* add other parameters that characterize this robot */);
         
         // Initialize robot 1
-        robots[1] = new Robot(Material.SILVER,1
+        robots[1] = new Robot(Material.SILVER,0.5
             /* add other parameters that characterize this robot */);
         
         // Initialize robot 2
-        robots[2] = new Robot(Material.WOOD,1
+        robots[2] = new Robot(Material.WOOD,0.5
             /* add other parameters that characterize this robot */);
 
         // Initialize robot 3
-        robots[3] = new Robot(Material.ORANGE,1
+        robots[3] = new Robot(Material.ORANGE,0.5
             /* add other parameters that characterize this robot */);
         
         // Initialize the camera
@@ -327,6 +327,9 @@ public class RobotRace extends Base {
         gl.glPopMatrix();
         
         gl.glColor3f(0.0f, 0.0f, 0.0f);     //set color to black as it was before
+        
+        
+        
     }
  
     /**
