@@ -20,13 +20,22 @@ class Terrain {
      * Draws the terrain.
      */
     public void draw(GL2 gl, GLU glu, GLUT glut) {
-        // code goes here ...
+        double dx = 0.5;
+        double dy = 0.5;
+        for(double x = -20; x< 20; x+= dx){
+            for(double y = -20; y< 20; y+= dy){
+                
+                
+            } 
+        }
     }
 
     /**
      * Computes the elevation of the terrain at (x, y).
      */
     public float heightAt(float x, float y) {
-        return 0; // <- code goes here
+        double d = 0.6 * Math.cos(0.3 * x + 0.2 * y) + 0.4 * Math.cos(x - 0.5 * y);
+        float f = (float)d;
+        return f; // <- code goes here
     }
 }

@@ -97,7 +97,15 @@ class Camera {
      * The camera should view from the perspective of the robot.
      */
     private void setFirstPersonMode(GlobalState gs, Robot focus) {
-        // code goes here ...
+        eye = focus.pos;
+        eye = eye.add(new Vector(0, 0, 2));
+        eye = eye.add(focus.direction.normalized().scale(2));
+        up = Vector.Z;
+
+        // center is in the direction of the tangent
+        center = focus.direction;
+        center.normalized().scale(10);
+        center = eye.add(center);
     }
     
     /**
