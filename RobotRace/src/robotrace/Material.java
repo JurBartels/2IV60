@@ -3,6 +3,7 @@ package robotrace;
 import com.jogamp.opengl.util.gl2.GLUT;
 import javax.media.opengl.GL2;
 import javax.media.opengl.glu.GLU;
+import static javax.media.opengl.GL2.*;
 
 /**
 * Materials that can be used for the robots.
@@ -11,7 +12,6 @@ public enum Material {
 
     /** 
      * Gold material properties.
-     * Modify the default values to make it look like gold.
      */
     GOLD (
         new float[] {0.247f, 0.199f, 0.074f, 1.0f},
@@ -21,7 +21,6 @@ public enum Material {
 
     /**
      * Silver material properties.
-     * Modify the default values to make it look like silver.
      */
     SILVER (
         new float[] {0.192f,0.192f,0.192f,1.0f},
@@ -31,7 +30,6 @@ public enum Material {
 
     /** 
      * Wood material properties.
-     * Modify the default values to make it look like wood.
      */
     WOOD (
         new float[] {0.0f,0.05f,0.0f,1.0f},    
@@ -41,14 +39,13 @@ public enum Material {
 
     /**
      * Orange material properties.
-     * Modify the default values to make it look like orange.
      */
     ORANGE (
         new float[] {0.2f,0.1f,0.0f,1.0f},    
         new float[] {1.0f, 0.5f, 0.0f, 1.0f},
         new float[] {0.02f, 0.008f, 0.0f, 1.0f},
         0.25f);
-    
+      
     float[] ambience;
 
     /** The diffuse RGBA reflectance of the material. */
@@ -69,5 +66,14 @@ public enum Material {
         this.specular = specular;
         this.shininess = shininess;
     }
+    //Set the material properties from the material enum and apply them to the 
+   //current robot.
+   public void setMaterial(GL2 gl){
+       //set material properties
+        gl.glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambience, 0);
+        gl.glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuse, 0);
+        gl.glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specular, 0);
+        gl.glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, shininess);
+   }
   
 }

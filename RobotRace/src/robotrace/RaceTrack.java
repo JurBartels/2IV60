@@ -92,11 +92,12 @@ class RaceTrack {
                     a.normalized();
                     a.x = a.x*0.61;
                     a.y = a.y*0.61;
-                    gl.glColor3f(0f, 1f, 0f);
+                    gl.glColor3f(1f, 0f, 0f);
                     gl.glVertex3d(getPoint(i).x+2*(-2)*a.x,getPoint(i).y+2*(-2)*a.y,getPoint(i).z);
                     gl.glVertex3d(getPoint(i+pOffset).x+2*(-2)*a.x,getPoint(i+pOffset).y+2*(-2)*a.y,getPoint(i+pOffset).z-1);
                 }
                 gl.glEnd();
+                gl.glColor3f(1f,1f,1f);
                gl.glDisable(gl.GL_COLOR_MATERIAL);
         } else {
             // draw the spline track

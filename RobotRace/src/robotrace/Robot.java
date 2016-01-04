@@ -67,7 +67,7 @@ class Robot {
         //gl.glRotated(Math.acos(((direction.dot(y))/direction.length())), 0, 0, 1f);
         rotatez = Math.toDegrees(Math.atan2(-direction.x(), direction.y()));
         gl.glPushMatrix();
-        setMaterial(gl);
+        material.setMaterial(gl);
         gl.glTranslated(pos.x, pos.y, pos.z);    
         gl.glRotated(rotatez, 0, 0, 1f);
         drawTorso(gl, glu, glut, stickFigure, tAnim, this.pos, bodyScale);
@@ -687,17 +687,4 @@ class Robot {
         glut.glutSolidCube(1f*s);                                                                   //place hip bar
         gl.glPopMatrix();
    };
-   
-   //Set the material properties from the material enum and apply them to the 
-   //current robot.
-   public void setMaterial(GL2 gl){
-       //set material properties
-        gl.glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, material.ambience, 0);
-        gl.glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, material.diffuse, 0);
-        gl.glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, material.specular, 0);
-        gl.glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, material.shininess);
-   }
-  
-   
 }
-//a
