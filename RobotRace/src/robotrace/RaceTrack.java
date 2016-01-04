@@ -42,8 +42,8 @@ class RaceTrack {
                     Vector a = new Vector(0,0,0);
                     a = getTangent(i).cross(new Vector(0,0,1));
                     a.normalized();
-                    a.x = a.x*1.22;
-                    a.y = a.y*1.22;
+                    a.x = a.x*0.61;
+                    a.y = a.y*0.61;
                     gl.glColor3f(1f, 0.0f, 0.0f);
                     gl.glVertex3d(getPoint(i).x+2*j*a.x,getPoint(i).y+2*j*a.y,getPoint(i).z);
                 }
@@ -57,14 +57,15 @@ class RaceTrack {
                     Vector a = new Vector(0,0,0);
                     a = getTangent(i).cross(new Vector(0,0,1));
                     a.normalized();
-                    a.x = a.x*1.22;
-                    a.y = a.y*1.22;
+                    a.x = a.x*0.61;
+                    a.y = a.y*0.61;
                     gl.glColor3f(0.5f, 0.0f, 1.0f);
                     gl.glVertex3d(getPoint(i).x+2*j*a.x,getPoint(i).y+2*j*a.y,getPoint(i).z);
                     gl.glVertex3d(getPoint(i+pOffset).x+2*(j+1)*a.x,getPoint(i+pOffset).y+2*(j+1)*a.y,getPoint(i+pOffset).z);
                 }
                 gl.glEnd();
             }
+               
                
                //outer circle strip to z -1
                gl.glBegin(gl.GL_TRIANGLE_STRIP);
@@ -74,11 +75,11 @@ class RaceTrack {
                     Vector a = new Vector(0,0,0);
                     a = getTangent(i).cross(new Vector(0,0,1));
                     a.normalized();
-                    a.x = a.x*1.22;
-                    a.y = a.y*1.22;
-                    gl.glColor3f(0.5f, 0.0f, 1.0f);
-                    gl.glVertex3d(getPoint(i).x+2*3*a.x,getPoint(i).y+2*3*a.y,getPoint(i).z);
-                    gl.glVertex3d(getPoint(i+pOffset).x+2*(3)*a.x,getPoint(i+pOffset).y+2*(3)*a.y,getPoint(i+pOffset).z-1);
+                    a.x = a.x*0.61;
+                    a.y = a.y*0.61;
+                    gl.glColor3f(1f, 0.0f, 0f);
+                    gl.glVertex3d(getPoint(i).x+2*2*a.x,getPoint(i).y+2*2*a.y,getPoint(i).z);
+                    gl.glVertex3d(getPoint(i+pOffset).x+2*(2)*a.x,getPoint(i+pOffset).y+2*(2)*a.y,getPoint(i+pOffset).z-1);
                 }
                 gl.glEnd();
                
@@ -89,10 +90,10 @@ class RaceTrack {
                     Vector a = new Vector(0,0,0);
                     a = getTangent(i).cross(new Vector(0,0,1));
                     a.normalized();
-                    a.x = a.x*1.22;
-                    a.y = a.y*1.22;
-                    gl.glColor3f(0.5f, 0.0f, 1.0f);
-                    gl.glVertex3d(getPoint(i).x+2*3*a.x,getPoint(i).y+2*3*a.y,getPoint(i).z);
+                    a.x = a.x*0.61;
+                    a.y = a.y*0.61;
+                    gl.glColor3f(0f, 1f, 0f);
+                    gl.glVertex3d(getPoint(i).x+2*(-2)*a.x,getPoint(i).y+2*(-2)*a.y,getPoint(i).z);
                     gl.glVertex3d(getPoint(i+pOffset).x+2*(-2)*a.x,getPoint(i+pOffset).y+2*(-2)*a.y,getPoint(i+pOffset).z-1);
                 }
                 gl.glEnd();
@@ -112,7 +113,12 @@ class RaceTrack {
             Vector point = getPoint(t);
             Vector tangent = getTangent(t);
             Vector normal = tangent.cross(Vector.Z).normalized();
-            return point.add(normal.scale(lane*1.22)); 
+            if(lane>0){
+                return point.add(normal.scale((lane-1)*1.22+0.61)); 
+            }
+            else{
+                return point.add(normal.scale((lane+1)*1.22-0.61));
+            }
         } else {
             //return Vector.O; // <- code goes here
             return new Vector((10*Math.cos(2*Math.PI*t)),(14*Math.sin(2*Math.PI*t)),1);
