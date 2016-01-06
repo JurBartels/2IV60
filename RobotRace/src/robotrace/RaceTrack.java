@@ -31,7 +31,7 @@ class RaceTrack {
     /**
      * Draws this track, based on the control points.
      */
-    public void draw(GL2 gl, GLU glu, GLUT glut) {
+    public void draw(GL2 gl, GLU glu, GLUT glut, GlobalState gs) {
         if (null == controlPoints) {
             
             //NOT using control points
@@ -124,7 +124,48 @@ class RaceTrack {
                                 gl.glVertex3d(outer.x(), outer.y(), outer.z());
                             // Finish the triangle strip
                             gl.glEnd();
-                            // Finish compiling the display list
+                            
+                            //Draw the inside and outside
+                            for (boolean insideOrOutside : new boolean[] {true, false}) {
+                                // Use a triangle strip and create a closed ring out of triangles
+                                gl.glBegin(GL2.GL_TRIANGLE_STRIP);
+                                    int SEGMENTS = 300;
+                                    for (int i = 0; i < SEGMENTS; i++) {
+                                        // SEGMENTS times: add a vertex describing an top and bottom point of the edge
+                                        double t = i/((double) SEGMENTS);
+                                        double nextT = (i+1)/((double) SEGMENTS);
+                                        if (nextT >= 1) {
+                                            nextT -= 1;
+                                        }
+                                        Vector top = getPointOnCurve(t, insideOrOutside?4:0);
+                                        Vector nextTop = getPointOnCurve(nextT, insideOrOutside?4:0);
+                                        Vector bottom = new Vector(top.x(), top.y(), -1);
+                                        if (i == 0) {
+                                            double prevT = (i-1)/((double) SEGMENTS);
+                                            if (prevT < 0) {
+                                                prevT += 1;
+                                            }
+                                            Vector prevTop = getPointOnCurve(prevT, insideOrOutside?4:0);
+                                            Vector normal = top.subtract(prevTop).cross(bottom.subtract(top));
+                                            if(gs.trackNr != 0)normal=normal.scale(-1);
+                                            gl.glNormal3d(normal.x(), normal.y(), normal.z());
+                                        }
+                                        Vector normal = nextTop.subtract(top).cross(bottom.subtract(top));
+                                        if(gs.trackNr != 0)normal=normal.scale(-1);
+                                        
+                                        // Add these two vectors, that are on the same distance on the track, as vertices to the triangle strip
+                                        gl.glVertex3d(top.x(), top.y(), top.z());
+                                        gl.glVertex3d(bottom.x(), bottom.y(), bottom.z());
+                                        gl.glNormal3d(normal.x(), normal.y(), normal.z());
+                                    }
+                                    // Add the first inner and outer points of this curve again to close the ring
+                                    Vector top = getPointOnCurve(0, insideOrOutside?4:0);
+                                    Vector bottom = new Vector(top.x(), top.y(), -1);
+                                    gl.glVertex3d(top.x(), top.y(), top.z());
+                                    gl.glVertex3d(bottom.x(), bottom.y(), bottom.z());
+                                // Finish the triangle strip
+                                gl.glEnd();
+                        }
                             
                         }
             

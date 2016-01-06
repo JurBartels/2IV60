@@ -131,6 +131,25 @@ public class RobotRace extends Base {
         // L-track
         raceTracks[2] = new RaceTrack(new Vector[] { 
             /* add control points */
+            new Vector(-7.5, 7.5, 2),
+            new Vector(-7.5, 12.5, 2),
+            new Vector(0, 12.5, 2),
+            new Vector(0, 7.5, 2),
+            new Vector(0, 2.5, 2),
+            new Vector(2.5, 0, 2),
+            new Vector(7.5, 0, 2),
+            new Vector(12.5, 0, 2),
+            new Vector(12.5, -7.5, 2),
+            new Vector(7.5, -7.5, 2),
+            new Vector(5, -7.5, 2),
+            new Vector(2.5, -7.5, 2),
+            new Vector(0, -7.5, 2),
+            new Vector(-7.5, -7.5, 2),
+            new Vector(-7.5, -7.5, 2),
+            new Vector(-7.5, 0, 2),
+            new Vector(-7.5, 2.5, 2),
+            new Vector(-7.5, 5, 2),
+            new Vector(-7.5, 7.5, 2),
         });
         
         // C-track
@@ -281,7 +300,7 @@ public class RobotRace extends Base {
             robots[3].draw(gl, glu, glut, gs.showStick, gs.tAnim);
         
         // Draw the race track.
-        raceTracks[gs.trackNr].draw(gl, glu, glut);
+        raceTracks[gs.trackNr].draw(gl, glu, glut,gs);
         
         // Draw the terrain.
         terrain.draw(gl, glu, glut);
