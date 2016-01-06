@@ -101,6 +101,33 @@ class RaceTrack {
                gl.glDisable(gl.GL_COLOR_MATERIAL);
         } else {
             // draw the spline track
+            for (int curve = 0; curve < 4; curve++) {
+                            
+                     
+                            // Use a triangle strip and create a closed ring out of triangles
+                            gl.glBegin(GL2.GL_TRIANGLE_STRIP);
+                                // Normal is pointing up for track
+                                gl.glNormal3d(0, 0, 1);
+                                for (int i = 0; i < 300; i++) {
+                                    // SEGMENTS times: add a vertex describing an inner and outer point of this curve
+                                    double t = i/((double) 300);
+                                    Vector inner = getPointOnCurve(t, curve);
+                                    Vector outer = getPointOnCurve(t, curve+1);
+                                    // Add these two vectors, that are on the same distance on the track, as vertices to the triangle strip
+                                    gl.glVertex3d(inner.x(), inner.y(), inner.z());
+                                    gl.glVertex3d(outer.x(), outer.y(), outer.z());
+                                }
+                                // Add the first inner and outer points of this curve again to close the ring
+                                Vector inner = getPointOnCurve(0, curve);
+                                Vector outer = getPointOnCurve(0, curve+1);
+                                gl.glVertex3d(inner.x(), inner.y(), inner.z());
+                                gl.glVertex3d(outer.x(), outer.y(), outer.z());
+                            // Finish the triangle strip
+                            gl.glEnd();
+                            // Finish compiling the display list
+                            
+                        }
+            
         }
     }
     
@@ -190,5 +217,26 @@ class RaceTrack {
     
     public void drawTestTrack(){
     
+    };
+    
+    public Vector getPointOnCurve(double t, double curve ){
+        if (t >= 1) {
+            t -= 1;
+        }
+        int numberOfSegments = (controlPoints.length-1)/3;
+        int segment = (int) Math.floor(t*numberOfSegments);
+            
+        Vector P0 = controlPoints[segment*3];
+        Vector P1 = controlPoints[segment*3+1];
+        Vector P2 = controlPoints[segment*3+2];
+        Vector P3 = controlPoints[segment*3+3];
+        double bezierT = (t-(((double) segment)/numberOfSegments))*numberOfSegments;
+        Vector point = getCubicBezierPoint(bezierT, P0, P1, P2, P3);
+        if (curve == 0) {
+            return point;
+        }
+        Vector tangent = getCubicBezierTangent(bezierT, P0, P1, P2, P3).scale(-1);
+        Vector normal = tangent.cross(Vector.Z).normalized();
+        return point.add(normal.scale(curve));    
     };
 }
