@@ -174,7 +174,8 @@ class RaceTrack {
      */
     private Vector getCubicBezierPoint(double t, Vector P0, Vector P1,
                                                  Vector P2, Vector P3) {
-        return Vector.O; // <- code goes here
+        //P(u) = ((1-u)^3)*P0 + 3u*((1-u)^2)*P1+3(u^2)*(1-u)*(u^3)*P3
+        return P0.scale((1-t)*(1-t)*(1-t)).add(P1.scale(3*t*(1-t)*(1-t))).add(P2.scale(3*t*t*(1-t))).add(P3.scale(t*t*t));
     }
     
     /**
@@ -183,7 +184,8 @@ class RaceTrack {
      */
     private Vector getCubicBezierTangent(double t, Vector P0, Vector P1,
                                                    Vector P2, Vector P3) {
-        return Vector.O; // <- code goes here
+        //derivative of the getCubicBezierPoint function
+         return P1.subtract(P0).scale(3*(1-t)*(1-t)).add(P2.subtract(P1).scale(6*(1-t)*t)).add(P3.subtract(P2).scale(3*t*t));
     }
     
     public void drawTestTrack(){
