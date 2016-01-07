@@ -190,7 +190,40 @@ class RaceTrack {
             }
         } else {
             //return Vector.O; // <- code goes here
-            return new Vector((10*Math.cos(2*Math.PI*t)),(14*Math.sin(2*Math.PI*t)),1);
+            Vector point = new Vector(0,0,0);
+            if(lane == -2){
+                point = getPointOnCurve(t, 0);
+                return point.add(new Vector(0.61,0,0));
+            }
+            
+            if(lane == -1){
+                point = getPointOnCurve(t, 1);
+                return point.add(new Vector(0.61,0,0));
+            }
+            
+            if(lane == 1){
+                point = getPointOnCurve(t, 2);
+                return point.add(new Vector(0.61,0,0));
+            }
+            
+            if(lane == 2){
+                point = getPointOnCurve(t, 3);
+                return point.add(new Vector(0.61,0,0));
+            }
+            
+            return null;
+            
+            /*
+            Vector point = getCubicBezierPoint(t, );
+            Vector tangent = getTangent(t);
+            Vector normal = tangent.cross(Vector.Z).normalized();
+            if(lane>0){
+                return point.add(normal.scale((lane-1)*1.22+0.61)); 
+            }
+            else{
+                return point.add(normal.scale((lane+1)*1.22-0.61));
+            }
+            */
         }
     }
     
@@ -264,6 +297,7 @@ class RaceTrack {
         if (t >= 1) {
             t -= 1;
         }
+        //int numberOfSegments = controlPoints.length/4;
         int numberOfSegments = (controlPoints.length-1)/3;
         int segment = (int) Math.floor(t*numberOfSegments);
             

@@ -271,13 +271,13 @@ public class RobotRace extends Base {
         }
         
         // Get the position and direction of the first robot.
-        if(gs.tAnim < 10){
+        //if(gs.tAnim < 10){
             if(gs.tAnim<5){
                 robots[0].pos = raceTracks[gs.trackNr].getLanePoint(1, (gs.tAnim/10));
                 robots[0].direction = raceTracks[gs.trackNr].getLaneTangent(0, gs.tAnim/10);
             }else{
                 robots[0].pos = raceTracks[gs.trackNr].getLanePoint(1,gs.tAnim/5);
-                robots[0].direction = raceTracks[gs.trackNr].getLaneTangent(0, gs.tAnim/10);
+                robots[0].direction = raceTracks[gs.trackNr].getLaneTangent(0, gs.tAnim/5);
                 
             };
             
@@ -290,9 +290,9 @@ public class RobotRace extends Base {
 
             robots[3].pos = raceTracks[gs.trackNr].getLanePoint(-2, gs.tAnim/10);
             robots[3].direction = raceTracks[gs.trackNr].getLaneTangent(1, gs.tAnim/10);
-        }else{
+        //}else{
             
-        };
+        //};
         // Draw the first robot.
             robots[0].draw(gl, glu, glut, gs.showStick, gs.tAnim);
             robots[1].draw(gl, glu, glut, gs.showStick, gs.tAnim);
