@@ -51,7 +51,7 @@ class RaceTrack {
             }
                for(double j= -2; j<2; j++){
                 gl.glBegin(gl.GL_TRIANGLE_STRIP);
-                double pOffset = 0.0005;
+                double pOffset = 0.0075;
                 for(double i=0; i<1; i = i+pOffset){
                     
                     Vector a = new Vector(0,0,0);
@@ -63,6 +63,14 @@ class RaceTrack {
                     gl.glVertex3d(getPoint(i).x+2*j*a.x,getPoint(i).y+2*j*a.y,getPoint(i).z);
                     gl.glVertex3d(getPoint(i+pOffset).x+2*(j+1)*a.x,getPoint(i+pOffset).y+2*(j+1)*a.y,getPoint(i+pOffset).z);
                 }
+                Vector a = new Vector(0,0,0);
+                gl.glColor3d(0, 1, 0);
+                a = getTangent(0).cross(new Vector(0,0,1));
+                a.normalized();
+                a.x = a.x*0.61;
+                a.y = a.y*0.61;
+                gl.glVertex3d(getPoint(0).x+2*j*a.x,getPoint(0).y+2*j*a.y,getPoint(0).z);
+                gl.glVertex3d(getPoint(0+pOffset).x+2*(j+1)*a.x,getPoint(0+pOffset).y+2*(0+1)*a.y,getPoint(0+pOffset).z);
                 gl.glEnd();
             }
                
@@ -190,25 +198,26 @@ class RaceTrack {
             }
         } else {
             //return Vector.O; // <- code goes here
+   
             Vector point = new Vector(0,0,0);
             if(lane == -2){
                 point = getPointOnCurve(t, 0);
-                return point.add(new Vector(0.61,0,0));
+                return point;
             }
             
             if(lane == -1){
                 point = getPointOnCurve(t, 1);
-                return point.add(new Vector(0.61,0,0));
+                return point;
             }
             
             if(lane == 1){
                 point = getPointOnCurve(t, 2);
-                return point.add(new Vector(0.61,0,0));
+                return point;
             }
             
             if(lane == 2){
                 point = getPointOnCurve(t, 3);
-                return point.add(new Vector(0.61,0,0));
+                return point;
             }
             
             return null;
@@ -294,9 +303,11 @@ class RaceTrack {
     };
     
     public Vector getPointOnCurve(double t, double curve ){
+        
         if (t >= 1) {
             t -= 1;
         }
+                
         //int numberOfSegments = controlPoints.length/4;
         int numberOfSegments = (controlPoints.length-1)/3;
         int segment = (int) Math.floor(t*numberOfSegments);
@@ -312,6 +323,8 @@ class RaceTrack {
         }
         Vector tangent = getCubicBezierTangent(bezierT, P0, P1, P2, P3).scale(-1);
         Vector normal = tangent.cross(Vector.Z).normalized();
-        return point.add(normal.scale(curve));    
+       
+        return point.add(normal.scale((curve)*1.22+0.61));    
+        
     };
 }

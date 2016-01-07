@@ -273,26 +273,54 @@ public class RobotRace extends Base {
         // Get the position and direction of the first robot.
         //if(gs.tAnim < 10){
             if(gs.tAnim<5){
-                robots[0].pos = raceTracks[gs.trackNr].getLanePoint(1, (gs.tAnim/10));
-                robots[0].direction = raceTracks[gs.trackNr].getLaneTangent(0, gs.tAnim/10);
-            }else{
-                robots[0].pos = raceTracks[gs.trackNr].getLanePoint(1,gs.tAnim/5);
-                robots[0].direction = raceTracks[gs.trackNr].getLaneTangent(0, gs.tAnim/5);
-                
-            };
+                posUpdate(-2,0,1);
+                posUpdate(-1,1,1);
+                posUpdate(1,2,1);
+                posUpdate(2,3,1);
+            }
+            if(gs.tAnim<6){
+                posUpdate(-2,0,2);
+                posUpdate(-1,1,1);
+                posUpdate(1,2,1);
+                posUpdate(2,3,1);
+            }
+            if(gs.tAnim<7){
+                posUpdate(-2,0,3);
+                posUpdate(-1,1,0.9);
+                posUpdate(1,2,1);
+                posUpdate(2,3,1);
+            }
+            if(gs.tAnim<8){
+                posUpdate(-2,0,4);
+                posUpdate(-1,1,1);
+                posUpdate(1,2,1);
+                posUpdate(2,3,1);
+            }
+            if(gs.tAnim<9){
+                posUpdate(-2,0,5);
+                posUpdate(-1,1,1);
+                posUpdate(1,2,1);
+                posUpdate(2,3,1);
+            }
+            if(gs.tAnim<10){
+                posUpdate(-2,0,6);
+                posUpdate(-1,1,1);
+                posUpdate(1,2,1);
+                posUpdate(2,3,1);
+            }
+            else{
+                posUpdate(-2,0,6);
+                posUpdate(-1,1,1);
+                posUpdate(1,2,1);
+                posUpdate(2,3,1);
+            }
             
             
-            robots[1].pos = raceTracks[gs.trackNr].getLanePoint(2, gs.tAnim/10);
-            robots[1].direction = raceTracks[gs.trackNr].getLaneTangent(1, gs.tAnim/10);
-
-            robots[2].pos = raceTracks[gs.trackNr].getLanePoint(-1, gs.tAnim/10);
-            robots[2].direction = raceTracks[gs.trackNr].getLaneTangent(0, gs.tAnim/10);
-
-            robots[3].pos = raceTracks[gs.trackNr].getLanePoint(-2, gs.tAnim/10);
-            robots[3].direction = raceTracks[gs.trackNr].getLaneTangent(1, gs.tAnim/10);
+         
         //}else{
             
         //};
+       
         // Draw the first robot.
             robots[0].draw(gl, glu, glut, gs.showStick, gs.tAnim);
             robots[1].draw(gl, glu, glut, gs.showStick, gs.tAnim);
@@ -363,6 +391,14 @@ public class RobotRace extends Base {
         
         
     }
+    
+    
+    public void posUpdate(int t,int i, double speed){
+        double baseSpeed = 100;
+        robots[i].pos = raceTracks[gs.trackNr].getLanePoint(t, (gs.tAnim/(baseSpeed-speed))-(Math.floor(gs.tAnim/(baseSpeed-speed))));
+        robots[i].direction = raceTracks[gs.trackNr].getLaneTangent(t, (gs.tAnim/(baseSpeed-speed))-(Math.floor(gs.tAnim/(baseSpeed-speed))));
+        
+    }   
  
     /**
      * Main program execution body, delegates to an instance of

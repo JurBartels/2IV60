@@ -687,4 +687,6 @@ class Robot {
         glut.glutSolidCube(1f*s);                                                                   //place hip bar
         gl.glPopMatrix();
    };
+   
+ 
 }
