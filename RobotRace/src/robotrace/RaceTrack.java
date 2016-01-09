@@ -330,15 +330,15 @@ class RaceTrack {
         }
         */
         //each segment has 4 points
-        //int numberOfSegments = controlPoints.length/4;
-        int numberOfSegments = (controlPoints.length - 1) / 3;
+        int numberOfSegments = controlPoints.length/4;
+        //int numberOfSegments = (controlPoints.length - 1) / 3;
         //map the segments, starting at 0
         int segment = (int) Math.floor(t * numberOfSegments);
 
-        Vector P0 = controlPoints[segment * 3];
-        Vector P1 = controlPoints[segment * 3 + 1];
-        Vector P2 = controlPoints[segment * 3 + 2];
-        Vector P3 = controlPoints[segment * 3 + 3];
+        Vector P0 = controlPoints[segment * 3 + segment];
+        Vector P1 = controlPoints[segment * 3 + 1 + segment];
+        Vector P2 = controlPoints[segment * 3 + 2 + segment];
+        Vector P3 = controlPoints[segment * 3 + 3 + segment];
         double bezierT = (t - (((double) segment) / numberOfSegments)) * numberOfSegments;
         Vector point = getCubicBezierPoint(bezierT, P0, P1, P2, P3);
         if (curve == 0) {
