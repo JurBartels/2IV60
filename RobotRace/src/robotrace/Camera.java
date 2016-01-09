@@ -15,7 +15,9 @@ class Camera {
     /** The up vector. */
     public Vector up = Vector.Z;
     
-    private int switchTime;
+    private int switchTime=5;
+    private double lastSwitch=0;
+    private int currentMode=1;
     
     private Random rand = new Random();
 
@@ -75,7 +77,7 @@ class Camera {
             up = focus.direction;
 
             eye = center;
-            eye = eye.add(new Vector(0, 0, 50));
+            eye = eye.add(new Vector(0, 0, 20));
     }
 
     /**
@@ -87,7 +89,7 @@ class Camera {
         up = Vector.Z;
 
         // calculate the eye position
-        eye = focus.direction.cross(Vector.Z).normalized().scale(20);
+        eye = focus.direction.cross(Vector.Z).normalized().scale(10);
         eye = center.add(eye);
         eye = eye.add(new Vector(0, 0, 1));
     }
@@ -113,7 +115,34 @@ class Camera {
      * The above modes are alternated.
      */
     private void setAutoMode(GlobalState gs, Robot focus) {
-        // code goes here ...
+        if(gs.tAnim - lastSwitch > switchTime){
+            lastSwitch = gs.tAnim;
+            currentMode += 1;
+            if(currentMode > 3){
+                currentMode = 1;
+            }
+        }
+        setCurrentMode(gs, focus, currentMode);
+        
+    }
+    
+    private void setCurrentMode(GlobalState gs, Robot focus, int set){
+        switch(set){
+            // Helicopter mode
+            case 1:
+                setHelicopterMode(gs, focus);
+                break;
+                
+            // Motor cycle mode    
+            case 2:
+                setMotorCycleMode(gs, focus);
+                break;
+                
+            // First person mode    
+            case 3:
+                setFirstPersonMode(gs, focus);
+                break;
+        }
     }
     
 }
