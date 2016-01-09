@@ -126,6 +126,8 @@ class RaceTrack {
             RobotRace.brick.disable(gl);
             gl.glDisable(GL_COLOR_MATERIAL);
         } else {
+            gl.glEnable(GL_COLOR_MATERIAL);
+            gl.glColor3f(1f, 1f, 1f);
             // draw the spline track
             for (int curve = 0; curve < 4; curve++) {
 
@@ -147,6 +149,7 @@ class RaceTrack {
                 Vector outer = getPointOnCurve(0, curve + 1);
                 gl.glVertex3d(inner.x(), inner.y(), inner.z());
                 gl.glVertex3d(outer.x(), outer.y(), outer.z());
+                
                 // Finish the triangle strip
                 gl.glEnd();
 
@@ -197,7 +200,7 @@ class RaceTrack {
                 }
 
             }
-
+            gl.glDisable(GL_COLOR_MATERIAL);
         }
     }
 
@@ -326,8 +329,10 @@ class RaceTrack {
             t -= 1;
         }
         */
-        int numberOfSegments = controlPoints.length/4 -1;
-        //int numberOfSegments = (controlPoints.length - 1) / 3;
+        //each segment has 4 points
+        //int numberOfSegments = controlPoints.length/4;
+        int numberOfSegments = (controlPoints.length - 1) / 3;
+        //map the segments, starting at 0
         int segment = (int) Math.floor(t * numberOfSegments);
 
         Vector P0 = controlPoints[segment * 3];
@@ -342,7 +347,7 @@ class RaceTrack {
         Vector tangent = getCubicBezierTangent(bezierT, P0, P1, P2, P3).scale(-1);
         Vector normal = tangent.cross(Vector.Z).normalized();
 
-        return point.add(normal.scale((curve) * laneWidth + laneWidth));
+        return point.add(normal.scale((curve) * laneWidth));
 
     }
 }

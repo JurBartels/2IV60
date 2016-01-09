@@ -3,6 +3,7 @@ package robotrace;
 import javax.media.opengl.GL;
 import static javax.media.opengl.GL2.*;
 import java.nio.FloatBuffer;
+import java.util.Random;
 
 /**
  * Handles all of the RobotRace graphics functionality,
@@ -73,6 +74,10 @@ public class RobotRace extends Base {
     
     public static int slices = 25;
     
+    private double lastSwitch = 0;
+    private final int switchTime = 5;
+    private int currentFocus = 0;
+    
     /**
      * Constructs this robot race by initializing robots,
      * camera, track, and terrain.
@@ -111,7 +116,7 @@ public class RobotRace extends Base {
         raceTracks[1] = new RaceTrack(new Vector[] {
             /* add control points like:
             */
-            /*
+            
             new Vector(-12, -12, 2),
             new Vector(-12, -4, 2),
             new Vector(-12, 4, 2),
@@ -125,11 +130,13 @@ public class RobotRace extends Base {
             new Vector(12, -24, 2),
             new Vector(-12, -24, 2),
             new Vector(-12, -12, 2) 
-            */
+            
+            /*
             new Vector(0, 12, 1), new Vector(12*c, 12, 1), new Vector(12, 12*c, 1), new Vector(12, 0, 1),
             new Vector(12, 0, 1), new Vector(12, -12*c, 1), new Vector(12*c, -12, 1), new Vector(0, -12, 1),
             new Vector(0, -12, 1), new Vector(-12*c, -12, 1), new Vector(-12, -12*c, 1), new Vector(-12, 0, 1),
             new Vector(-12, 0, 1), new Vector(-12, 12*c, 1), new Vector(-12*c, 12, 1), new Vector(0, 12, 1)
+            */
         });
         
         // L-track
@@ -242,7 +249,8 @@ public class RobotRace extends Base {
                
         // Update the view according to the camera mode and robot of interest.
         // For camera modes 1 to 4, determine which robot to focus on.
-        camera.update(gs, robots[0]);
+        changeFocus();
+        camera.update(gs, robots[currentFocus]);
         glu.gluLookAt(camera.eye.x(),    camera.eye.y(),    camera.eye.z(),
                       camera.center.x(), camera.center.y(), camera.center.z(),
                       camera.up.x(),     camera.up.y(),     camera.up.z());
@@ -403,6 +411,15 @@ public class RobotRace extends Base {
         robots[i].direction = raceTracks[gs.trackNr].getLaneTangent(t, (gs.tAnim/(baseSpeed-speed))-(Math.floor(gs.tAnim/(baseSpeed-speed))));
         
     }   
+    
+    public void changeFocus(){
+        if(gs.tAnim - lastSwitch > switchTime){
+            lastSwitch = gs.tAnim;
+            Random rand = new Random();
+            int x = rand.nextInt(4);
+            currentFocus = x;
+        }
+    }
  
     /**
      * Main program execution body, delegates to an instance of
@@ -412,5 +429,4 @@ public class RobotRace extends Base {
         RobotRace robotRace = new RobotRace();
         robotRace.run();
     } 
-    //test
 }
