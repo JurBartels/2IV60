@@ -106,13 +106,12 @@ public class RobotRace extends Base {
         
         // Test track
         raceTracks[0] = new RaceTrack();
-        
+        double c = 0.551915024494;
         // O-track
         raceTracks[1] = new RaceTrack(new Vector[] {
             /* add control points like:
-            new Vector(10, 0, 1), new Vector(10, 5, 1), new Vector(5, 10, 1),
-            new Vector(..., ..., ...), ...
             */
+            /*
             new Vector(-12, -12, 2),
             new Vector(-12, -4, 2),
             new Vector(-12, 4, 2),
@@ -126,6 +125,11 @@ public class RobotRace extends Base {
             new Vector(12, -24, 2),
             new Vector(-12, -24, 2),
             new Vector(-12, -12, 2) 
+            */
+            new Vector(0, 12, 1), new Vector(12*c, 12, 1), new Vector(12, 12*c, 1), new Vector(12, 0, 1),
+            new Vector(12, 0, 1), new Vector(12, -12*c, 1), new Vector(12*c, -12, 1), new Vector(0, -12, 1),
+            new Vector(0, -12, 1), new Vector(-12*c, -12, 1), new Vector(-12, -12*c, 1), new Vector(-12, 0, 1),
+            new Vector(-12, 0, 1), new Vector(-12, 12*c, 1), new Vector(-12*c, 12, 1), new Vector(0, 12, 1)
         });
         
         // L-track

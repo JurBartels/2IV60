@@ -326,8 +326,8 @@ class RaceTrack {
             t -= 1;
         }
         */
-        //int numberOfSegments = controlPoints.length/4;
-        int numberOfSegments = (controlPoints.length - 1) / 3;
+        int numberOfSegments = controlPoints.length/4 -1;
+        //int numberOfSegments = (controlPoints.length - 1) / 3;
         int segment = (int) Math.floor(t * numberOfSegments);
 
         Vector P0 = controlPoints[segment * 3];
