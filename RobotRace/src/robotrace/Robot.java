@@ -64,7 +64,6 @@ class Robot {
      */
     public void draw(GL2 gl, GLU glu, GLUT glut, boolean stickFigure, float tAnim) {
         
-        //gl.glRotated(Math.acos(((direction.dot(y))/direction.length())), 0, 0, 1f);
         rotatez = Math.toDegrees(Math.atan2(-direction.x(), direction.y()));
         gl.glPushMatrix();
         material.setMaterial(gl);
@@ -76,7 +75,6 @@ class Robot {
         drawLeg(gl, glu, glut, stickFigure, tAnim, this.pos, bodyScale, true);
         drawLeg(gl, glu, glut, stickFigure, tAnim, this.pos, bodyScale, false);
         drawHead(gl, glu, glut, stickFigure, tAnim, this.pos, bodyScale);
-        //pos = new Vector(RaceTrack.getLanePoint(1,tAnim).x,RaceTrack.getLanePoint(1,tAnim).y,0);
         gl.glPopMatrix();
         
     } 

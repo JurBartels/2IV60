@@ -367,8 +367,8 @@ class RaceTrack {
         Vector P3 = controlPoints[segment * 3 + 3 + segment];
         double bezierT = (t - (((double) segment) / numberOfSegments)) * numberOfSegments;
         Vector point = getCubicBezierPoint(bezierT, P0, P1, P2, P3);
-        //Vector tangent = getCubicBezierTangent(bezierT, P0, P1, P2, P3).scale(-1);
-        Vector tangent = getCubicBezierTangent(bezierT, P0, P1, P2, P3);
+        Vector tangent = getCubicBezierTangent(bezierT, P0, P1, P2, P3).scale(-1);
+        //Vector tangent = getCubicBezierTangent(bezierT, P0, P1, P2, P3);
         Vector normal = tangent.cross(Vector.Z).normalized();
 
         if(robot){
