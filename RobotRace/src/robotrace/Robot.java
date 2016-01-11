@@ -155,9 +155,36 @@ class Robot {
         if(!stickFigure){
             //call upper, lower and hand draws
             gl.glPushMatrix();
-            
+            gl.glTranslated(armOffset, 0, (1.4*bodyScale));
+            if(leftArm){
+                rotateLimb(tAnim/10, Vector.X, 0.25,gl);
+            }
+            else{
+                rotateLimb2(tAnim/10, Vector.X, 0.25,gl);
+            }
             drawUpperArm(gl,  glu, glut, tAnim,  pos,  bodyScale,  armOffset);
+            
+            gl.glPopMatrix();
+            
+            gl.glPushMatrix();
+            gl.glTranslated(armOffset, 0, (1.4*bodyScale)); 
+            if(leftArm){
+                rotateLimb(tAnim/10, Vector.X, 0.25,gl);
+            }
+            else{
+                rotateLimb2(tAnim/10, Vector.X, 0.25,gl);
+            }
             drawLowerArm(gl,  glu, glut, tAnim,  pos,  bodyScale,  armOffset); 
+            gl.glPopMatrix();
+            
+            gl.glPushMatrix();
+            gl.glTranslated(armOffset, 0, (1.4*bodyScale));      //move to position based on arm offset and bodyheight
+            if(leftArm){
+                rotateLimb(tAnim/10, Vector.X, 0.25,gl);
+            }
+            else{
+                rotateLimb2(tAnim/10, Vector.X, 0.25,gl);
+            }
             drawHand(gl,  glu, glut, tAnim,  pos,  bodyScale,  armOffset);
             gl.glPopMatrix();
         }
@@ -376,14 +403,13 @@ class Robot {
             //shoulder joints
             gl.glPushMatrix();
             gl.glColor3f(0.0f, 0.0f, 0.0f);
-            gl.glTranslated(armOffset, 0, (1.8*bodyScale));                     //move to position based on arm offset and bodyheight
+            gl.glTranslated(0, 0, (0.4*bodyScale));                     //move to position based on arm offset and bodyheight
             glut.glutSolidSphere(0.1f*bodyScale, RobotRace.slices, RobotRace.slices);           //place shoulder joint
             gl.glPopMatrix();
             //draw upper arm
             gl.glPushMatrix();
             gl.glColor3f(0.5f, 0.0f, 1.0f);
-            gl.glTranslated(armOffset, 0, (1.6*bodyScale));                     //move to position based on arm offset and bodyheight
-            rotatePart(tAnim/10, Vector.X, 0.15,gl);
+            gl.glTranslated(0, 0, (0.2*bodyScale));                     //move to position based on arm offset and bodyheight
             gl.glScalef(1f, 1f, 2f);                                                            //scale arm such that it becomes an ellipsoid
             glut.glutSolidSphere(0.1f*bodyScale, RobotRace.slices, RobotRace.slices);           //place upper arm
             gl.glPopMatrix();
@@ -403,15 +429,12 @@ class Robot {
             //elbow joints
             gl.glPushMatrix();
             gl.glColor3f(0.0f, 0.0f, 0.0f);
-            gl.glTranslated(armOffset, 0, (1.4*bodyScale));                     //move to position based on arm offset and bodyheight
-            rotatePart(tAnim/10, Vector.X, 0.25,gl);
             glut.glutSolidSphere(0.1f*bodyScale, RobotRace.slices, RobotRace.slices);           //place elbow joint
             gl.glPopMatrix();
             //draw lower arm
-            gl.glPushMatrix();
+           gl.glPushMatrix();
             gl.glColor3f(0.5f, 0.0f, 1.0f);
-            gl.glTranslated(armOffset, 0.2*bodyScale, (1.38*bodyScale));       //move to position based on arm offset and bodyheight
-            rotatePart(tAnim/10, Vector.X, 0.10,gl);
+            gl.glTranslated(0, 0.2*bodyScale, (0));       //move to position based on arm offset and bodyheight
             gl.glScalef(1f, 2f, 1f);                                                            //scale such that it becomes an ellipsoid
             glut.glutSolidSphere(0.1f*bodyScale, RobotRace.slices, RobotRace.slices);           //place lower arm
             gl.glPopMatrix();
@@ -431,12 +454,11 @@ class Robot {
             //hands
             gl.glPushMatrix();
             gl.glColor3f(0.0f, 0.0f, 0.0f);
-            gl.glTranslated(armOffset, 0.4*bodyScale, (1.4*bodyScale));       //move to position based on arm offset and bodyheight
-            rotatePart(tAnim/10, Vector.X, 0.23,gl);
+            gl.glTranslated(0, 0.4*bodyScale, (0));       //move to position based on arm offset and bodyheight
             glut.glutSolidSphere(0.1f*bodyScale, RobotRace.slices, RobotRace.slices);           //place hands
             gl.glPopMatrix();
     };
-    
+    //gl.glTranslated(armOffset, 0, (1.4*bodyScale));
     /**
      * Draw the hip joint and the upper leg for the full robot
      * @param gl
@@ -701,10 +723,19 @@ class Robot {
    Rotate the affected part around a Vector, with offset trans.
    Used this to animate limbs
    */
-    public void rotatePart(float aTime, Vector axis, double trans, GL2 gl)
+    public void rotateLimb(float tAnim, Vector axis, double trans, GL2 gl)
     {
         gl.glTranslated(0, 0, trans);
-        gl.glRotated(Math.sin(aTime * 10) * 45, axis.x(), axis.y(), axis.z());
+        gl.glRotated(Math.sin(tAnim * 10) * 45, axis.x(), axis.y(), axis.z());
+        gl.glTranslated(0, 0, trans * -1);
+    }
+    
+    //Rotate at the same angle as above, *-1 to get a forwards/backwards motion 
+    //in the limbs
+       public void rotateLimb2(float tAnim, Vector axis, double trans, GL2 gl)
+    {
+        gl.glTranslated(0, 0, trans);
+        gl.glRotated(Math.sin(tAnim * 10) * -45, axis.x(), axis.y(), axis.z());
         gl.glTranslated(0, 0, trans * -1);
     }
  
