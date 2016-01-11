@@ -410,10 +410,8 @@ class Robot {
             //draw lower arm
             gl.glPushMatrix();
             gl.glColor3f(0.5f, 0.0f, 1.0f);
-            //gl.glTranslated(armOffset, 0.2*bodyScale, (1.38*bodyScale));       //move to position based on arm offset and bodyheight
-            gl.glTranslated(armOffset, 0, (1.8*bodyScale));
+            gl.glTranslated(armOffset, 0.2*bodyScale, (1.38*bodyScale));       //move to position based on arm offset and bodyheight
             rotatePart(tAnim/10, Vector.X, 0.10,gl);
-            gl.glTranslated(armOffset, 0.2*bodyScale, (1.38*bodyScale));
             gl.glScalef(1f, 2f, 1f);                                                            //scale such that it becomes an ellipsoid
             glut.glutSolidSphere(0.1f*bodyScale, RobotRace.slices, RobotRace.slices);           //place lower arm
             gl.glPopMatrix();

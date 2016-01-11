@@ -114,24 +114,7 @@ public class RobotRace extends Base {
         double c = 0.551915024494;
         // O-track
         raceTracks[1] = new RaceTrack(new Vector[] {
-            /* add control points like:
-            */
-            /*
-            new Vector(-12, -12, 2),
-            new Vector(-12, -4, 2),
-            new Vector(-12, 4, 2),
-            new Vector(-12, 12, 2),
-            new Vector(-12, 24, 2),
-            new Vector(12, 24, 2),
-            new Vector(12, 12, 2),
-            new Vector(12, 4, 2),
-            new Vector(12, -4, 2),
-            new Vector(12, -12, 2),
-            new Vector(12, -24, 2),
-            new Vector(-12, -24, 2),
-            new Vector(-12, -12, 2) 
-            */
-            
+            /* add control points like */
             new Vector(0, 12, 1), new Vector(12*c, 12, 1), new Vector(12, 12*c, 1), new Vector(12, 0, 1),
             new Vector(12, 0, 1), new Vector(12, -12*c, 1), new Vector(12*c, -12, 1), new Vector(0, -12, 1),
             new Vector(0, -12, 1), new Vector(-12*c, -12, 1), new Vector(-12, -12*c, 1), new Vector(-12, 0, 1),
@@ -142,35 +125,30 @@ public class RobotRace extends Base {
         // L-track
         raceTracks[2] = new RaceTrack(new Vector[] { 
             /* add control points */
-            new Vector(-7.5, 7.5, 2),
-            new Vector(-7.5, 12.5, 2),
-            new Vector(0, 12.5, 2),
-            new Vector(0, 7.5, 2),
-            new Vector(0, 2.5, 2),
-            new Vector(2.5, 0, 2),
-            new Vector(7.5, 0, 2),
-            new Vector(12.5, 0, 2),
-            new Vector(12.5, -7.5, 2),
-            new Vector(7.5, -7.5, 2),
-            new Vector(5, -7.5, 2),
-            new Vector(2.5, -7.5, 2),
-            new Vector(0, -7.5, 2),
-            new Vector(-7.5, -7.5, 2),
-            new Vector(-7.5, -7.5, 2),
-            new Vector(-7.5, 0, 2),
-            new Vector(-7.5, 2.5, 2),
-            new Vector(-7.5, 5, 2),
-            new Vector(-7.5, 7.5, 2),
+            new Vector(0, 5, 1), new Vector(0, 15, 1), new Vector(10, 15, 1), new Vector(10, 5, 1),
+            new Vector(10, 5, 1), new Vector(10, -9, 1), new Vector(9, -10, 1), new Vector(-5, -10, 1),
+            new Vector(-5, -10, 1), new Vector(-15, -10, 1), new Vector(-10, 0, 1), new Vector(-5, 0, 1),
+            new Vector(-5, 0, 1), new Vector(-1, 0, 1), new Vector(0, 1, 1), new Vector(0, 5, 1)
         });
         
         // C-track
         raceTracks[3] = new RaceTrack(new Vector[] { 
             /* add control points */
+            new Vector(0, 10, 1), new Vector(10, 10, 1), new Vector(10, 5, 1), new Vector(0, 5, 1),
+            new Vector(0, 5, 1), new Vector(-5, 5, 1), new Vector(-5, -5, 1), new Vector(0, -5, 1),
+            new Vector(0, -5, 1), new Vector(10, -5, 1), new Vector(10, -10, 1), new Vector(0, -10, 1),
+            new Vector(0, -10, 1), new Vector(-10, -10, 1), new Vector(-10, 10, 1), new Vector(0, 10, 1)
         });
         
         // Custom track
         raceTracks[4] = new RaceTrack(new Vector[] { 
            /* add control points */
+           new Vector(0,12,1), new Vector(-4,12,1), new Vector(-4, 4,1), new Vector(-9, 4, 1),
+           new Vector(-9,4,1), new Vector(-12,4,1), new Vector(-12,-4,1), new Vector(-9, -4, 1),
+           new Vector(-9,-4,1), new Vector(-4,-4,1), new Vector(-4,-12,1), new Vector(0,-12, 1),
+           new Vector(0,-12, 1), new Vector(4,-12,1), new Vector(4,-4,1), new Vector(9,-4,1),
+           new Vector(9, -4, 1), new Vector(12,-4,1), new Vector(12,4,1), new Vector(9,4,1),
+           new Vector(9, 4, 1), new Vector(4, 4,1), new Vector(4,12,1), new Vector(0,12,1)
         });
         
         // Initialize the terrain

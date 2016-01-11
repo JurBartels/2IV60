@@ -64,26 +64,26 @@ class RaceTrack {
             for (double j = -2; j < 2; j++) {
                 gl.glBegin(GL_TRIANGLE_STRIP);
                 double pOffset = 0.01;
-                for (double i = 0; i <= 1+0.02; i = i + 2*pOffset) {
+                for (double i = 0; i <= 1 + 2*pOffset; i = i + 2 * pOffset) {
 
                     Vector a;
                     a = getTangent(i).cross(new Vector(0, 0, 1));
                     a.normalized();
                     a.x = a.x * laneWidth;
                     a.y = a.y * laneWidth;
-                    gl.glTexCoord2d(0,0);
+                    gl.glTexCoord2d(0, 0);
                     gl.glVertex3d(getPoint(i).x + j * a.x, getPoint(i).y + j * a.y, getPoint(i).z);
-                    gl.glTexCoord2d(1,0);
-                    gl.glVertex3d(getPoint(i).x + (j+1) * a.x, getPoint(i).y + (j+1) * a.y, getPoint(i).z);
-                    
+                    gl.glTexCoord2d(1, 0);
+                    gl.glVertex3d(getPoint(i).x + (j + 1) * a.x, getPoint(i).y + (j + 1) * a.y, getPoint(i).z);
+
                     Vector b;
                     b = getTangent(i + pOffset).cross(new Vector(0, 0, 1));
                     b.normalized();
                     b.x = b.x * laneWidth;
                     b.y = b.y * laneWidth;
-                    gl.glTexCoord2d(0,1);
+                    gl.glTexCoord2d(0, 1);
                     gl.glVertex3d(getPoint(i + pOffset).x + j * b.x, getPoint(i + pOffset).y + j * b.y, getPoint(i + pOffset).z);
-                    gl.glTexCoord2d(1,1);
+                    gl.glTexCoord2d(1, 1);
                     gl.glVertex3d(getPoint(i + pOffset).x + (j + 1) * b.x, getPoint(i + pOffset).y + (j + 1) * b.y, getPoint(i + pOffset).z);
                 }
                 gl.glEnd();
@@ -128,78 +128,98 @@ class RaceTrack {
         } else {
             gl.glEnable(GL_COLOR_MATERIAL);
             gl.glColor3f(1f, 1f, 1f);
+            RobotRace.track.enable(gl);
+            RobotRace.track.bind(gl);
+            gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+            gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
             // draw the spline track
             for (int curve = 0; curve < 4; curve++) {
 
                 // Use a triangle strip and create a closed ring out of triangles
-                gl.glBegin(GL2.GL_TRIANGLE_STRIP);
+                gl.glBegin(GL_TRIANGLE_STRIP);
                 // Normal is pointing up for track
                 gl.glNormal3d(0, 0, 1);
-                for (int i = 0; i < 300; i++) {
+                double pOffset = 0.01;
+                for (double i = 0; i < 1; i = i + 2*pOffset) {
                     // SEGMENTS times: add a vertex describing an inner and outer point of this curve
-                    double t = i / ((double) 300);
-                    Vector inner = getPointOnCurve(t, curve);
-                    Vector outer = getPointOnCurve(t, curve + 1);
+                    //double t = (i-1) / ((double) 300);
+                    Vector inner = getPointOnCurve(i, curve,false);
+                    Vector outer = getPointOnCurve(i, curve + 1,false);
                     // Add these two vectors, that are on the same distance on the track, as vertices to the triangle strip
+                    gl.glTexCoord2d(0,0);
                     gl.glVertex3d(inner.x(), inner.y(), inner.z());
+                    gl.glTexCoord2d(1,0);
                     gl.glVertex3d(outer.x(), outer.y(), outer.z());
+
+                    Vector inner2 = getPointOnCurve(i+pOffset, curve,false);
+                    Vector outer2 = getPointOnCurve(i+pOffset, curve + 1,false);
+
+                    gl.glTexCoord2d(0,1);
+                    gl.glVertex3d(inner2.x(), inner2.y(), inner2.z());
+                    gl.glTexCoord2d(1,1);
+                    gl.glVertex3d(outer2.x(), outer2.y(), outer2.z());
                 }
-                // Add the first inner and outer points of this curve again to close the ring
-                Vector inner = getPointOnCurve(0, curve);
-                Vector outer = getPointOnCurve(0, curve + 1);
+                //add last and first point to finish the triangle strip
+                Vector inner = getPointOnCurve(.99, curve,false);
+                Vector outer = getPointOnCurve(.99, curve + 1,false);
+                gl.glTexCoord2d(0,0);
                 gl.glVertex3d(inner.x(), inner.y(), inner.z());
+                gl.glTexCoord2d(1,0);
                 gl.glVertex3d(outer.x(), outer.y(), outer.z());
                 
+                Vector inner2 = getPointOnCurve(0, curve,false);
+                Vector outer2 = getPointOnCurve(0, curve + 1,false);
+                gl.glTexCoord2d(0,1);
+                gl.glVertex3d(inner2.x(), inner2.y(), inner2.z());
+                gl.glTexCoord2d(1,1);
+                gl.glVertex3d(outer2.x(), outer2.y(), outer2.z());
                 // Finish the triangle strip
                 gl.glEnd();
-
-                //Draw the inside and outside
-                for (boolean insideOrOutside : new boolean[]{true, false}) {
-                    // Use a triangle strip and create a closed ring out of triangles
-                    gl.glBegin(GL2.GL_TRIANGLE_STRIP);
-                    int SEGMENTS = 300;
-                    for (int i = 0; i < SEGMENTS; i++) {
-                        // SEGMENTS times: add a vertex describing an top and bottom point of the edge
-                        double t = i / ((double) SEGMENTS);
-                        double nextT = (i + 1) / ((double) SEGMENTS);
-                        if (nextT >= 1) {
-                            nextT -= 1;
-                        }
-                        Vector top = getPointOnCurve(t, insideOrOutside ? 4 : 0);
-                        Vector nextTop = getPointOnCurve(nextT, insideOrOutside ? 4 : 0);
-                        Vector bottom = new Vector(top.x(), top.y(), -1);
-                        if (i == 0) {
-                            double prevT = (i - 1) / ((double) SEGMENTS);
-                            if (prevT < 0) {
-                                prevT += 1;
-                            }
-                            Vector prevTop = getPointOnCurve(prevT, insideOrOutside ? 4 : 0);
-                            Vector normal = top.subtract(prevTop).cross(bottom.subtract(top));
-                            if (gs.trackNr != 0) {
-                                normal = normal.scale(-1);
-                            }
-                            gl.glNormal3d(normal.x(), normal.y(), normal.z());
-                        }
-                        Vector normal = nextTop.subtract(top).cross(bottom.subtract(top));
-                        if (gs.trackNr != 0) {
-                            normal = normal.scale(-1);
-                        }
-
-                        // Add these two vectors, that are on the same distance on the track, as vertices to the triangle strip
-                        gl.glVertex3d(top.x(), top.y(), top.z());
-                        gl.glVertex3d(bottom.x(), bottom.y(), bottom.z());
-                        gl.glNormal3d(normal.x(), normal.y(), normal.z());
-                    }
-                    // Add the first inner and outer points of this curve again to close the ring
-                    Vector top = getPointOnCurve(0, insideOrOutside ? 4 : 0);
-                    Vector bottom = new Vector(top.x(), top.y(), -1);
-                    gl.glVertex3d(top.x(), top.y(), top.z());
-                    gl.glVertex3d(bottom.x(), bottom.y(), bottom.z());
-                    // Finish the triangle strip
-                    gl.glEnd();
-                }
-
             }
+            RobotRace.track.disable(gl);
+            
+            RobotRace.brick.enable(gl);
+            RobotRace.brick.bind(gl);
+            //draw a strip downwards for curve 0 and 4, representing the brick wall
+            for (int j = 0; j <= 4; j += 4) {
+                gl.glBegin(GL_TRIANGLE_STRIP);
+                double pOffset = 0.01;
+                for (double i = 0; i < 1; i = i + 2*pOffset) {
+                    Vector firstTop = getPointOnCurve(i,j,false);
+                    Vector firstBottom = new Vector(firstTop.x, firstTop.y, firstTop.z -1);
+                    Vector secondTop = getPointOnCurve(i + pOffset,j,false);
+                    Vector secondBottom = new Vector(secondTop.x, secondTop.y, secondTop.z -1);
+                    //Vector normal = second.subtract(first).cross()
+                    
+                    gl.glTexCoord2d(0, 1);
+                    gl.glVertex3d(firstTop.x, firstTop.y, firstTop.z);
+                    gl.glTexCoord2d(0, 0);
+                    gl.glVertex3d(firstBottom.x, firstBottom.y, firstBottom.z);
+
+                    gl.glTexCoord2d(1, 1);
+                    gl.glVertex3d(secondTop.x, secondTop.y, secondTop.z);
+                    gl.glTexCoord2d(1, 0);
+                    gl.glVertex3d(secondBottom.x, secondBottom.y, secondBottom.z );
+                }
+                //add last and first points to finish the triangle strip
+                Vector firstTop = getPointOnCurve(0.99,j,false);
+                Vector firstBottom = new Vector(firstTop.x, firstTop.y, firstTop.z -1);
+                Vector secondTop = getPointOnCurve(0,j,false);
+                Vector secondBottom = new Vector(secondTop.x, secondTop.y, secondTop.z -1);
+                
+                gl.glTexCoord2d(0, 1);
+                gl.glVertex3d(firstTop.x, firstTop.y, firstTop.z);
+                gl.glTexCoord2d(0, 0);
+                gl.glVertex3d(firstBottom.x, firstBottom.y, firstBottom.z);
+
+                gl.glTexCoord2d(1, 1);
+                gl.glVertex3d(secondTop.x, secondTop.y, secondTop.z);
+                gl.glTexCoord2d(1, 0);
+                gl.glVertex3d(secondBottom.x, secondBottom.y, secondBottom.z );
+                
+            }
+            gl.glEnd();
+            RobotRace.brick.disable(gl);
             gl.glDisable(GL_COLOR_MATERIAL);
         }
     }
@@ -215,31 +235,31 @@ class RaceTrack {
             Vector tangent = getTangent(t);
             Vector normal = tangent.cross(Vector.Z).normalized();
             if (lane > 0) {
-                return point.add(normal.scale((lane - 1) * laneWidth + laneWidth/2));
+                return point.add(normal.scale((lane - 1) * laneWidth + laneWidth / 2));
             } else {
-                return point.add(normal.scale((lane + 1) * laneWidth - laneWidth/2));
+                return point.add(normal.scale((lane + 1) * laneWidth - laneWidth / 2));
             }
         } else {
             //return Vector.O; // <- code goes here
 
             Vector point;
             if (lane == -2) {
-                point = getPointOnCurve(t, 0);
+                point = getPointOnCurve(t, 0,true);
                 return point;
             }
 
             if (lane == -1) {
-                point = getPointOnCurve(t, 1);
+                point = getPointOnCurve(t, 1,true);
                 return point;
             }
 
             if (lane == 1) {
-                point = getPointOnCurve(t, 2);
+                point = getPointOnCurve(t, 2,true);
                 return point;
             }
 
             if (lane == 2) {
-                point = getPointOnCurve(t, 3);
+                point = getPointOnCurve(t, 3,true);
                 return point;
             }
 
@@ -267,7 +287,18 @@ class RaceTrack {
         if (null == controlPoints) {
             return getTangent(t); // <- code goes here
         } else {
-            return Vector.O; // <- code goes here
+            //each segment has 4 points
+            int numberOfSegments = controlPoints.length / 4;
+            //map the segments, starting at 0
+            int segment = (int) Math.floor(t * numberOfSegments);
+
+            Vector P0 = controlPoints[segment * 3 + segment];
+            Vector P1 = controlPoints[segment * 3 + 1 + segment];
+            Vector P2 = controlPoints[segment * 3 + 2 + segment];
+            Vector P3 = controlPoints[segment * 3 + 3 + segment];
+            double bezierT = (t - (((double) segment) / numberOfSegments)) * numberOfSegments;
+            Vector tangent = getCubicBezierTangent(bezierT, P0, P1, P2, P3);
+            return tangent;
         }
     }
 
@@ -322,15 +353,10 @@ class RaceTrack {
     public void drawTestTrack() {
 
     }
-    
-    public Vector getPointOnCurve(double t, double curve) {
-        /*
-        if (t >= 1) {
-            t -= 1;
-        }
-        */
+
+    public Vector getPointOnCurve(double t, double curve, boolean robot) {
         //each segment has 4 points
-        int numberOfSegments = controlPoints.length/4;
+        int numberOfSegments = controlPoints.length / 4;
         //int numberOfSegments = (controlPoints.length - 1) / 3;
         //map the segments, starting at 0
         int segment = (int) Math.floor(t * numberOfSegments);
@@ -341,13 +367,15 @@ class RaceTrack {
         Vector P3 = controlPoints[segment * 3 + 3 + segment];
         double bezierT = (t - (((double) segment) / numberOfSegments)) * numberOfSegments;
         Vector point = getCubicBezierPoint(bezierT, P0, P1, P2, P3);
-        if (curve == 0) {
-            return point;
-        }
-        Vector tangent = getCubicBezierTangent(bezierT, P0, P1, P2, P3).scale(-1);
+        //Vector tangent = getCubicBezierTangent(bezierT, P0, P1, P2, P3).scale(-1);
+        Vector tangent = getCubicBezierTangent(bezierT, P0, P1, P2, P3);
         Vector normal = tangent.cross(Vector.Z).normalized();
 
-        return point.add(normal.scale((curve) * laneWidth));
-
+        if(robot){
+            return point.add(normal.scale((curve) * laneWidth + laneWidth/2));
+        }
+        else{
+            return point.add(normal.scale((curve) * laneWidth));
+        }
     }
 }
