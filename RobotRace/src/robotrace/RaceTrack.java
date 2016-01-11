@@ -119,15 +119,15 @@ class RaceTrack {
                 gl.glNormal3d(0, 0, 1);                                         //set the normal pointing upwards
                 double pOffset = 0.01;                                          //define an offset that determines how many triangles are drawn
                 for (double i = 0; i < 1; i = i + 2*pOffset) {
-                    Vector inner = getPointOnCurve(i, lane,false);             //find the vertex at i in the first lane  
-                    Vector outer = getPointOnCurve(i, lane + 1,false);
+                    Vector inner = getPointOnCurve(i, lane,false);              //find the vertex at i in the first lane  
+                    Vector outer = getPointOnCurve(i, lane + 1,false);          //find the vertex at i in the next lane
 
-                    gl.glTexCoord2d(0,0);
+                    gl.glTexCoord2d(0,0);                                       //set the texture coordinates and vertices for these points
                     gl.glVertex3d(inner.x(), inner.y(), inner.z());
                     gl.glTexCoord2d(1,0);
                     gl.glVertex3d(outer.x(), outer.y(), outer.z());
 
-                    Vector inner2 = getPointOnCurve(i+pOffset, lane,false);
+                    Vector inner2 = getPointOnCurve(i+pOffset, lane,false);     //do the same for the the points at i+offset, this is done since 4 points are needed for a 2d texturemap
                     Vector outer2 = getPointOnCurve(i+pOffset, lane + 1,false);
 
                     gl.glTexCoord2d(0,1);
@@ -135,7 +135,7 @@ class RaceTrack {
                     gl.glTexCoord2d(1,1);
                     gl.glVertex3d(outer2.x(), outer2.y(), outer2.z());
                 }
-                //add last and first point to finish the triangle strip
+                //add last and first points to finish the triangle strip
                 Vector inner = getPointOnCurve(.99, lane,false);
                 Vector outer = getPointOnCurve(.99, lane + 1,false);
                 gl.glTexCoord2d(0,0);
@@ -152,22 +152,22 @@ class RaceTrack {
                 // Finish the triangle strip
                 gl.glEnd();
             }
-            RobotRace.track.disable(gl);
+            RobotRace.track.disable(gl);                                        //disable track texture
             
-            RobotRace.brick.enable(gl);
-            RobotRace.brick.bind(gl);
+            RobotRace.brick.enable(gl);                                         //enable brick texture
+            RobotRace.brick.bind(gl);                                           //bind brick texture
             //draw a strip downwards for curve 0 and 4, representing the brick wall
             for (int j = 0; j <= 4; j += 4) {
                 gl.glBegin(GL_TRIANGLE_STRIP);
-                double pOffset = 0.01;
+                double pOffset = 0.01;                                          //define an offset which represents the amount of triangles used
                 for (double i = 0; i < 1; i = i + 2*pOffset) {
-                    Vector firstTop = getPointOnCurve(i,j,false);
-                    Vector firstBottom = new Vector(firstTop.x, firstTop.y, firstTop.z -1);
-                    Vector secondTop = getPointOnCurve(i + pOffset,j,false);
-                    Vector secondBottom = new Vector(secondTop.x, secondTop.y, secondTop.z -1);
+                    Vector firstTop = getPointOnCurve(i,j,false);                                   //get the first top point at position i, lane j
+                    Vector firstBottom = new Vector(firstTop.x, firstTop.y, firstTop.z -1);         //get the first bottom point, which is the same except for z, which is minus 1
+                    Vector secondTop = getPointOnCurve(i + pOffset,j,false);                        //get the second top point at position i, lane j
+                    Vector secondBottom = new Vector(secondTop.x, secondTop.y, secondTop.z -1);     //get the second bottom point, which is the same except for z, which is minus 1
                     //Vector normal = second.subtract(first).cross()
                     
-                    gl.glTexCoord2d(0, 1);
+                    gl.glTexCoord2d(0, 1);                                      //use the points for the texture coordinates and the vertices
                     gl.glVertex3d(firstTop.x, firstTop.y, firstTop.z);
                     gl.glTexCoord2d(0, 0);
                     gl.glVertex3d(firstBottom.x, firstBottom.y, firstBottom.z);
@@ -195,8 +195,8 @@ class RaceTrack {
                 
             }
             gl.glEnd();
-            RobotRace.brick.disable(gl);
-            gl.glDisable(GL_COLOR_MATERIAL);
+            RobotRace.brick.disable(gl);                                        //disable the brick texture
+            gl.glDisable(GL_COLOR_MATERIAL);                                    
         }
     }
 
@@ -206,21 +206,21 @@ class RaceTrack {
      */
     public Vector getLanePoint(int lane, double t) {
         if (null == controlPoints) {
-            //return Vector.O; // <- code goes here
-            Vector point = getPoint(t);
-            Vector tangent = getTangent(t);
-            Vector normal = tangent.cross(Vector.Z).normalized();
+            //in this case return the testtrack points
+            Vector point = getPoint(t);                                         //get the point of the testtrack at t
+            Vector tangent = getTangent(t);                                     //get the tangent of the tasttrack at t
+            Vector normal = tangent.cross(Vector.Z).normalized();               //calculate the normal by taking the cross vector of Vector.Z and the tangent
             if (lane > 0) {
-                return point.add(normal.scale((lane - 1) * laneWidth + laneWidth / 2));
-            } else {
+                return point.add(normal.scale((lane - 1) * laneWidth + laneWidth / 2));     //here lanes were still defined by -2,-1,1,2, so we had to take the sign into account here
+            } else {                                                                        //move to the correct lane by adding the scaled normal vector
                 return point.add(normal.scale((lane + 1) * laneWidth - laneWidth / 2));
             }
         } else {
-            //return Vector.O; // <- code goes here
+            //in this case use the bezier segments
 
             Vector point;
             if (lane == -2) {
-                point = getPointOnCurve(t, 0,true);
+                point = getPointOnCurve(t, 0,true);                             //for each lane return the point on the beziercurves
                 return point;
             }
 
@@ -238,20 +238,7 @@ class RaceTrack {
                 point = getPointOnCurve(t, 3,true);
                 return point;
             }
-
             return null;
-
-            /*
-             Vector point = getCubicBezierPoint(t, );
-             Vector tangent = getTangent(t);
-             Vector normal = tangent.cross(Vector.Z).normalized();
-             if(lane>0){
-             return point.add(normal.scale((lane-1)*1.22+0.61)); 
-             }
-             else{
-             return point.add(normal.scale((lane+1)*1.22-0.61));
-             }
-             */
         }
     }
 
@@ -261,20 +248,20 @@ class RaceTrack {
      */
     public Vector getLaneTangent(int lane, double t) {
         if (null == controlPoints) {
-            return getTangent(t); // <- code goes here
+            //in this case use the testtrack
+            return getTangent(t);
         } else {
-            //each segment has 4 points
-            int numberOfSegments = controlPoints.length / 4;
-            //map the segments, starting at 0
-            int segment = (int) Math.floor(t * numberOfSegments);
+            //in this case use the beziersegments
+            int numberSegments = controlPoints.length / 4;                      //each segment has 4 points            
+            int segment = (int) Math.floor(t * numberSegments);                 //find the current segment, starting at 0
 
-            Vector P0 = controlPoints[segment * 3 + segment];
+            Vector P0 = controlPoints[segment * 3 + segment];                   //get the points that belong to the current segment
             Vector P1 = controlPoints[segment * 3 + 1 + segment];
             Vector P2 = controlPoints[segment * 3 + 2 + segment];
             Vector P3 = controlPoints[segment * 3 + 3 + segment];
-            double bezierT = (t - (((double) segment) / numberOfSegments)) * numberOfSegments;
-            Vector tangent = getCubicBezierTangent(bezierT, P0, P1, P2, P3);
-            return tangent;
+            double newT = (t - (((double) segment) / numberSegments)) * numberSegments; //map the double t to the t of the segment, since each segment should go from 0 to 1 too
+            Vector tangent = getCubicBezierTangent(newT, P0, P1, P2, P3);               //find the tangent of the bezier segment at newT
+            return tangent;                                                     //return this tangent
         }
     }
 
@@ -282,7 +269,7 @@ class RaceTrack {
      * Returns a point on the test track at 0 <= t < 1.
      */
     private Vector getPoint(double t) {
-        //return Vector.O; // <- code goes here
+        //using the defined getPoint function
         return new Vector((10 * Math.cos(2 * Math.PI * t)), (14 * Math.sin(2 * Math.PI * t)), 1);
     }
 
@@ -290,7 +277,6 @@ class RaceTrack {
      * Returns a tangent on the test track at 0 <= t < 1.
      */
     private Vector getTangent(double t) {
-        //return Vector.O; // <- code goes here
         //differentiate getPoint(t)
         double x = -20 * Math.PI * Math.sin(2 * Math.PI * t);
         double y = 28 * Math.PI * Math.cos(2 * Math.PI * t);
@@ -302,8 +288,6 @@ class RaceTrack {
         y = y / length;
 
         return new Vector(x, y, z);
-
-        //to get unit length do: getTangent(t) = (getPoint'(t)/|getPoint'(t)|)
     }
 
     /**
@@ -312,7 +296,7 @@ class RaceTrack {
      */
     private Vector getCubicBezierPoint(double t, Vector P0, Vector P1,
             Vector P2, Vector P3) {
-        //P(u) = ((1-u)^3)*P0 + 3u*((1-u)^2)*P1+3(u^2)*(1-u)*(u^3)*P3
+        //P(u) = ((1-u)^3)*P0 + 3u*((1-u)^2)*P1+3(u^2)*(1-u)*(u^3)*P3 from the slides
         return P0.scale((1 - t) * (1 - t) * (1 - t)).add(P1.scale(3 * t * (1 - t) * (1 - t))).add(P2.scale(3 * t * t * (1 - t))).add(P3.scale(t * t * t));
     }
 
@@ -330,27 +314,27 @@ class RaceTrack {
 
     }
 
-    public Vector getPointOnCurve(double t, double curve, boolean robot) {
-        //each segment has 4 points
-        int numberOfSegments = controlPoints.length / 4;
-        //int numberOfSegments = (controlPoints.length - 1) / 3;
-        //map the segments, starting at 0
-        int segment = (int) Math.floor(t * numberOfSegments);
-
+    public Vector getPointOnCurve(double t, double lane, boolean robot) {
+        int numberSegments = controlPoints.length / 4;                          //find the number of segments, each segment has 4 points                      
+        int segment = (int) Math.floor(t * numberSegments);                     //find the current segment, starting at 0
+        //find the points that determine the current segment
         Vector P0 = controlPoints[segment * 3 + segment];
         Vector P1 = controlPoints[segment * 3 + 1 + segment];
         Vector P2 = controlPoints[segment * 3 + 2 + segment];
         Vector P3 = controlPoints[segment * 3 + 3 + segment];
-        double bezierT = (t - (((double) segment) / numberOfSegments)) * numberOfSegments;
-        Vector point = getCubicBezierPoint(bezierT, P0, P1, P2, P3);
-        Vector tangent = getCubicBezierTangent(bezierT, P0, P1, P2, P3).scale(-1);
-        Vector normal = tangent.cross(Vector.Z).normalized();
+        //map the double t to the correct t where it is on that specific curve, since each segment should go from 0 to 1 too.
+        double newT = (t - (((double) segment) / numberSegments)) * numberSegments;     
+        Vector point = getCubicBezierPoint(newT, P0, P1, P2, P3);               //get the bezierpoint for this newT
+        Vector tangent = getCubicBezierTangent(newT, P0, P1, P2, P3).scale(-1); //get the beziertangent for this newT
+        Vector normal = tangent.cross(Vector.Z).normalized();                   //get the normal vector by cross product of Vecotr.Z and the tangent, this is used to find the lane.
 
         if(robot){
-            return point.add(normal.scale((curve) * laneWidth + laneWidth/2));
+            //this function is used for the drawing of the track as well as finding the position for the robots, if we want the position for the robot move them lanWidth/2 over so that they are in the center of the lane
+            return point.add(normal.scale((lane) * laneWidth + laneWidth/2));
         }
         else{
-            return point.add(normal.scale((curve) * laneWidth));
+            //otherwise return lane*laneWidth
+            return point.add(normal.scale((lane) * laneWidth));
         }
     }
 }

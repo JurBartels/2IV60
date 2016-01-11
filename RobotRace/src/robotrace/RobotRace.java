@@ -78,6 +78,19 @@ public class RobotRace extends Base {
     private final int switchTime = 5;
     private int currentFocus = 0;
     
+    //minimum volocity of the robot
+    private static final double MIN_VELOCITY = 0.0003;
+    //maximum volocity of the robot
+    private static final double MAX_VELOCITY = 0.0045;
+    
+    //random for the speeds of the robot
+    Random random = new Random();
+    
+    //array keeping track of distance travelled by robot, range 0-1
+    double[] robotDistance = new double[] {0,0,0,0};
+    //array keepint track of speed of a robot, initially 0.0020
+    double[] robotSpeed = new double[] {0.0020, 0.0020, 0.0020, 0.0020};
+    
     /**
      * Constructs this robot race by initializing robots,
      * camera, track, and terrain.
@@ -257,368 +270,17 @@ public class RobotRace extends Base {
             gl.glDisable(GL_COLOR_MATERIAL);
         }
         
-            /*
-            update the position and speed of the robots at intervals of tAnim
-            gradually increase/decrease speed to prevent large "teleportations"
-            */
+        for(int i = 0; i<4; i++){
+            //set the position and speed for each robot
+            setPosition(i);
+        }
+        //update the position for each robot, here we clasehd with our mixing definitions of lanes,namely -2,-1,1,2 and 0,1,2,3
+        posUpdate(-2,0);
+        posUpdate(-1,1);
+        posUpdate(1,2);
+        posUpdate(2,3);
         
-            if(gs.tAnim>=0  && gs.tAnim< 1){
-                posUpdate(-2,0,1);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,1);
-                posUpdate(2,3,1);
-            }
-            if(gs.tAnim>=1  && gs.tAnim< 2){
-                posUpdate(-2,0,1);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,1);
-                posUpdate(2,3,1);
-            }
-            if(gs.tAnim>=2  && gs.tAnim< 3){
-                posUpdate(-2,0,1);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,1);
-                posUpdate(2,3,1);
-            }
-            if(gs.tAnim>=3  && gs.tAnim< 4){
-                posUpdate(-2,0,1);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,1);
-                posUpdate(2,3,1);
-            }
-            if(gs.tAnim>=4  && gs.tAnim< 5){
-                posUpdate(-2,0,1);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,1);
-                posUpdate(2,3,1);
-            }
-            if(gs.tAnim>=5  && gs.tAnim< 6){
-                posUpdate(-2,0,1);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,1);
-                posUpdate(2,3,1);
-            }
-            if(gs.tAnim>=6  && gs.tAnim< 7){
-                posUpdate(-2,0,1);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,1);
-                posUpdate(2,3,1);
-            }
-            if(gs.tAnim>=7  && gs.tAnim< 8){
-                posUpdate(-2,0,1.5);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,1.5);
-                posUpdate(2,3,1);
-            }
-            if(gs.tAnim>=8  && gs.tAnim< 9){
-                posUpdate(-2,0,1.5);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,1);
-                posUpdate(2,3,1);
-            }
-            if(gs.tAnim>=9 && gs.tAnim<10){
-                posUpdate(-2,0,1.5);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,1);
-                posUpdate(2,3,1);
-            }
-            if(gs.tAnim>=10 && gs.tAnim<11){
-                posUpdate(-2,0,1.5);
-                posUpdate(-1,1,0.9);
-                posUpdate(1,2,1);
-                posUpdate(2,3,2);
-            }
-            if(gs.tAnim>=11 && gs.tAnim<12){
-                posUpdate(-2,0,2);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,2);
-                posUpdate(2,3,3);
-            }
-            if(gs.tAnim>=12 && gs.tAnim<13){
-                posUpdate(-2,0,2);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,3);
-                posUpdate(2,3,4);
-            }
-            if(gs.tAnim>=13 && gs.tAnim<14){
-                posUpdate(-2,0,2);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,4);
-                posUpdate(2,3,5);
-            }
-            if(gs.tAnim>=14 && gs.tAnim<15){
-                posUpdate(-2,0,2);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,5);
-                posUpdate(2,3,6);
-            }
-            if(gs.tAnim>=15 && gs.tAnim<16){
-                posUpdate(-2,0,2.5);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,6);
-                posUpdate(2,3,6);
-            }
-            if(gs.tAnim>=16 && gs.tAnim<17){
-                posUpdate(-2,0,2.5);
-                posUpdate(-1,1,0.9);
-                posUpdate(1,2,7);
-                posUpdate(2,3,6);
-            }
-            if(gs.tAnim>=17 && gs.tAnim<18){
-                posUpdate(-2,0,2.5);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,7);
-                posUpdate(2,3,6);
-            }
-            if(gs.tAnim>=18 && gs.tAnim<19){
-                posUpdate(-2,0,2.5);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,7);
-                posUpdate(2,3,6);
-            }
-            if(gs.tAnim>=19 && gs.tAnim<20){
-                posUpdate(-2,0,3);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,7);
-                posUpdate(2,3,6);
-            }
-              if(gs.tAnim>=20 && gs.tAnim<21){
-                posUpdate(-2,0,3);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,7);
-                posUpdate(2,3,5);
-            }
-            if(gs.tAnim>=21 && gs.tAnim<22){
-                posUpdate(-2,0,3);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,7);
-                posUpdate(2,3,4);
-            }
-            if(gs.tAnim>=22 && gs.tAnim<23){
-                posUpdate(-2,0,3);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,7);
-                posUpdate(2,3,4);
-            }
-            if(gs.tAnim>=23 && gs.tAnim<24){
-                posUpdate(-2,0,3.5);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,7);
-                posUpdate(2,3,3);
-            }
-            if(gs.tAnim>=24 && gs.tAnim<25){
-                posUpdate(-2,0,3.5);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,7);
-                posUpdate(2,3,2);
-            }
-            if(gs.tAnim>=25 && gs.tAnim<26){
-                posUpdate(-2,0,3.5);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,7);
-                posUpdate(2,3,2);
-            }
-            if(gs.tAnim>=26 && gs.tAnim<27){
-                posUpdate(-2,0,4);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,7);
-                posUpdate(2,3,2);
-            }
-            if(gs.tAnim>=27 && gs.tAnim<28){
-                posUpdate(-2,0,4);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,7);
-                posUpdate(2,3,2);
-            }
-            if(gs.tAnim>=28 && gs.tAnim<29){
-                posUpdate(-2,0,4);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,7);
-                posUpdate(2,3,3);
-            }
-            if(gs.tAnim>=29 && gs.tAnim<30){
-                posUpdate(-2,0,5);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,7);
-                posUpdate(2,3,4);
-            }
-            if(gs.tAnim>=30 && gs.tAnim<31){
-                posUpdate(-2,0,6);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,7);
-                posUpdate(2,3,4);
-            }
-            if(gs.tAnim>31 && gs.tAnim<32){
-                posUpdate(-2,0,6);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,7);
-                posUpdate(2,3,4);
-            }
-            if(gs.tAnim>=32 && gs.tAnim<33){
-                posUpdate(-2,0,6);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,7);
-                posUpdate(2,3,5);
-            }
-            if(gs.tAnim>=33 && gs.tAnim<34){
-                posUpdate(-2,0,5);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,7);
-                posUpdate(2,3,5);
-            }
-            if(gs.tAnim>=34 && gs.tAnim<35){
-                posUpdate(-2,0,4);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,7);
-                posUpdate(2,3,5);
-            }
-            if(gs.tAnim>=35 && gs.tAnim<36){
-                posUpdate(-2,0,4);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,7);
-                posUpdate(2,3,6);
-            }
-            if(gs.tAnim>=36 && gs.tAnim<37){
-                posUpdate(-2,0,4);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,7);
-                posUpdate(2,3,6);
-            }
-            if(gs.tAnim>=37 && gs.tAnim<38){
-                posUpdate(-2,0,5);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,7);
-                posUpdate(2,3,6);
-            }
-            if(gs.tAnim>=38 && gs.tAnim<39){
-                posUpdate(-2,0,6);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,6);
-                posUpdate(2,3,7);
-            }
-            if(gs.tAnim>=39 && gs.tAnim<40){
-                posUpdate(-2,0,7);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,5);
-                posUpdate(2,3,7);
-            }
-            if(gs.tAnim>=40 && gs.tAnim<41){
-                posUpdate(-2,0,7);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,6);
-                posUpdate(2,3,7);
-            }
-            if(gs.tAnim>=41 && gs.tAnim<42){
-                posUpdate(-2,0,7);
-                posUpdate(-1,1,0.9);
-                posUpdate(1,2,7);
-                posUpdate(2,3,8);
-            }
-            if(gs.tAnim>=42 && gs.tAnim<43){
-                posUpdate(-2,0,7);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,7);
-                posUpdate(2,3,8);
-            }
-            if(gs.tAnim>=43 && gs.tAnim<44){
-                posUpdate(-2,0,7);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,7);
-                posUpdate(2,3,8);
-            }
-            if(gs.tAnim>=44 && gs.tAnim<45){
-                posUpdate(-2,0,8);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,7);
-                posUpdate(2,3,9);
-            }
-              if(gs.tAnim>=45 && gs.tAnim<46){
-                posUpdate(-2,0,8);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,7);
-                posUpdate(2,3,9);
-            }
-            if(gs.tAnim>=46 && gs.tAnim<47){
-                posUpdate(-2,0,8);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,7);
-                posUpdate(2,3,9);
-            }
-            if(gs.tAnim>=47 && gs.tAnim<48){
-                posUpdate(-2,0,8);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,7);
-                posUpdate(2,3,10);
-            }
-            if(gs.tAnim>=48 && gs.tAnim<49){
-                posUpdate(-2,0,7);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,7);
-                posUpdate(2,3,10);
-            }
-            if(gs.tAnim>=49 && gs.tAnim<50){
-                posUpdate(-2,0,7);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,7);
-                posUpdate(2,3,10);
-            }
-            if(gs.tAnim>=50 && gs.tAnim<51){
-                posUpdate(-2,0,7);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,7);
-                posUpdate(2,3,10);
-            }
-            if(gs.tAnim>=51 && gs.tAnim<52){
-                posUpdate(-2,0,6);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,7);
-                posUpdate(2,3,10);
-            }
-            if(gs.tAnim>=52 && gs.tAnim<53){
-                posUpdate(-2,0,6);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,7);
-                posUpdate(2,3,9);
-            }
-            if(gs.tAnim>=53 && gs.tAnim<54){
-                posUpdate(-2,0,6);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,7);
-                posUpdate(2,3,9);
-            }
-            if(gs.tAnim>=54 && gs.tAnim<58){
-                posUpdate(-2,0,6);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,7);
-                posUpdate(2,3,9);
-            }
-            if(gs.tAnim>=55 && gs.tAnim<56){
-                posUpdate(-2,0,6);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,8);
-                posUpdate(2,3,9);
-            }
-            if(gs.tAnim>=56 && gs.tAnim<57){
-                posUpdate(-2,0,6);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,7);
-                posUpdate(2,3,9);
-            }
-            if(gs.tAnim>=57 && gs.tAnim<58 ){
-                posUpdate(-2,0,6);
-                posUpdate(-1,1,1);
-                posUpdate(1,2,8);
-                posUpdate(2,3,9);
-            }
-//            else{
-//                posUpdate(-2,0,7);
-//                posUpdate(-1,1,1);
-//                posUpdate(1,2,7);
-//                posUpdate(2,3,9);
-//                System.out.println("else");
-//            }
-           
-       
+        
         // Draw the first robot.
             robots[0].draw(gl, glu, glut, gs.showStick, gs.tAnim);
             robots[1].draw(gl, glu, glut, gs.showStick, gs.tAnim);
@@ -696,12 +358,18 @@ public class RobotRace extends Base {
     substract (Math.floor(gs.tAnim/(baseSpeed-speed) to make sute that
     tAnim stays between 0-1
     */
-    public void posUpdate(int t,int i, double speed){
-        double baseSpeed = 100;
-        robots[i].pos = raceTracks[gs.trackNr].getLanePoint(t, (gs.tAnim/(baseSpeed-speed))-(Math.floor(gs.tAnim/(baseSpeed-speed))));
-        robots[i].direction = raceTracks[gs.trackNr].getLaneTangent(t, (gs.tAnim/(baseSpeed-speed))-(Math.floor(gs.tAnim/(baseSpeed-speed))));
+    public void posUpdate(int t,int i){
+        robots[i].pos = raceTracks[gs.trackNr].getLanePoint(t, robotDistance[i]);               //set the position of the robot
+        robots[i].direction = raceTracks[gs.trackNr].getLaneTangent(t, robotDistance[i]);       //set the direction of the robot
         
     }   
+    
+    public void setPosition(int i) {
+            robotSpeed[i] += (0.5 - random.nextDouble()) / 10000;                               //increment the speed, subtracting a random number from 0-1 from 0.5 and then dividing by a large number such that this increase or decrease is very small
+            robotSpeed[i] = Math.min(Math.max(robotSpeed[i], MIN_VELOCITY), MAX_VELOCITY);      //make sure the speed of the robots does not go outside of bounds
+            robotDistance[i] = (robotDistance[i] + robotSpeed[i]) % 1;                          //make sure it is in the range 0-1
+        }
+    
     public int returnTrackNr(){
         return gs.trackNr;
     }
