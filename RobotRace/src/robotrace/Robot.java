@@ -24,6 +24,8 @@ class Robot {
     
     private double rotatez;
     
+    private double animSpeed = 80;
+    
     /** The current position on the x, y and z axis of the robot in a vector */
      
     
@@ -219,15 +221,13 @@ class Robot {
                 rotateLimb2(tAnim/10, Vector.X, 0.0,gl);
             }
             drawUpperleg(gl,  glu, glut, tAnim,  pos,  bodyScale,  legOffset);
-            gl.glPopMatrix();
-            
-            gl.glPushMatrix();
-            gl.glTranslated(legOffset, 0, (1*bodyScale));
+
+            gl.glTranslated(0, 0, (-0.5*bodyScale));
             if(leftLeg){
-                gl.glRotated(30, 1, 0, 0);
+                rotateLowerLeg(tAnim/10,Vector.X,0,gl);
             }
             else{
-                gl.glRotated(30, 1, 0, 0);
+                rotateLowerLeg2(tAnim/10,Vector.X,0,gl);
             }
             drawLowerleg(gl,  glu, glut, tAnim,  pos,  bodyScale,  legOffset); 
             drawFoot(gl,  glu, glut, tAnim,  pos,  bodyScale,  legOffset); 
@@ -505,14 +505,14 @@ class Robot {
             //knee joints
             gl.glPushMatrix();
             gl.glColor3f(0.0f, 0.0f, 0.0f);
-            gl.glTranslated(0, 0, (-0.5*bodyScale));                     //move to position based on leg offset
+            //gl.glTranslated(0, 0, (-0.5*bodyScale));                     //move to position based on leg offset
             glut.glutSolidSphere(0.1f*bodyScale, RobotRace.slices, RobotRace.slices);           //place knee joint
             gl.glPopMatrix();
             
             //draw lower leg
             gl.glPushMatrix();
             gl.glColor3f(0.5f, 0.0f, 1.0f);
-            gl.glTranslated(0, 0, (-0.75*bodyScale));                    //move to position based on leg offset
+            gl.glTranslated(0, 0, (-0.25*bodyScale));                    //move to position based on leg offset
             gl.glScalef(1f, 1f, 2.5f);                                                          //scale such that it becomes an ellipsoid
             glut.glutSolidSphere(0.1f*bodyScale, RobotRace.slices, RobotRace.slices);           //place lower leg
             gl.glPopMatrix();
@@ -533,7 +533,7 @@ class Robot {
             //foot
             gl.glPushMatrix();
             gl.glColor3f(0.0f, 0.0f, 0.0f);
-            gl.glTranslated(0, 0.1*bodyScale, (-0.9*bodyScale));       //move to position based on leg offset
+            gl.glTranslated(0, 0.1*bodyScale, (-0.4*bodyScale));       //move to position based on leg offset
             gl.glScalef(0.4f, 1f, 0.4f);                                                        //scale such that it becomes a bar
             float s = (float)bodyScale;
             glut.glutSolidCube(0.5f*s);                                                         //place the foot
@@ -672,7 +672,6 @@ class Robot {
         //middle cone
         gl.glPushMatrix();
         gl.glRotatef(180, 1f, 0, 0);                                                                //rotate such that cone points downwards
-        //gl.glTranslated(0, -2*pos.y, (-1.45*bodyScale)-2*pos.z);                                    //translate based on reverse bodyheight, since z is flipped
         gl.glTranslated(0, 0, (-1.45*bodyScale));                                    //translate 
         gl.glColor3f(0.5f, 0, 1f);  
         glut.glutSolidCone(0.3f*bodyScale, 0.45f*bodyScale, RobotRace.slices, RobotRace.slices);    //height of cone equals 0.45
@@ -730,17 +729,36 @@ class Robot {
     public void rotateLimb(float t, Vector axis, double trans, GL2 gl)
     {
         gl.glTranslated(0, 0, trans);
-        gl.glRotated(Math.sin(t * 10) * 45, axis.x(), axis.y(), axis.z());
+        gl.glRotated(Math.sin(t * animSpeed) * 45, axis.x(), axis.y(), axis.z());
         gl.glTranslated(0, 0, trans * -1);
     }
     
     //Rotate at the same angle as above, *-1 to get a forwards/backwards motion 
     //in the limbs
-       public void rotateLimb2(float t, Vector axis, double trans, GL2 gl)
+    public void rotateLimb2(float t, Vector axis, double trans, GL2 gl)
     {
         gl.glTranslated(0, 0, trans);
-        gl.glRotated(Math.sin(t * 10) * -45, axis.x(), axis.y(), axis.z());
+        gl.glRotated(Math.sin(t * animSpeed) * -45, axis.x(), axis.y(), axis.z());
         gl.glTranslated(0, 0, trans * -1);
     }
- 
+    
+    /*
+    Rotate the lower legs, between 45 and 0 degrees so the knees don't break.
+    this prevents the lower leg from going above the knee if the leg is 
+    the forward leg.
+    */
+    public void rotateLowerLeg(float t, Vector axis, double trans, GL2 gl)
+    {
+        gl.glTranslated(0, 0, trans);
+        gl.glRotated(((Math.sin(t * animSpeed) * 45)-45)/2, axis.x(), axis.y(), axis.z());
+        gl.glTranslated(0, 0, trans * -1);
+    }
+    
+    public void rotateLowerLeg2(float t, Vector axis, double trans, GL2 gl)
+    {
+        gl.glTranslated(0, 0, trans);
+        gl.glRotated(((Math.sin(t * animSpeed) * -45)-45)/2, axis.x(), axis.y(), axis.z());
+        gl.glTranslated(0, 0, trans * -1);
+    }
+    
 }

@@ -257,8 +257,11 @@ public class RobotRace extends Base {
             gl.glDisable(GL_COLOR_MATERIAL);
         }
         
-        // Get the position and direction of the first robot.
-        //if(gs.tAnim < 10){
+            /*
+            update the position and speed of the robots at intervals of tAnim
+            gradually increase/decrease speed to prevent large "teleportations"
+            */
+        
             if(gs.tAnim>=0  && gs.tAnim< 1){
                 posUpdate(-2,0,1);
                 posUpdate(-1,1,1);
@@ -606,7 +609,6 @@ public class RobotRace extends Base {
                 posUpdate(-1,1,1);
                 posUpdate(1,2,8);
                 posUpdate(2,3,9);
-                System.out.println("here");
             }
 //            else{
 //                posUpdate(-2,0,7);
@@ -615,12 +617,7 @@ public class RobotRace extends Base {
 //                posUpdate(2,3,9);
 //                System.out.println("else");
 //            }
-            
-            
-         
-        //}else{
-            
-        //};
+           
        
         // Draw the first robot.
             robots[0].draw(gl, glu, glut, gs.showStick, gs.tAnim);
@@ -693,7 +690,12 @@ public class RobotRace extends Base {
         
     }
     
-    
+    /* 
+    update the position of a robot to the next point
+    the position is based on the current position on the current track
+    substract (Math.floor(gs.tAnim/(baseSpeed-speed) to make sute that
+    tAnim stays between 0-1
+    */
     public void posUpdate(int t,int i, double speed){
         double baseSpeed = 100;
         robots[i].pos = raceTracks[gs.trackNr].getLanePoint(t, (gs.tAnim/(baseSpeed-speed))-(Math.floor(gs.tAnim/(baseSpeed-speed))));

@@ -7,6 +7,8 @@ import static javax.media.opengl.GL2.*;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.awt.Color;
+import static javax.media.opengl.GL.GL_TRIANGLE_STRIP;
+import static javax.media.opengl.fixedfunc.GLLightingFunc.GL_COLOR_MATERIAL;
 
 /**
  * Implementation of the terrain.
@@ -85,7 +87,21 @@ class Terrain {
         gl.glDisable(GL_BLEND);
         gl.glDisable(GL_COLOR_MATERIAL);
         gl.glBindTexture(GL_TEXTURE_1D, 0);
-    }
+        
+//        //Tree #1
+//        gl.glEnable(GL_COLOR_MATERIAL);
+//        gl.glPushMatrix();
+//        gl.glColor3d(0.92, 0.33, 0.11);
+//        gl.glTranslated(15, 15, 2);                                       //move to middle of torso based on bodyheight
+//        gl.glScalef(0.05f, 0.05f, 1f);                                      //scale such that it becomes a bar
+//        glut.glutSolidCube(4f);  
+//        gl.glPopMatrix();
+       Vector p = new Vector(15,15,0);
+        placeTree(p,gl, 4,2);
+    }    
+        //Tree #1
+       
+    
    
     public double map(double a){
         return 0.5 + a/2;                                                       //map the height of the terrain (-1 to 1) to the range of the 1D texture (0 to 1)
@@ -125,5 +141,48 @@ class Terrain {
         gl.glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         gl.glBindTexture(GL_TEXTURE_1D, 0);
         return texid[0];
+    }
+    
+    public void placeTree(Vector p, GL2 gl, double h, double s){
+        gl.glEnable(GL_COLOR_MATERIAL);
+        //Base of the tree
+        gl.glBegin(GL_TRIANGLE_STRIP);
+        gl.glColor3d(0.92, 0.33, 0.11);
+        for(double a = 0; a <=2*Math.PI;a=a+0.2){
+        gl.glVertex3d((Math.cos(a)/s)+p.x,Math.sin(a)/s+p.y, 0);
+        gl.glVertex3d(Math.cos(a)/s+p.x,Math.sin(a)/s+p.y, h);
+        }   
+        gl.glVertex3d((Math.cos(0)/s)+p.x,Math.sin(0)/s+p.y, 0);
+        gl.glVertex3d(Math.cos(0)/s+p.x,Math.sin(0)/s+p.y, h);
+        gl.glEnd();
+        
+        //tree top
+        
+        gl.glColor3d(0, 1, 0);
+        double[] x = {2,1.5,1,1.5,2};
+        for(double c = 0; c<4;c++){
+            int i = (int)c;
+            gl.glBegin(GL_TRIANGLE_STRIP);
+                for(double a = 0; a <=2*Math.PI;a=a+0.2){
+                   
+                    gl.glVertex3d((Math.cos(a)/x[i])+p.x,Math.sin(a)/x[i]+p.y, c/2+h);
+                    gl.glVertex3d(Math.cos(a)/x[i+1]+p.x,Math.sin(a)/x[i+1]+p.y, h+(c)/2+0.5);
+                }   
+            gl.glVertex3d((Math.cos(0)/x[i])+p.x,Math.sin(0)/x[i]+p.y, c/2+h);
+            gl.glVertex3d(Math.cos(0)/x[i+1]+p.x,Math.sin(0)/x[i+1]+p.y, (c)/2+0.5+h);
+            gl.glEnd();
+        }
+        
+        gl.glBegin(GL_TRIANGLE_STRIP);
+            for(double a = 0; a <=2*Math.PI;a=a+0.2){
+                   
+                    gl.glVertex3d((Math.cos(a)/x[4])+p.x,Math.sin(a)/x[4]+p.y, h+2);
+                    gl.glVertex3d(p.x,p.y, h+2.2);
+                } 
+            gl.glVertex3d((Math.cos(0)/x[4])+p.x,Math.sin(0)/x[4]+p.y, h+2);
+            gl.glVertex3d(p.x,p.y, h+2.2);
+        gl.glEnd();
+       
+        gl.glDisable(GL_COLOR_MATERIAL);
     }
 }
