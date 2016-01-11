@@ -159,10 +159,10 @@ class Robot {
             //or left. The draw the arm based on the relative coordinates.
             gl.glTranslated(armOffset, 0, (1.4*bodyScale));
             if(leftArm){
-                rotateLimb(tAnim/10, Vector.X, 0.25,gl);
+                rotateLimb(tAnim/10, Vector.X, 0.25,gl,1);
             }
             else{
-                rotateLimb2(tAnim/10, Vector.X, 0.25,gl);
+                rotateLimb(tAnim/10, Vector.X, 0.25,gl,-1);
             }
             drawUpperArm(gl,  glu, glut, tAnim,  pos,  bodyScale,  armOffset);
             drawLowerArm(gl,  glu, glut, tAnim,  pos,  bodyScale,  armOffset); 
@@ -174,10 +174,10 @@ class Robot {
             gl.glTranslated(armOffset, 0, (1.4*bodyScale));
             //call upper and lower arms for stick figure
             if(leftArm){
-                rotateLimb(tAnim/10, Vector.X, 0.25,gl);
+                rotateLimb(tAnim/10, Vector.X, 0.25,gl,1);
             }
             else{
-                rotateLimb2(tAnim/10, Vector.X, 0.25,gl);
+                rotateLimb(tAnim/10, Vector.X, 0.25,gl,-1);
             }
             drawUpperStickFigureArm( gl,  glu,  glut, tAnim,  pos,  bodyScale,  leftArm,  armOffset);
             drawLowerStickFigureArm( gl,  glu,  glut, tAnim,  pos,  bodyScale,  leftArm,  armOffset);
@@ -215,19 +215,19 @@ class Robot {
             gl.glPushMatrix();
             gl.glTranslated(legOffset, 0, (1*bodyScale));
             if(leftLeg){
-                rotateLimb(tAnim/10, Vector.X, 0.0,gl);
+                rotateLimb(tAnim/10, Vector.X, 0.0,gl,1);
             }
             else{
-                rotateLimb2(tAnim/10, Vector.X, 0.0,gl);
+                rotateLimb(tAnim/10, Vector.X, 0.0,gl,-1);
             }
             drawUpperleg(gl,  glu, glut, tAnim,  pos,  bodyScale,  legOffset);
 
             gl.glTranslated(0, 0, (-0.5*bodyScale));
             if(leftLeg){
-                rotateLowerLeg(tAnim/10,Vector.X,0,gl);
+                rotateLowerLeg(tAnim/10,Vector.X,0,gl,1);
             }
             else{
-                rotateLowerLeg2(tAnim/10,Vector.X,0,gl);
+                rotateLowerLeg(tAnim/10,Vector.X,0,gl,-1);
             }
             drawLowerleg(gl,  glu, glut, tAnim,  pos,  bodyScale,  legOffset); 
             drawFoot(gl,  glu, glut, tAnim,  pos,  bodyScale,  legOffset); 
@@ -725,40 +725,29 @@ class Robot {
    /* 
    Rotate the affected part around a Vector, with offset trans.
    Used this to animate limbs
+   f = 1 || -1 to simulate movent in different directions
    */
-    public void rotateLimb(float t, Vector axis, double trans, GL2 gl)
+    public void rotateLimb(float t, Vector axis, double trans, GL2 gl, int f)
     {
         gl.glTranslated(0, 0, trans);
-        gl.glRotated(Math.sin(t * animSpeed) * 45, axis.x(), axis.y(), axis.z());
+        gl.glRotated(Math.sin(t * animSpeed) * (45*f), axis.x(), axis.y(), axis.z());
         gl.glTranslated(0, 0, trans * -1);
     }
     
-    //Rotate at the same angle as above, *-1 to get a forwards/backwards motion 
-    //in the limbs
-    public void rotateLimb2(float t, Vector axis, double trans, GL2 gl)
-    {
-        gl.glTranslated(0, 0, trans);
-        gl.glRotated(Math.sin(t * animSpeed) * -45, axis.x(), axis.y(), axis.z());
-        gl.glTranslated(0, 0, trans * -1);
-    }
+
     
     /*
     Rotate the lower legs, between 45 and 0 degrees so the knees don't break.
     this prevents the lower leg from going above the knee if the leg is 
     the forward leg.
+    f = 1 || -1 to simulate movent in different directions
     */
-    public void rotateLowerLeg(float t, Vector axis, double trans, GL2 gl)
+    public void rotateLowerLeg(float t, Vector axis, double trans, GL2 gl, int f)
     {
         gl.glTranslated(0, 0, trans);
-        gl.glRotated(((Math.sin(t * animSpeed) * 45)-45)/2, axis.x(), axis.y(), axis.z());
+        gl.glRotated(((Math.sin(t * animSpeed) * 45*f)-45)/2, axis.x(), axis.y(), axis.z());
         gl.glTranslated(0, 0, trans * -1);
     }
-    
-    public void rotateLowerLeg2(float t, Vector axis, double trans, GL2 gl)
-    {
-        gl.glTranslated(0, 0, trans);
-        gl.glRotated(((Math.sin(t * animSpeed) * -45)-45)/2, axis.x(), axis.y(), axis.z());
-        gl.glTranslated(0, 0, trans * -1);
-    }
+
     
 }

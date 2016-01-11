@@ -702,6 +702,9 @@ public class RobotRace extends Base {
         robots[i].direction = raceTracks[gs.trackNr].getLaneTangent(t, (gs.tAnim/(baseSpeed-speed))-(Math.floor(gs.tAnim/(baseSpeed-speed))));
         
     }   
+    public int returnTrackNr(){
+        return gs.trackNr;
+    }
     
     public void changeFocus(){
         if(gs.tAnim - lastSwitch > switchTime){
