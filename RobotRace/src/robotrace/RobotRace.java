@@ -125,30 +125,27 @@ public class RobotRace extends Base {
         // L-track
         raceTracks[2] = new RaceTrack(new Vector[] { 
             /* add control points */
-            new Vector(0, 5, 1), new Vector(0, 15, 1), new Vector(10, 15, 1), new Vector(10, 5, 1),
+            new Vector(4, 5, 1), new Vector(4, 15, 1), new Vector(10, 15, 1), new Vector(10, 5, 1),
             new Vector(10, 5, 1), new Vector(10, -9, 1), new Vector(9, -10, 1), new Vector(-5, -10, 1),
-            new Vector(-5, -10, 1), new Vector(-15, -10, 1), new Vector(-10, 0, 1), new Vector(-5, 0, 1),
-            new Vector(-5, 0, 1), new Vector(-1, 0, 1), new Vector(0, 1, 1), new Vector(0, 5, 1)
+            new Vector(-5, -10, 1), new Vector(-15, -10, 1), new Vector(-10, -6, 1), new Vector(-5, -6, 1),
+            new Vector(-5, -6, 1), new Vector(2, -6, 1), new Vector(4,-3, 1), new Vector(4, 5, 1)
         });
         
         // C-track
         raceTracks[3] = new RaceTrack(new Vector[] { 
             /* add control points */
-            new Vector(0, 10, 1), new Vector(10, 10, 1), new Vector(10, 5, 1), new Vector(0, 5, 1),
-            new Vector(0, 5, 1), new Vector(-5, 5, 1), new Vector(-5, -5, 1), new Vector(0, -5, 1),
-            new Vector(0, -5, 1), new Vector(10, -5, 1), new Vector(10, -10, 1), new Vector(0, -10, 1),
-            new Vector(0, -10, 1), new Vector(-10, -10, 1), new Vector(-10, 10, 1), new Vector(0, 10, 1)
+            new Vector(6,12, 1), new Vector(12,12, 1), new Vector(12,6, 1), new Vector(6,6, 1),
+            new Vector(6,6, 1), new Vector(-6,6, 1), new Vector(-6,-6, 1), new Vector(6,-6, 1),
+            new Vector(6,-6, 1), new Vector(12,-6, 1), new Vector(12,-12, 1), new Vector(6,-12, 1),
+            new Vector(6,-12, 1), new Vector(-12,-12, 1), new Vector(-12, 12, 1), new Vector(6, 12, 1)
         });
         
         // Custom track
         raceTracks[4] = new RaceTrack(new Vector[] { 
            /* add control points */
-           new Vector(0,12,1), new Vector(-4,12,1), new Vector(-4, 4,1), new Vector(-9, 4, 1),
-           new Vector(-9,4,1), new Vector(-12,4,1), new Vector(-12,-4,1), new Vector(-9, -4, 1),
-           new Vector(-9,-4,1), new Vector(-4,-4,1), new Vector(-4,-12,1), new Vector(0,-12, 1),
-           new Vector(0,-12, 1), new Vector(4,-12,1), new Vector(4,-4,1), new Vector(9,-4,1),
-           new Vector(9, -4, 1), new Vector(12,-4,1), new Vector(12,4,1), new Vector(9,4,1),
-           new Vector(9, 4, 1), new Vector(4, 4,1), new Vector(4,12,1), new Vector(0,12,1)
+            new Vector(-6,2,1), new Vector(-2,12,1), new Vector(2,12,1),new Vector(6,2, 1),
+            new Vector(6,2,1), new Vector(14,-12,1), new Vector(12,-14,1), new Vector(0,-12, 1),
+            new Vector(0,-12,1), new Vector(-12,-14,1), new Vector(-14,-12,1), new Vector(-6,2, 1),
         });
         
         // Initialize the terrain
