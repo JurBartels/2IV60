@@ -88,18 +88,15 @@ class Terrain {
         gl.glDisable(GL_COLOR_MATERIAL);
         gl.glBindTexture(GL_TEXTURE_1D, 0);
         
-//        //Tree #1
-//        gl.glEnable(GL_COLOR_MATERIAL);
-//        gl.glPushMatrix();
-//        gl.glColor3d(0.92, 0.33, 0.11);
-//        gl.glTranslated(15, 15, 2);                                       //move to middle of torso based on bodyheight
-//        gl.glScalef(0.05f, 0.05f, 1f);                                      //scale such that it becomes a bar
-//        glut.glutSolidCube(4f);  
-//        gl.glPopMatrix();
-       Vector p = new Vector(15,15,0);
+        //Create trees on the position vector p
+        Vector p = new Vector(15,15,0);
         placeTree(p,gl, 4,2);
+        p = new Vector(-17,-10,0);
+        placeTree(p,gl, 5,2);
+        p = new Vector(18,-3,0);
+        placeTree(p,gl, 2,2);
+        
     }    
-        //Tree #1
        
     
    
@@ -142,7 +139,14 @@ class Terrain {
         gl.glBindTexture(GL_TEXTURE_1D, 0);
         return texid[0];
     }
-    
+    /*
+    Draw a tree on the terrain
+    Use Triangle strips to make the base, top and cover of the tree
+    The top consists of 5 triangle strips with increasing and decreasing
+    radii to make a cylinder-like shape.
+    The base is a triangle strip from the ground to height h
+    The cover covers the top so it is not hollow
+    */
     public void placeTree(Vector p, GL2 gl, double h, double s){
         gl.glEnable(GL_COLOR_MATERIAL);
         //Base of the tree
@@ -157,7 +161,11 @@ class Terrain {
         gl.glEnd();
         
         //tree top
-        
+        /*
+        an array is used to cycle through the different radii of the triangle strips
+        the first for loop cycles through the array, the second makes points from
+        height h to height h+1 to make a circular triangle strip
+        */
         gl.glColor3d(0, 1, 0);
         double[] x = {2,1.5,1,1.5,2};
         for(double c = 0; c<4;c++){
@@ -173,6 +181,11 @@ class Terrain {
             gl.glEnd();
         }
         
+        //cover
+        /*
+        triangle strip from the middle point at h+2 to the surrounding points
+        at h+2.2, which creates a circular pyramid form.
+        */
         gl.glBegin(GL_TRIANGLE_STRIP);
             for(double a = 0; a <=2*Math.PI;a=a+0.2){
                    
