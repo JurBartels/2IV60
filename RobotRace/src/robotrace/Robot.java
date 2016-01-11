@@ -238,9 +238,26 @@ class Robot {
         }
         else{
             //call upper and lower leg and foot draw functions for stick figure
+            gl.glPushMatrix();
+            gl.glTranslated(legOffset, 0, (1*bodyScale));
+            if(leftLeg){
+                rotateLimb(tAnim/10, Vector.X, 0.0,gl,1);
+            }
+            else{
+                rotateLimb(tAnim/10, Vector.X, 0.0,gl,-1);
+            }
             drawUpperStickFigureLeg( gl,  glu,  glut,   tAnim,  pos,  bodyScale,  leftLeg,  legOffset);
+
+            gl.glTranslated(0, 0, (-0.5*bodyScale));
+            if(leftLeg){
+                rotateLowerLeg(tAnim/10,Vector.X,0,gl,1);
+            }
+            else{
+                rotateLowerLeg(tAnim/10,Vector.X,0,gl,-1);
+            }
             drawLowerStickFigureLeg( gl,  glu,  glut,   tAnim,  pos,  bodyScale,  leftLeg,  legOffset);
             drawLowerStickFigureFoot( gl,  glu,  glut,   tAnim,  pos,  bodyScale,  leftLeg,  legOffset);
+            gl.glPopMatrix();
         }
     
     }
@@ -314,12 +331,12 @@ class Robot {
             //hip joint
             gl.glPushMatrix();
             gl.glColor3f(0.0f, 0.0f, 0.0f);
-            gl.glTranslated(legOffset, 0, (1*bodyScale));                       //move to position, based on leg offset    
+            //gl.glTranslated(legOffset, 0, (1*bodyScale));                       //move to position, based on leg offset    
             glut.glutSolidSphere(0.1f*bodyScale, RobotRace.slices, RobotRace.slices);           //place hip joint
             gl.glPopMatrix();
             //upper leg
             gl.glPushMatrix();
-            gl.glTranslated(legOffset, 0, (1*bodyScale)-(0.25*bodyScale));      //move to position, based on leg offset
+            gl.glTranslated(0, 0, (-0.25*bodyScale));      //move to position, based on leg offset
             gl.glScalef(0.15f, 0.15f, 1f);                                                      //scale such that cube becomes a bar
             float s = (float)bodyScale;
             glut.glutSolidCube(0.5f*s);                                                         //place stick upper leg
@@ -341,12 +358,12 @@ class Robot {
             //knee joint
             gl.glPushMatrix();
             gl.glColor3f(0.0f, 0.0f, 0.0f);
-            gl.glTranslated(legOffset, 0, (0.5*bodyScale));                     //move to position, based on leg offset
+            //gl.glTranslated(legOffset, 0, (0.5*bodyScale));                     //move to position, based on leg offset
             glut.glutSolidSphere(0.1f*bodyScale, RobotRace.slices, RobotRace.slices);           //place knee joint
             gl.glPopMatrix();
             //lower leg
             gl.glPushMatrix();
-            gl.glTranslated(legOffset, 0, (0.5*bodyScale)-(0.25*bodyScale));    //move to position, based on leg offset
+            gl.glTranslated(0, 0, (-0.25*bodyScale));    //move to position, based on leg offset
             gl.glScalef(0.15f, 0.15f, 1f);                                                      //scale such that cube will become bar
             float s = (float)bodyScale;
             glut.glutSolidCube(0.5f*s);                                                         //place stick lower leg
@@ -367,7 +384,7 @@ class Robot {
    public void drawLowerStickFigureFoot(GL2 gl, GLU glu, GLUT glut, float tAnim, Vector pos, double bodyScale, boolean leftArm, double legOffset){
             //foot
             gl.glPushMatrix();
-            gl.glTranslated(legOffset, 0.1*bodyScale, (0.01*bodyScale));      //move to position, based on leg offset
+            gl.glTranslated(0, 0.1*bodyScale, (-0.5*bodyScale));      //move to position, based on leg offset
             gl.glScalef(0.15f, 1f, 0.15f);                                                      //scale such that cube becomes bar
             float s = (float)bodyScale;
             glut.glutSolidCube(0.5f*s);                                                         //place stick foot
@@ -726,6 +743,7 @@ class Robot {
    Rotate the affected part around a Vector, with offset trans.
    Used this to animate limbs
    f = 1 || -1 to simulate movent in different directions
+   rotates the the limb in a 45 degrees curve around the axis
    */
     public void rotateLimb(float t, Vector axis, double trans, GL2 gl, int f)
     {
